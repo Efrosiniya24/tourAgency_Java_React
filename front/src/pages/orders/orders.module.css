@@ -1,0 +1,443 @@
+.orderStyle .containerOrders {
+    display: flex;
+    min-height: 100vh;
+    padding-top: 30px;
+}
+
+.orderStyle .menu {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.orderStyle .container {
+    display: flex;
+    margin-top: 50px;
+}
+
+.orderStyle .content {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    padding-top: 80px;
+    height: auto;
+}
+
+.orderStyle .applications {
+    display: flex;
+    gap: 20px;
+}
+
+.orderStyle .category {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+}
+
+.orderStyle .application_card p {
+    margin: 5px 0;
+}
+
+.orderStyle button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.orderStyle .data {
+    flex: 1;
+    border-radius: 20px;
+    border: 1px solid #000;
+    padding: 5px;
+    padding-top: 15px;
+    overflow: hidden; 
+    margin-top: -60px;
+    width:1630px;
+}
+
+.orderStyle .tableDataBase tbody tr:first-child td {
+    padding-top: 10px;
+}
+
+.orderStyle .tableDataBase{
+    border-spacing: 10px;
+    margin-top: -10px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.orderStyle .tableDataBase th {
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px; /* Oval shape */
+    border-bottom-right-radius: 25px; /* Oval shape */
+    border-bottom: none;
+    background-color: #e4e4e4; /* Background color */
+    padding: 12px; /* Padding for appearance */
+    text-align: center; /* Center-aligning text */
+    transition: transform 0.2s ease; /* Smooth scaling transition */
+}
+
+.orderStyle .tableDataBase th:hover {
+    transform: scale(1.035); /* Scale up slightly on hover */
+}
+
+.orderStyle .th_content {
+    font-weight: bold;
+    color: #214320;
+    font-size: 23px;
+    text-align: center;
+    width: 550px;
+}
+
+.orderStyle tbody td {
+    transition: transform 0.1s ease;
+    padding: 0px;
+    top: 300px;
+}
+
+.orderStyle tbody td:hover {
+    transform: scale(1.005);
+    cursor: pointer;
+}
+
+.orderStyle tbody tr {
+    margin: 10px 0;
+}
+
+.orderStyle body {
+    font-family: Arial, sans-serif;
+}
+
+.orderStyle .application_card {
+    background-color: #f1f1f1;
+    border: 1px solid #787878;
+    border-radius: 20px;
+    padding: 15px;
+    width: 470px;
+    margin: 10px;
+    flex: 1 0 30%;
+    max-width: 30%;
+    box-sizing: border-box;
+    height: 350px;
+}
+
+.application_header, .application_body {
+    margin-bottom: 10px;
+}
+
+.application_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.id_box {
+    display: flex;
+    align-items: center;
+    background-color: #e0f2f1;
+    border-radius: 15px;
+    border: 1px solid #FFFFFF;
+    padding: 5px 10px;
+    margin-top: -5px;
+    margin-left: 0px;
+    height: 30px;
+}
+
+.id_label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.id_value {
+    padding: 2px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.divider {
+    width: 1px;
+    height: 20px;
+    background-color: #fff;
+}
+
+.user_info {
+    text-align: left;
+    cursor: pointer;
+}
+
+.name_box {
+    padding: 5px 10px;
+    background-color: white;
+    border-radius: 15px;
+    display: inline-block;
+    display: flex;
+    align-items: center; /* Center items vertically */
+    width: 100%;
+    margin-top: -5px;
+    flex-grow: 1; /* Make the box take the available space */
+}
+
+.name {
+    margin-right: 8px;
+    padding-left: 10px;
+}
+
+.name_box .name{
+    transition: transform 0.1s ease;
+}
+
+.name_box .name:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.user_info .name {
+    text-decoration: underline;
+}
+
+.divider_black {
+    width: 1px;
+    height: 25px;
+    background-color: #000;
+}
+
+.client_info .client_detail {
+    margin: 5px 0;
+}
+
+.application_main {
+    display: flex;
+    justify-content: space-between; /* Align items horizontally */
+}
+
+.application_details {
+    background-color: #D5D5D5;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px 0;
+    width: 350px;
+    height: 150px;
+    position: relative; /* Add this line */
+}
+
+.application_details p {
+    margin: 0;
+}
+
+.application_details div{
+    margin-top: 7px;
+}
+
+.application_actions {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: flex-start; /* Align buttons to the start */
+    gap: 5px; /* Space between buttons */
+    margin-left: 20px; /* Add some space between details and actions */
+}
+
+.non_processing .application_actions {
+    margin-top: 115px;
+}
+
+button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.reject {
+    background-color: #df9e61;
+    color: #000;
+    padding: 10px;
+    border-radius: 15px;
+    transition: transform 0.1s ease;
+}
+
+button.reject:hover {
+    transform: scale(1.1);
+}
+
+button.accept {
+    background-color: #f4e06e;
+    color: #000;
+    padding: 10px;
+    border-radius: 15px;
+    transition: transform 0.1s ease;
+}
+
+button.accept:hover {
+    transform: scale(1.1);
+}
+
+.th_content{
+    cursor: pointer;
+}
+
+.th_content.rejected:hover {
+    background-color: #df9e61;
+}
+
+.th_content.accepted:hover {
+    background-color: #f4e06e; 
+}
+
+.date_box {
+    background-color: white;
+    border-radius: 15px;
+    padding: 5px 10px;
+    display: inline-block;
+    margin-top: -5px;
+}
+
+.date {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.inline_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; 
+    gap:20px;
+}
+
+.phone_box {
+    background-color: white;
+    border-radius: 15px;
+    padding: 5px 10px;
+    display: inline-block;
+    margin-top: 10px; 
+    margin-right: 10px; 
+    width: fit-content; 
+}
+
+.phone {
+    margin-right: 8px;
+    padding-left: 10px;
+}
+
+.rectangle {
+    background-color: white;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px 0;
+    width: fit-content; /* Adjust the length of the box */
+}
+.nextButton {
+    border-radius: 80%; 
+    border: none;
+    background-color: #fff;
+    width: 40px;  
+    height: 40px;  
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+
+.nextButton:hover {
+    background-color: #e0e0e0;
+}
+
+
+.lineSeparator {
+    border: 0;
+    height: 1px;
+    background: #000000;
+}
+
+.application_cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: left; 
+    margin-left: 50px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 400px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.search img {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.search img:hover {
+    transform: scale(1.1);
+}
+
+.search input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.search input:focus {
+    outline: none;
+}
+
+.reloadIcon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.reloadIcon:hover {
+    transform: scale(1.1);
+}
+
+.searchAndUserInfo {
+    margin-top: 10px;
+    margin-left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.orderStyle .application_actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.non_processing .application_actions {
+    margin-top: 115px;
+}
+
+.application_actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    margin-left: 20px;
+}

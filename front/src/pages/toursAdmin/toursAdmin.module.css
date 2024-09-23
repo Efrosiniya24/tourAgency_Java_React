@@ -1,0 +1,211 @@
+/* Общие стили */
+.containerToursAdmin {
+  display: flex;
+  min-height: 100vh;
+  padding-top: 30px;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  padding-top: 80px;
+  height: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 20px;
+  margin: 0 auto;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 0.5px solid #000;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+th {
+  background-color: #DCDCDC;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.data {
+  flex: 1;
+  margin-left: 100px; /* Уменьшение отступа слева */
+}
+
+.search input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding-left: 40px;
+}
+
+.narrow-slider {
+  width: 50%;
+}
+
+nav {
+  padding-top: 30px;
+}
+
+li {
+  transition: transform 0.3s ease;
+}
+
+li:hover {
+  transform: scale(1.1);
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  color: #ccc;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.search img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 60px;
+  top: 9px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.search img:hover {
+  transform: scale(1.1);
+}
+
+.search-input {
+  border: none;
+  border-bottom: 1px solid #000;
+  padding: 5px;
+  font-size: 16px;
+  width: 250px;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.data {
+  flex: 1;
+  border-radius: 20px;
+  border: 1px solid #000;
+  background-color: #f2f2f2;
+  padding: 5px;
+}
+
+.search {
+  flex: 0 0 50px;
+  margin-right: 20px;
+  padding-left: 50px;
+  position: relative;
+  width: 400px;
+  margin-top: -45px;
+}
+
+.tableDataBase {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableDataBase tbody tr:first-child td {
+  padding-top: 20px;
+}
+
+.tableDataBase th {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px; /* Adding this line for oval shape */
+    border-bottom-right-radius: 20px; /* Adding this line for oval shape */
+    border-bottom: none;
+    position: relative;
+    top: 10px;
+    background-color: #e4e4e4; /* Assuming you want a background color */
+    padding: 12px; /* Adding some padding for better appearance */
+    text-align: center; /* Center-aligning text */
+}
+
+
+.th_content {
+  background-color: #e0e0e0;
+  font-weight: bold;
+  color: #214320;
+  font-size: 23px;
+  text-align: center;
+}
+
+tbody td {
+  transition: transform 0.1s ease;
+  padding: 12px;
+}
+
+tbody td:hover {
+  transform: scale(1.005);
+  cursor: pointer;
+}
+
+tbody tr {
+  margin: 10px 0;
+}
+
+.sort_icon {
+  width: 20px;
+  height: auto;
+}
+
+.sort_button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.reloadIcon {
+  width: 20px;
+  height: 20px;
+  margin-left: 350px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.reloadIcon:hover {
+  transform: scale(1.1);
+}
+
+.searchAndUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 700px;
+}
+
+.addButton {
+  padding: 10px 20px;
+  background-color: #214320;
+  color: white;
+  border: none;
+  border-radius: 70px;
+  cursor: pointer;
+  margin-top: 7px;
+  margin-left: 680px;
+  width: 100px;
+  transition: transform 0.3s ease;
+}
+
+.addButton:hover {
+  transform: scale(1.1);
+}

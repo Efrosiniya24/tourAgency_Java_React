@@ -1,0 +1,34 @@
+package com.tourAgency.tourAgencyJava.controller;
+
+import com.tourAgency.tourAgencyJava.model.User;
+import com.tourAgency.tourAgencyJava.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("tourAgency/admin")
+@Slf4j
+@PreAuthorize("hasRole('ADMIN')")
+@RequiredArgsConstructor
+public class AdminController {
+
+    UserService userService;
+
+    @GetMapping("/allUsers")
+    public ResponseEntity<?> allUsers() {
+        List<User> users = userService.allUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/currentUser")
+    public ResponseEntity<?> currentUser(@RequestParam String nameUser) {
+        Optional<User> user = userService.currentUser(nameUser);
+        return ResponseEntity.ok(user);
+    }
+}

@@ -1,0 +1,77 @@
+.mainAdmin{
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+
+    grid-template-rows: auto auto;
+    gap: 20px;
+    margin-top: 50px;
+    margin-left: 260px;
+}
+
+.top_row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.bottom_row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-left: 273px;
+    gap: 277px;
+    padding-top: 20px;
+}
+
+.card {
+    padding: 20px;
+    width: 272px;
+    height: 261px;
+    text-align: center;
+    border: 1px solid #214320;
+    border-radius: 38px;
+    background-color: #fff;
+}
+
+
+.card img {
+    width: 140px;
+    height: auto;
+    margin-top: 20px;
+    transition: transform 0.3s ease;
+}
+
+.container .card:hover img { /* Increased specificity */
+    transform: scale(1.1);
+}
+
+.card_p {
+    text-align: center;
+    margin-top: 27px;
+    color: #214320;
+    font-weight: 550;
+    font-size: 25px;
+}
+
+h2 {
+    font-size: 55px;
+    color: #466145;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 750;
+}
+
+.text {
+    margin-top: 80px;
+}
+
+.text_p {
+    font-size: 30px;
+    color: #466145;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    margin-top: 10px;
+}

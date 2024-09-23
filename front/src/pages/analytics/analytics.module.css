@@ -1,0 +1,246 @@
+.containerOrders {
+    display: flex;
+    min-height: 100vh;
+    padding-top: 30px;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    margin-top: 50px;
+    width: 100%;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 80px;
+    height: auto;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+.stats_header {
+    display: flex;
+    justify-content: space-between; 
+    margin-top: -60px;
+    justify-content: flex-start;
+}
+
+.stats_header .stat {
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 30px;
+    text-align: center;
+    margin: 0 10px;
+    width: 250px;
+    height: auto; 
+    padding: 20px; 
+    box-sizing: border-box; 
+    flex: none;
+    margin-top: 40px;
+}
+
+.stats_header .stat h3 {
+    margin: 0; 
+    padding: 0; 
+    font-size: 24px;
+    color: #214320;
+}
+
+.stats_header .stat p {
+    margin: 5px 0 0;
+    padding: 0; 
+    font-size: 20px;
+    color: #000000;
+    padding-bottom: 15px;
+}
+
+.hrClass {
+    margin: 10px 0;
+    border: 0;
+    border-top: 1px solid #000000;
+}
+
+.filter_bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.AnalyticsStyle
+.filter_bar input,
+.filter_bar select,
+.filter_bar button {
+    padding: 10px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+.AnalyticsStyle .filter_bar button {
+
+    background-color: #f4e06e;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.AnalyticsStyle
+.filter_bar button:hover {
+    background-color: #dfc750;
+}
+
+.stats_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid #787878;
+    border-radius: 20px;
+    padding: 15px;
+    width: 100%;
+    margin: 10px;
+    height: 80%;
+    box-sizing: border-box;
+}
+
+.tableDataBase {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px; /* Добавлено, чтобы отделить заголовки от содержимого */
+}
+
+.AnalyticsStyle
+.tableDataBase th {
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px; 
+    border-bottom-right-radius: 25px; 
+    border-bottom: none;
+    background-color: #f0f0f0; 
+    padding: 12px; 
+    text-align: center; 
+    transition: transform 0.2s ease; 
+    cursor: pointer;
+    margin: 0 60px;
+}
+
+.tableDataBase th:hover {
+    transform: scale(1.035); 
+}
+
+.th_content {
+    font-weight: bold;
+    color: #214320;
+    font-size: 23px;
+    text-align: center;
+    width: 50%; 
+}
+
+.th_content.active {
+    background-color: #e4e4e4; /* Цвет фона для активного элемента */
+}
+
+.contentSection {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.chartContainer {
+    width: 400px;
+    height: 300px;
+   margin-top: 20px;
+}
+
+.sidebar {
+    background-color: #152E15;
+    color: #fff;
+    padding: 20px;
+    width: 200px;
+    flex: 0 0 auto;
+    display: flex;
+    min-height: 100vh;
+    padding-top: 50px;
+}
+
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+}
+
+.sidebar li {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar img {
+    margin-right: 10px;
+    width: 30px;
+    height: auto;
+}
+
+.menu {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.genderChart {
+    width: 150px; /* Adjust the size as needed */
+    margin: 20px;
+    text-align: center;
+}
+
+.genderChart p {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.first{
+    margin-top: -40px;
+    padding-bottom: 5px;
+}
+
+.flexRow {
+    display: flex;
+    align-items: left;
+    gap: 0px;
+}
+
+.dateFilter, .regionFilter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    padding-bottom: 0px;
+}
+
+.dateRegionFilter {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+
+.filterP p {
+    font-size: 20px;
+}
+
+.filterP {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
