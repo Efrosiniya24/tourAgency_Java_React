@@ -31,7 +31,7 @@
 .buttons a {
     padding: 10px 20px;
     border: 1px solid white;
-    border-radius: 17px; /* Added border-radius property */
+    border-radius: 17px; 
     color: white;
     font-size: 21px;
     transition: all .3s ease;
@@ -58,7 +58,7 @@
 }
 
 .search_icon img:hover {
-    transform: scale(1.2); /* Увеличивает размер изображения на 20% */
+    transform: scale(1.2); 
     transition: all 0.2s ease-in-out;
 }
 

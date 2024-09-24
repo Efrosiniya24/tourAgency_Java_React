@@ -15,43 +15,49 @@ const SignIn = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); 
-    try {
-      axiosInstance.post(
-        '/user/signIn', 
-        { email, password },
-        { headers: { 'X-CSRFToken': csrfToken } } 
-      )
-      .then(response => {
-        if (response.status !== 200) return;
 
-        localStorage.setItem('accessToken', response.data.access);
-        localStorage.setItem('refreshToken', response.data.refresh);
-        const { id, role } = response.data;
+    try {
+      const response = await axiosInstance.post(
+        '/tourAgency/auth/authenticate',  
+        { email, password },
+        { headers: { 'X-CSRFToken': csrfToken },
+        withCredentials: true 
+      } 
+      );
+
+      if (response.status === 200) {
+        const { access, refresh, id, role} = response.data;
+        localStorage.setItem('accessToken', access);
+        localStorage.setItem('refreshToken',refresh);
         localStorage.setItem('userRole', role);
 
         switch (role) {
           case 'client':
-            navigate(`/tours`);
+            navigate(`/tours/${id}`);
             break;
-          case 'admin':
+          case 'ADMIN':
             navigate(`/mainAdmin/${id}`);
             break;
           default:
             setErrorMessage('Неизвестная роль пользователя');
         }
-      })
-      .catch(error => {
-        console.log(error.response.status);
+      } else {
+        setErrorMessage('Ошибка при авторизации');
+      }
+    } catch (error) {
+      if (error.response) {
+        // Проверяем, что error.response существует и содержит status
         if (error.response.status === 403) {
           setErrorMessage('Ваш аккаунт деактивирован. Пожалуйста, свяжитесь с поддержкой.');
         } else {
           console.error('Ошибка при авторизации:', error);
           setErrorMessage('Неверный логин или пароль');
         }
-      });
-    } catch (error) {
-      console.error('Ошибка при авторизации:', error);
-      setErrorMessage('Неверный логин или пароль');
+      } else {
+        // Если error.response не существует
+        console.error('Ошибка при авторизации:', error);
+        setErrorMessage('Неверный логин или пароль');
+      }
     }
   };
 

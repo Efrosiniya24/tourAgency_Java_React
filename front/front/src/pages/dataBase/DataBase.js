@@ -44,9 +44,9 @@ const DataBase = () => {
   const fetchUserOrders = async (userId) => {
     try {
       const response = await axios.post('http://localhost:8000/orders/userOrders', { user_id: userId });
-      console.log(response.data); 
+      console.log(response.data); // Проверка данных
       setOrders(response.data);
-      setShowOrders(true); 
+      setShowOrders(true); // Показываем заявки
     } catch (error) {
       setError(error);
     }
@@ -89,11 +89,12 @@ const DataBase = () => {
     if (user.id === selectedUserId) { 
       setIsVisible(false);
       setSelectedUserId(null); 
-      setShowOrders(false); 
+      setShowOrders(false); // Закрываем заявки при закрытии пользователя
+    } else {
       setSelectedUser(user);
       setIsVisible(true);
-      setSelectedUserId(user.id); 
-      setShowOrders(false); 
+      setSelectedUserId(user.id); // Сохраняем ID выбранного пользователя
+      setShowOrders(false); // Закрываем заявки при выборе другого пользователя
     }
   };
 
@@ -121,6 +122,7 @@ const DataBase = () => {
         status: newStatus
       });
       if (response.status === 200) {
+        // Обновить состояние заказов, если необходимо
         const updatedOrders = orders.map(order =>
           order.id === orderId ? { ...order, status: newStatus } : order
         );
@@ -238,7 +240,7 @@ const DataBase = () => {
                       <img src={sortDirection === 'asc' ? up : down} alt="Sort direction" className={dataBase.sort_icon} /> 
                     </button>
                   </th>
-                  <th className={dataBase.th_content}><div>Пользователь</div></th>
+                  <th className={dataBase.th_content}><div>Клиент</div></th>
                 </tr>
               </thead>
               <tbody>

@@ -118,7 +118,7 @@ const Orders = () => {
                                 <th className={`${styles.th_content} ${styles.rejected}`} onClick={() => filterByStatus('rejected')}><div>Отклонена</div></th>
                                 <hr className={styles.lineSeparator} />
                             </div>
-                            {/* <div className={styles.searchAndUserInfo}>
+                            <div className={styles.searchAndUserInfo}>
                                 <div className={styles.search}>
                                     <img 
                                         src={searchIcon} 
@@ -140,7 +140,7 @@ const Orders = () => {
                                     alt="Reload" 
                                     onClick={handleReload} 
                                 />
-                            </div> */}
+                            </div>
                             <div className={styles.application_cards}>
                                 {isLoading ? (
                                     <div>Загрузка...</div>
@@ -166,10 +166,10 @@ const Orders = () => {
                                                         <div className={styles.date_box}>
                                                             <span className={styles.date}>{order.createdAt}</span>
                                                         </div>
-                                                        {/* <div className={styles.name_box}>
+                                                        <div className={styles.name_box}>
                                                             <span className={styles.id_label}>M</span>
                                                             <span className={styles.name}></span>
-                                                        </div> */}
+                                                        </div>
                                                     </div>
                                                     <div className={styles.phone_box}>
                                                         <span className={styles.phone}>{order.user.phone}</span>

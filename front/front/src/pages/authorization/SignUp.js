@@ -9,17 +9,15 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');  // Добавлен стейт для ошибок
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Предотвращение отправки формы по умолчанию
 
     try {
-      const response = await axios.post('http://localhost:8000/user/signUp', {
+      const response = await axios.post('http://localhost:8083/tourAgency/auth/signUp', {
         name,
         email,
-        phone,  // Добавлен номер телефона в запрос
-        password
+        password, // phone убран, если его нет на сервере
       });
 
       if (response.status === 201) {
@@ -30,9 +28,6 @@ const SignUp = () => {
       }
     } catch (error) {
       console.error('Error during registration:', error);
-      if (error.response && error.response.data) {
-        setErrorMessage(JSON.stringify(error.response.data));  // Установка сообщения об ошибке
-      }
     }
   };
 
@@ -71,7 +66,6 @@ const SignUp = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <button type="submit">Зарегистрироваться</button>
-            {/* {errorMessage && <div className="error">{errorMessage}</div>}  // Отображение сообщения об ошибке */}
           </form>
         </div>
       </div>

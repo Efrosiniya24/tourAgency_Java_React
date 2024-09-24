@@ -51,12 +51,14 @@ const ApplicationForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8000/orders/create/', formData)
+        axios.post('http://localhost:8000/applications', formData)
             .then(response => {
                 console.log('Application submitted:', response.data);
+                // Handle success
             })
             .catch(error => {
                 console.error('Error submitting application:', error);
+                // Handle error
             });
     };
 
@@ -65,7 +67,7 @@ const ApplicationForm = () => {
             <div className={styles.applicationFormPage}>
                 <h1 className={styles.pageTitle}>Форма заявки</h1>
                 <form className={styles.form} onSubmit={handleSubmit}>
-                    {/* <div className={styles.formGroup}>
+                    <div className={styles.formGroup}>
                         <label htmlFor="email">Email:</label>
                         <input
                             type="email"
@@ -75,8 +77,8 @@ const ApplicationForm = () => {
                             onChange={handleChange}
                             required
                         />
-                    </div> */}
-                    {/* <div className={styles.formGroup}>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="name">Имя:</label>
                         <input
                             type="text"
@@ -86,8 +88,8 @@ const ApplicationForm = () => {
                             onChange={handleChange}
                             required
                         />
-                    </div> */}
-                    {/* <div className={styles.formGroup}>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="phone">Телефон:</label>
                         <input
                             type="text"
@@ -97,8 +99,8 @@ const ApplicationForm = () => {
                             onChange={handleChange}
                             required
                         />
-                    </div> */}
-                    {/* <div className={styles.formGroup}>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="surname">Фамилия:</label>
                         <input
                             type="text"
@@ -108,8 +110,8 @@ const ApplicationForm = () => {
                             onChange={handleChange}
                             required
                         />
-                    </div> */}
-                    {/* <div className={styles.formGroup}>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="patronymic">Отчество:</label>
                         <input
                             type="text"
@@ -119,8 +121,8 @@ const ApplicationForm = () => {
                             onChange={handleChange}
                             required
                         />
-                    </div> */}
-                    {/* <div className={styles.formGroup}>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="gender_client">Пол:</label>
                         <select
                             id="gender_client"
@@ -133,8 +135,8 @@ const ApplicationForm = () => {
                             <option value="male">Мужской</option>
                             <option value="female">Женский</option>
                         </select>
-                    </div> */}
-                    {/* <div className={styles.formGroup}>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="age">Возраст:</label>
                         <input
                             type="number"
@@ -144,8 +146,8 @@ const ApplicationForm = () => {
                             onChange={handleChange}
                             required
                         />
-                    </div> */}
-                    {/* <div className={styles.formGroup}>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="country">Страна:</label>
                         <input
                             type="text"
@@ -155,8 +157,8 @@ const ApplicationForm = () => {
                             readOnly
                             required
                         />
-                    </div> */}
-                    {/* <div className={styles.formGroup}>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="numberOfDays">Количество дней:</label>
                         <input
                             type="number"
@@ -166,8 +168,8 @@ const ApplicationForm = () => {
                             readOnly
                             required
                         />
-                    </div> */}
-                    {/* <div className={styles.formGroup}>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="price">Цена:</label>
                         <input
                             type="number"
@@ -177,7 +179,7 @@ const ApplicationForm = () => {
                             readOnly
                             required
                         />
-                    </div> */}
+                    </div>
                     <div className={styles.formGroup}>
                         <label htmlFor="beginningDate">Дата начала:</label>
                         <input
@@ -200,7 +202,7 @@ const ApplicationForm = () => {
                             required
                         />
                     </div>
-                    {/* <div className={styles.formGroup}>
+                    <div className={styles.formGroup}>
                         <label htmlFor="city">Город:</label>
                         <input
                             type="text"
@@ -210,8 +212,8 @@ const ApplicationForm = () => {
                             readOnly
                             required
                         />
-                    </div> */}
-                    {/* <div className={styles.formGroup}>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="travelAgency">Туристическое агентство:</label>
                         <input
                             type="text"
@@ -221,7 +223,7 @@ const ApplicationForm = () => {
                             readOnly
                             required
                         />
-                    </div> */}
+                    </div>
                     <div className={styles.formGroup}>
                         <label htmlFor="numberOfPeople">Количество человек:</label>
                         <input

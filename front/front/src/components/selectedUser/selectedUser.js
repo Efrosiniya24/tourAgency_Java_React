@@ -25,14 +25,14 @@ const SelectedUser = ({ user, dataBase, setIsVisible, fetchUserOrders, handleClo
             </button>
           </div>
           <div className={selectedStyle.user_info_data}>
-            {/* <div className={selectedStyle.user_info_row}>
+            <div className={selectedStyle.user_info_row}>
               <span className={selectedStyle.user_info_term}>Адрес:</span>
               <span></span>
             </div>
             <div className={selectedStyle.user_info_row}>
               <span className={selectedStyle.user_info_term}>Дата рождения:</span>
               <span></span>
-            </div> */}
+            </div>
             <div className={selectedStyle.user_info_row}>
               <span className={selectedStyle.user_info_term}>Моб. телефон:</span>
               <span>{user.phone}</span>
@@ -41,14 +41,14 @@ const SelectedUser = ({ user, dataBase, setIsVisible, fetchUserOrders, handleClo
               <span className={selectedStyle.user_info_term}>email:</span>
               <span>{user.email}</span>
             </div>
-            {/* <div className={selectedStyle.user_info_row}>
+            <div className={selectedStyle.user_info_row}>
               <span className={selectedStyle.user_info_term}>Номер и серия паспорта:</span>
               <span></span>
-            </div> */}
-            {/* <div className={selectedStyle.user_info_row}>
+            </div>
+            <div className={selectedStyle.user_info_row}>
               <span className={selectedStyle.user_info_term}>Срок действия паспорта:</span>
               <span></span>
-            </div> */}
+            </div>
           </div>
           <div className={selectedStyle.user_actions}>
             <button onClick={handleShowOrders}>Посмотреть заявки</button>
