@@ -60,6 +60,10 @@
   margin-top: 10px;
   cursor: pointer;
 }
+.containerLogin button:hover{
+  transform: scale(1.07);
+  transition: transform 0.1s ease;
+}
 
 .containerLogin button.hidden {
   background-color: transparent;

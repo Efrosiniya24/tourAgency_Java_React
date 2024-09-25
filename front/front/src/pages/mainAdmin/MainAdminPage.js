@@ -20,6 +20,7 @@ const MainAdmin = () => {
                     <p className={mainAdmin.text_p}>Приятной работы</p>
                 </div>
                 <div className={mainAdmin.container}>
+        
                     <div className={mainAdmin.top_row}>
                         <NavLink to ="/analytics ">
                             <div className={mainAdmin.card}>

@@ -1,10 +1,11 @@
 .headerNotMain {
+    display: flex;
+    justify-content: center;
     position: fixed;
     right: 0;
     top: 0;
     z-index: 1000;
     width: 100%;
-    display: flex;
     align-items: center;
     padding: 40px 9%;
     background-color: #214320;
@@ -17,5 +18,4 @@
     color: white;
     top: 38px;
     z-index: 5;
-    margin-left: 750px;
 }
