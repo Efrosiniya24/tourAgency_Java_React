@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("tourAgency/tours")
+@RequestMapping("/tourAgency/tours")
 public class ToursController {
     private final TourService tourService;
     private final ObjectMapper objectMapper;
@@ -26,9 +28,10 @@ public class ToursController {
         return ResponseEntity.ok("Tour added");
     }
 
+
     @GetMapping("/allTours")
-    public String getAllTours() throws JsonProcessingException {
-        List<Tours> tours =tourService.allTours();
-        return objectMapper.writeValueAsString(tours);
+    public ResponseEntity<List<Tours>> getAllTours() {
+        List<Tours> tours = tourService.allTours();
+        return ResponseEntity.ok(tours);
     }
 }

@@ -26,7 +26,8 @@ const ToursAdmin = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await axios.get('http://localhost:8000/tours/allTours');
+        const response = await axios.get('http://localhost:8083/tourAgency/tours/allTours', { withCredentials: true });
+
         console.log(response.data); 
         setTours(response.data);
       } catch (error) {
@@ -54,54 +55,53 @@ const ToursAdmin = () => {
     setIsEditing(false); // Reset the editing state
   };
 
-  const handleDelete = async () => {
-    if (selectedTourId) {
-      try {
-        await axios.delete(`http://localhost:8000/tours/deleteTour/${selectedTourId}/`);
-        setTours(tours.filter(tour => tour.id !== selectedTourId));
-        setSelectedTourId(null);
-        setIsVisible(false);
-      } catch (error) {
-        console.error('Ошибка при удалении тура:', error);
-      }
-    }
-  };
+  // const handleDelete = async () => {
+  //   if (selectedTourId) {
+  //     try {
+  //       await axios.delete(`http://localhost:8000/tours/deleteTour/${selectedTourId}/`);
+  //       setTours(tours.filter(tour => tour.id !== selectedTourId));
+  //       setSelectedTourId(null);
+  //       setIsVisible(false);
+  //     } catch (error) {
+  //       console.error('Ошибка при удалении тура:', error);
+  //     }
+  //   }
+  // };
 
   const [tourData, setTourData] = useState({
     name: '',
     country: '',
     numberOfDays: '',
     price: '',
-    startDate: '',
+    beginningDate: '',
     endDate: '',
-    city: '',
+    location: '',
     description: '',
     program: '',
-    travelAgency: '',
   });
 
-  const handleSearch = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await axios.post('http://localhost:8000/tours/search/', { search: searchTerm }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      setTours(response.data);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // const handleSearch = async () => {
+  //   setIsLoading(true);
+  //   setError(null);
+  //   try {
+  //     const response = await axios.post('http://localhost:8000/tours/search/', { search: searchTerm }, {
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       }
+  //     });
+  //     setTours(response.data);
+  //   } catch (error) {
+  //     setError(error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  const handleSearchEnter = async (event) => {
-    if (event.key === 'Enter') {
-      handleSearch();
-    }
-  };
+  // const handleSearchEnter = async (event) => {
+  //   if (event.key === 'Enter') {
+  //     handleSearch();
+  //   }
+  // };
 
   const handleReload = () => {
     window.location.reload();
@@ -137,10 +137,9 @@ const ToursAdmin = () => {
       price: '',
       beginningDate: '',
       endDate: '',
-      city: '',
+      location: '',
       description: '',
       program: '',
-      travelAgency: '',
     });
     setIsEditing(false); 
   };
@@ -163,14 +162,14 @@ const ToursAdmin = () => {
               <img 
                 src={searchIcon} 
                 alt="Search" 
-                onClick={handleSearch}
+                // onClick={handleSearch}
               />
               <input 
                 type="text" 
                 placeholder="Введите название тура, страну,город или турагентство"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={handleSearchEnter}
+                // onKeyDown={handleSearchEnter}
               />
               <img 
                 className={toursAdmin.reloadIcon} 
@@ -183,7 +182,7 @@ const ToursAdmin = () => {
               <TourInputForm
                 tourData={tourData}
                 handleChange={handleChange}
-                handleDelete={handleDelete}
+                // handleDelete={handleDelete}
                 handleClose={handleClose}
                 setTours={setTours}
                 tours={tours}
@@ -208,7 +207,6 @@ const ToursAdmin = () => {
                       <th className={toursAdmin.th_content}><div>Туры</div></th>
                       <th className={toursAdmin.th_content}><div>Страна</div></th>
                       <th className={toursAdmin.th_content}><div>Город</div></th>
-                      <th className={toursAdmin.th_content}><div>Турагентство</div></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -217,8 +215,7 @@ const ToursAdmin = () => {
                         <td>{tour.id}</td>
                         <td>{tour.name}</td>
                         <td>{tour.country}</td>
-                        <td>{tour.city}</td>
-                        <td>{tour.travelAgency}</td>
+                        <td>{tour.location}</td>
                       </tr>
                     ))}
                   </tbody>
