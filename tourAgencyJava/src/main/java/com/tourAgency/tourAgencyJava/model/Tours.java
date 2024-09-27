@@ -48,7 +48,7 @@ public class Tours {
     @Column(name = "program")
     private String program;
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Order> orders;
 

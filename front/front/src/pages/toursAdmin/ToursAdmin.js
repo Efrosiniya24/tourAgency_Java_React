@@ -52,21 +52,32 @@ const ToursAdmin = () => {
   const handleClose = () => {
     setIsVisible(false);
     setSelectedTourId(null);
-    setIsEditing(false); // Reset the editing state
+    setIsEditing(false); 
   };
 
-  // const handleDelete = async () => {
-  //   if (selectedTourId) {
-  //     try {
-  //       await axios.delete(`http://localhost:8000/tours/deleteTour/${selectedTourId}/`);
-  //       setTours(tours.filter(tour => tour.id !== selectedTourId));
-  //       setSelectedTourId(null);
-  //       setIsVisible(false);
-  //     } catch (error) {
-  //       console.error('Ошибка при удалении тура:', error);
-  //     }
-  //   }
-  // };
+  const handleDelete = async () => {
+    if (selectedTourId) {
+      const confirmDelete = window.confirm("Вы уверены, что хотите удалить этот тур?");
+      if (confirmDelete) {
+        try {
+          const response = await axios.delete(`http://localhost:8083/tourAgency/tours/deleteTour/${selectedTourId}`, { withCredentials: true });
+          if (response.status === 200) { 
+            setTours(tours.filter(tour => tour.id !== selectedTourId));
+            setSelectedTourId(null);
+            setIsVisible(false);
+          } else {
+            throw new Error('Удаление не удалось');
+          }
+        } catch (error) {
+          console.error('Ошибка при удалении тура:', error);
+          alert('Не удалось удалить тур');
+        }
+      }
+    }
+  };
+  
+  
+  
 
   const [tourData, setTourData] = useState({
     name: '',
@@ -182,7 +193,7 @@ const ToursAdmin = () => {
               <TourInputForm
                 tourData={tourData}
                 handleChange={handleChange}
-                // handleDelete={handleDelete}
+                handleDelete={handleDelete}
                 handleClose={handleClose}
                 setTours={setTours}
                 tours={tours}

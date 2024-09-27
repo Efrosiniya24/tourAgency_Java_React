@@ -37,8 +37,11 @@ public class SecurityConfiguration {
                 }))
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorize -> authorize
-                        .requestMatchers("/tourAgency/auth/authenticate", "/tourAgency/auth/signUp", "/tourAgency/tours/allTours")
+                        .requestMatchers("/tourAgency/auth/authenticate", "/tourAgency/auth/signUp", "/tourAgency/tours/allTours", "/tourAgency/tours/deleteTour/**")
+
                         .permitAll()
+//                        .requestMatchers("/tourAgency/tours/deleteTour/**") // Adjust the path as needed
+//                        .hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -47,4 +50,6 @@ public class SecurityConfiguration {
 
         return http.build();
     }
+
+
 }

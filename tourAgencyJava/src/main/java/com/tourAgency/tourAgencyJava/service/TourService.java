@@ -7,18 +7,26 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class TourService {
     private final ToursRepository toursRepository;
 
-    public Tours addTour(Tours tours) {
-        toursRepository.save(tours);
-        return null;
+    public List<Tours> addTour(Tours tours) {
+        tours.setOrders(null);
+        List<Tours> toursList = toursRepository.findAll();
+        toursList.add(tours);
+        toursRepository.saveAll(toursList);
+        return toursList;
     }
 
     public List<Tours> allTours() {
         return toursRepository.findAll();
+    }
+
+    public void deleteTour(Long id) {
+        toursRepository.deleteById(Math.toIntExact(id));
     }
 }
