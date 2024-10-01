@@ -15,25 +15,25 @@ const SignIn = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); 
-
     try {
-      const response = await axiosInstance.post(
-        '/tourAgency/auth/authenticate',  
+      axiosInstance.post(
+        '/tourAgency/auth/authenticate', 
         { email, password },
-        { headers: { 'X-CSRFToken': csrfToken },
-        withCredentials: true 
-      } 
-      );
+        { headers: { 'X-CSRFToken': csrfToken } } 
+      )
+      .then(response => {
+        console.log('Server Response:', response); 
 
-      if (response.status === 200) {
-        const { access, refresh, id, role} = response.data;
-        localStorage.setItem('accessToken', access);
-        localStorage.setItem('refreshToken',refresh);
+        if (response.status !== 200) return;
+
+        localStorage.setItem('accessToken', response.data.token); 
+        localStorage.setItem('refreshToken', response.data.refresh);
+        const { id, role } = response.data;
         localStorage.setItem('userRole', role);
 
         switch (role) {
           case 'client':
-            navigate(`/tours/${id}`);
+            navigate(`/tours`);
             break;
           case 'ADMIN':
             navigate(`/mainAdmin/${id}`);
@@ -41,23 +41,19 @@ const SignIn = () => {
           default:
             setErrorMessage('Неизвестная роль пользователя');
         }
-      } else {
-        setErrorMessage('Ошибка при авторизации');
-      }
-    } catch (error) {
-      if (error.response) {
-        // Проверяем, что error.response существует и содержит status
+      })
+      .catch(error => {
+        console.log(error.response.status);
         if (error.response.status === 403) {
           setErrorMessage('Ваш аккаунт деактивирован. Пожалуйста, свяжитесь с поддержкой.');
         } else {
           console.error('Ошибка при авторизации:', error);
           setErrorMessage('Неверный логин или пароль');
         }
-      } else {
-        // Если error.response не существует
-        console.error('Ошибка при авторизации:', error);
-        setErrorMessage('Неверный логин или пароль');
-      }
+      });
+    } catch (error) {
+      console.error('Ошибка при авторизации:', error);
+      setErrorMessage('Неверный логин или пароль');
     }
   };
 

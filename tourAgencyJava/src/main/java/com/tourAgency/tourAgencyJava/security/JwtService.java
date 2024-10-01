@@ -6,17 +6,17 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class JwtService {
 
@@ -33,15 +33,21 @@ public class JwtService {
 
     public String generateToken(UserDetails userDetails){
         Map<String, Object> claims = new HashMap<>();
+        List<String> roles = new ArrayList<>();
+        roles.add("ADMIN"); // Добавляем роль "ADMIN"
+        claims.put("roles", roles);
         claims.put("roles", userDetails.getAuthorities().stream()
-                .map(authority -> authority.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
         return generateToken(claims, userDetails);
     }
 
+
     public String generateToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails){
+        log.info("Token generated for user: {}", userDetails.getUsername());
+        log.info("Roles: {}", userDetails.getAuthorities());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -50,6 +56,8 @@ public class JwtService {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
+
+
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails){

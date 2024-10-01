@@ -4,33 +4,30 @@ import axios from 'axios';
 import tourInputForm from './tourInputForm.module.css';
 
 const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setTours, tours, isEditing }) => {
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       if (isEditing) {
-        // Update existing tour
-        const response = await axios.put(`http://localhost:8000/tours/updateTour/${tourData.id}/`, tourData);
+        const response = await axios.put(`http://localhost:8083/tourAgency/tours/updateTour/${tourData.id}`, tourData, { withCredentials: true });
         const updatedTour = response.data;
         setTours(tours.map(tour => tour.id === updatedTour.id ? updatedTour : tour));
       } else {
-        // Create new tour
-        const response = await axios.post('http://localhost:8000/tours/create/', tourData);
+        const response = await axios.post('http://localhost:8083/tourAgency/tours/addTour', tourData, { withCredentials: true });
         setTours([...tours, response.data]);
       }
-      handleClose(); // Close the form after saving
+      handleClose(); 
     } catch (error) {
       console.error('Ошибка при сохранении тура:', error);
       if (error.response && error.response.data) {
         console.error('Details:', error.response.data);
-        alert('Error: ' + JSON.stringify(error.response.data)); // Display detailed error
+        alert('Error: ' + JSON.stringify(error.response.data));
       }
     }
   };
 
-  // Получаем текущую дату в формате 'YYYY-MM-DD' для атрибута min
   const today = new Date().toISOString().split('T')[0];
 
-  // Валидация ввода для предотвращения отрицательных и дробных чисел, а также нуля
   const handleNumberChange = (event) => {
     const { name, value } = event.target;
     if (value === '' || /^[1-9]\d*$/.test(value)) {
@@ -38,6 +35,8 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
     }
   };
 
+
+  
   return (
     <div className={tourInputForm.containerInput}>
       <div className={tourInputForm.table_containerInput}>

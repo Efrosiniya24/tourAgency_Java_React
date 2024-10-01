@@ -27,8 +27,8 @@ const ToursAdmin = () => {
       setError(null);
       try {
         const response = await axios.get('http://localhost:8083/tourAgency/tours/allTours', { withCredentials: true });
-
         console.log(response.data); 
+        // const getCsrfToken = () => localStorage.getItem('csrfToken');
         setTours(response.data);
       } catch (error) {
         console.error("Ошибка при получении данных: ", error);
@@ -55,29 +55,47 @@ const ToursAdmin = () => {
     setIsEditing(false); 
   };
 
-  const handleDelete = async () => {
-    if (selectedTourId) {
-      const confirmDelete = window.confirm("Вы уверены, что хотите удалить этот тур?");
-      if (confirmDelete) {
-        try {
-          const response = await axios.delete(`http://localhost:8083/tourAgency/tours/deleteTour/${selectedTourId}`, { withCredentials: true });
-          if (response.status === 200) { 
-            setTours(tours.filter(tour => tour.id !== selectedTourId));
-            setSelectedTourId(null);
-            setIsVisible(false);
-          } else {
-            throw new Error('Удаление не удалось');
-          }
-        } catch (error) {
-          console.error('Ошибка при удалении тура:', error);
-          alert('Не удалось удалить тур');
+const handleDelete = async () => {
+  if (selectedTourId) {
+    try {
+      const token = localStorage.getItem('accessToken'); 
+      if (!token) {
+        throw new Error('Token not found. Please log in again.');
+      }
+      console.log('Token:', token); 
+
+      const response = await axios.delete(`http://localhost:8083/tourAgency/tours/deleteTour/${selectedTourId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
         }
+      });
+
+      if (response.status === 200) {
+        setTours(tours.filter(tour => tour.id !== selectedTourId));
+        setSelectedTourId(null);
+        setIsVisible(false);
+      } else {
+        throw new Error('Удаление не удалось');
+      }
+
+    } catch (error) {
+      console.error('Ошибка при удалении тура:', error);
+
+      if (error.response) {
+        console.error('Ответ сервера:', error.response.data);
+        console.error('Статус:', error.response.status);
+        console.error('Заголовки:', error.response.headers);
+        alert(`Ошибка при удалении: ${error.response.data.message || 'Не удалось удалить тур'}`);
+      } else if (error.request) {
+        console.error('Запрос был сделан, но ответа не было:', error.request);
+        alert('Не удалось получить ответ от сервера');
+      } else {
+        console.error('Ошибка при настройке запроса:', error.message);
+        alert('Произошла ошибка при удалении');
       }
     }
-  };
-  
-  
-  
+  }
+};
 
   const [tourData, setTourData] = useState({
     name: '',

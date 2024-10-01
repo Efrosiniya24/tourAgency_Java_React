@@ -1,7 +1,11 @@
 package com.tourAgency.tourAgencyJava.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,5 +26,16 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request){
         return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+
+    @GetMapping("/some-endpoint")
+    public String someMethod() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("Required authority: ADMIN");
+        logger.info("User authorities: {}", authentication.getAuthorities());
+
+        return authentication.getAuthorities().toString();
     }
 }

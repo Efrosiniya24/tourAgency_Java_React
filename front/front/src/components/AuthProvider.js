@@ -22,10 +22,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const response = await axios.post('http://localhost:8000/user/signIn', { email, password });
+    const response = await axios.post('http://localhost:8083/tourAgency/auth/authenticate', { email, password });
     localStorage.setItem('accessToken', response.data.access);
     localStorage.setItem('userRole', response.data.role);
     setUser({ token: response.data.access, role: response.data.role });
+    console.log('Токен:', localStorage.getItem('token'));
   };
 
   const logout = () => {
