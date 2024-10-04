@@ -101,6 +101,9 @@ li:hover {
   outline: none;
 }
 
+.search{
+  top: -20px;
+}
 .data {
   flex: 1;
   border-radius: 20px;

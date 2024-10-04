@@ -1,5 +1,4 @@
-import React from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
+import TextareaAutosize from 'react-textarea-autosize'; 
 import axios from 'axios';
 import tourInputForm from './tourInputForm.module.css';
 
@@ -7,21 +6,45 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!tourData.name || !tourData.country) {
+      alert("Пожалуйста, заполните все обязательные поля.");
+      return;
+    }
     try {
       if (isEditing) {
-        const response = await axios.put(`http://localhost:8083/tourAgency/tours/updateTour/${tourData.id}`, tourData, { withCredentials: true });
+        const token = localStorage.getItem('accessToken');
+        const response = await axios.put(
+          `http://localhost:8083/tourAgency/tours/updateTour/${tourData.id}`, 
+          tourData, 
+          { withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+           }
+        );
         const updatedTour = response.data;
-        setTours(tours.map(tour => tour.id === updatedTour.id ? updatedTour : tour));
+        setTours(tours.map(tour => (tour.id === updatedTour.id ? updatedTour : tour)));
       } else {
-        const response = await axios.post('http://localhost:8083/tourAgency/tours/addTour', tourData, { withCredentials: true });
+        const token = localStorage.getItem('accessToken');
+        const response = await axios.post(
+          'http://localhost:8083/tourAgency/tours/addTour',
+          tourData,
+          {
+            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          }
+        );
         setTours([...tours, response.data]);
       }
-      handleClose(); 
+      handleClose();
     } catch (error) {
       console.error('Ошибка при сохранении тура:', error);
       if (error.response && error.response.data) {
-        console.error('Details:', error.response.data);
-        alert('Error: ' + JSON.stringify(error.response.data));
+        alert('Ошибка: ' + JSON.stringify(error.response.data));
+      } else {
+        alert('Произошла ошибка при сохранении.');
       }
     }
   };
@@ -35,8 +58,6 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
     }
   };
 
-
-  
   return (
     <div className={tourInputForm.containerInput}>
       <div className={tourInputForm.table_containerInput}>
@@ -124,19 +145,8 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
                   <td>
                     <input
                       type="text"
-                      name="city"
-                      value={tourData.city}
-                      onChange={handleChange}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>Турагентство:</th>
-                  <td>
-                    <input
-                      type="text"
-                      name="travelAgency"
-                      value={tourData.travelAgency}
+                      name="location"
+                      value={tourData.location}
                       onChange={handleChange}
                     />
                   </td>
