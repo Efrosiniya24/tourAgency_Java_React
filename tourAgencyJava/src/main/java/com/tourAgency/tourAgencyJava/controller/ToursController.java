@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -25,9 +25,9 @@ public class ToursController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/addTour")
-    public ResponseEntity<List<Tours>> addTour(@RequestBody Tours tours) {
-        List<Tours> toursList = tourService.addTour(tours);
-        return ResponseEntity.ok(toursList);
+    public ResponseEntity<Tours> addTour(@RequestBody Tours tours) {
+        Tours savedTour = tourService.addTour(tours);
+        return ResponseEntity.ok(savedTour); // Return the saved tour
     }
 
 
@@ -44,5 +44,11 @@ public class ToursController {
         return ResponseEntity.ok("Tour deleted");
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/updateTour/{id}")
+    public ResponseEntity<List<Tours>> updateTour(@RequestBody Tours tour, @PathVariable Long id) {
+        List<Tours> tours = tourService.updateTour(tour, id);
+        return ResponseEntity.ok(tours);
+    }
 
 }

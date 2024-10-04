@@ -19,6 +19,8 @@ import java.util.List;
 @Builder
 public class Tours {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")

@@ -15,6 +15,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "date")
