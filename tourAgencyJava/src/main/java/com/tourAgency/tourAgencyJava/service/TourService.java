@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -15,9 +16,7 @@ public class TourService {
     private final ToursRepository toursRepository;
 
     public Tours addTour(Tours tours) {
-        // Ensure orders are set to null if needed
         tours.setOrders(null);
-        // Save the tour directly instead of modifying the list
         return toursRepository.save(tours);
     }
 
@@ -34,5 +33,15 @@ public class TourService {
         allTours.set(Math.toIntExact(id), tour);
         toursRepository.saveAll(allTours);
         return allTours;
+    }
+
+    public List<Tours> searchTour(String line) {
+        List<Tours> allTours = toursRepository.findAll();
+        String lineLowerCase = line.toLowerCase();
+        return allTours.stream()
+                .filter(tour -> tour.getCountry().toLowerCase().contains(lineLowerCase)
+                        || tour.getName().toLowerCase().contains(lineLowerCase)
+                        || tour.getLocation().toLowerCase().contains(lineLowerCase))
+                .collect(Collectors.toList());
     }
 }

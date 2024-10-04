@@ -1,18 +1,16 @@
 package com.tourAgency.tourAgencyJava.controller;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tourAgency.tourAgencyJava.model.Enum.Role;
 import com.tourAgency.tourAgencyJava.model.Tours;
 import com.tourAgency.tourAgencyJava.service.TourService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
@@ -51,4 +49,9 @@ public class ToursController {
         return ResponseEntity.ok(tours);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Optional<List<Tours>>> searchTours(@RequestParam String line){
+        Optional<List<Tours>> tours = Optional.ofNullable(tourService.searchTour(line));
+        return ResponseEntity.ok(tours);
+    }
 }
