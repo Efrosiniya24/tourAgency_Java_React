@@ -109,28 +109,37 @@ const handleDelete = async () => {
     program: '',
   });
 
-  // const handleSearch = async () => {
-  //   setIsLoading(true);
-  //   setError(null);
-  //   try {
-  //     const response = await axios.post('http://localhost:8000/tours/search/', { search: searchTerm }, {
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       }
-  //     });
-  //     setTours(response.data);
-  //   } catch (error) {
-  //     setError(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+  const handleSearch = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const token = localStorage.getItem('accessToken');  // Get token from localStorage
+      if (!token) {
+        throw new Error('Token not found. Please log in again.');
+      }
+  
+      const response = await axios.get(`http://localhost:8083/tourAgency/tours/search?line=${searchTerm}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      setTours(response.data);
+    } catch (error) {
+      console.error('Search error:', error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
 
-  // const handleSearchEnter = async (event) => {
-  //   if (event.key === 'Enter') {
-  //     handleSearch();
-  //   }
-  // };
+  const handleSearchEnter = async (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   const handleReload = () => {
     window.location.reload();
@@ -191,14 +200,14 @@ const handleDelete = async () => {
               <img 
                 src={searchIcon} 
                 alt="Search" 
-                // onClick={handleSearch}
+                onClick={handleSearch}
               />
               <input 
                 type="text" 
                 placeholder="Введите название тура, страну,город или турагентство"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                // onKeyDown={handleSearchEnter}
+                onKeyDown={handleSearchEnter}
               />
               <img 
                 className={toursAdmin.reloadIcon} 
