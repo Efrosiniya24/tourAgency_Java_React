@@ -30,8 +30,14 @@ const DataBase = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await axios.get('http://localhost:8000/user/allUsers/');
-        setUsers(response.data);
+        const token = localStorage.getItem('accessToken');  
+        const response = await axios.get('http://localhost:8083/tourAgency/admin/allUsers',{
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+          setUsers(response.data);
       } catch (error) {
         setError(error);
       } finally {

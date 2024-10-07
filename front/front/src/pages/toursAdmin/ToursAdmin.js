@@ -113,7 +113,7 @@ const handleDelete = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem('accessToken');  // Get token from localStorage
+      const token = localStorage.getItem('accessToken');  
       if (!token) {
         throw new Error('Token not found. Please log in again.');
       }
