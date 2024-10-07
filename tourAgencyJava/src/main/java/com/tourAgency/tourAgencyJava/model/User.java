@@ -1,5 +1,6 @@
 package com.tourAgency.tourAgencyJava.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tourAgency.tourAgencyJava.model.Enum.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -54,9 +55,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> ordersManager;
 

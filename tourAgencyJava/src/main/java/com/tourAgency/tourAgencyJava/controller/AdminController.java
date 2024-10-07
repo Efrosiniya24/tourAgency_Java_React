@@ -14,12 +14,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("tourAgency/admin")
 @Slf4j
-@PreAuthorize("hasRole('ADMIN')")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 @RequiredArgsConstructor
 public class AdminController {
 
-    UserService userService;
+    private final UserService userService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/allUsers")
     public ResponseEntity<?> allUsers() {
         List<User> users = userService.allUsers();
