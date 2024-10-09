@@ -7,16 +7,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
 public class UserService {
-    
+
     UserRepository userRepository;
-    
-    public List<User> allUsers(){
+
+    public List<User> allUsers() {
         return userRepository.findAll();
     }
 
@@ -26,9 +28,24 @@ public class UserService {
                 .filter(user -> user.getName().equals(nameUser))
                 .findFirst();
     }
-    public User getCurrentUser(){
+
+    public User getCurrentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email" + email));
     }
+
+    public List<User> searchUser(String nameUser) {
+        List<User> users = userRepository.findAll();
+        String[] nameParts = nameUser.split(" ");
+
+        return users.stream()
+                .filter(user -> Arrays.stream(nameParts)
+                        .anyMatch(part -> user.getName().toLowerCase().contains(part.toLowerCase())
+                                || user.getPatronymic().toLowerCase().contains(part.toLowerCase())
+                                || user.getSurname().toLowerCase().contains(part.toLowerCase()))
+                )
+                .collect(Collectors.toList());
+    }
+
 }
