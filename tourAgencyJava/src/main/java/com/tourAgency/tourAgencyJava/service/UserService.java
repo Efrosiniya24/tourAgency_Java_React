@@ -1,5 +1,6 @@
 package com.tourAgency.tourAgencyJava.service;
 
+import com.tourAgency.tourAgencyJava.model.Enum.Role;
 import com.tourAgency.tourAgencyJava.model.User;
 import com.tourAgency.tourAgencyJava.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,11 @@ public class UserService {
     UserRepository userRepository;
 
     public List<User> allUsers() {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll()
+                .stream()
+                .filter(user -> user.getRole() == Role.USER)
+                .toList();
+        return users;
     }
 
     public Optional<User> currentUser(String nameUser) {
@@ -36,16 +41,16 @@ public class UserService {
     }
 
     public List<User> searchUser(String nameUser) {
-        List<User> users = userRepository.findAll();
         String[] nameParts = nameUser.split(" ");
-
-        return users.stream()
+        List<User> users = userRepository.findAll()
+                .stream()
                 .filter(user -> Arrays.stream(nameParts)
                         .anyMatch(part -> user.getName().toLowerCase().contains(part.toLowerCase())
                                 || user.getPatronymic().toLowerCase().contains(part.toLowerCase())
                                 || user.getSurname().toLowerCase().contains(part.toLowerCase()))
                 )
                 .collect(Collectors.toList());
+        return users;
     }
 
 }

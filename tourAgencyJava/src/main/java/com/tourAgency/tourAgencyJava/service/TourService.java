@@ -36,12 +36,13 @@ public class TourService {
     }
 
     public List<Tours> searchTour(String line) {
-        List<Tours> allTours = toursRepository.findAll();
         String lineLowerCase = line.toLowerCase();
-        return allTours.stream()
+        List<Tours> allTours = toursRepository.findAll()
+                .stream()
                 .filter(tour -> tour.getCountry().toLowerCase().contains(lineLowerCase)
                         || tour.getName().toLowerCase().contains(lineLowerCase)
                         || tour.getLocation().toLowerCase().contains(lineLowerCase))
                 .collect(Collectors.toList());
+        return allTours;
     }
 }
