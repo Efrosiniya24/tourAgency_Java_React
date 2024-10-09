@@ -4,32 +4,6 @@
   padding-top: 30px;
 }
 
-/* .sidebar {
-  background-color: #152E15;
-  color: #fff;
-  padding: 20px;
-  width: 180px;
-  flex: 0 0 auto;
-}
-
-.sidebar a {
-  color: #fff;
-  text-decoration: none;
-  display: block;
-  padding: 10px;
-}
-
-.sidebar li {
-  display: flex;
-  align-items: center;
-}
-
-.sidebar img {
-  margin-right: 10px;
-  width: 20px;
-  height: auto;
-} */
-
 .content {
   flex-grow: 1;
   padding: 20px;
@@ -38,11 +12,6 @@
   padding-top: 80px;
   height: auto;
 }
-
-/* header {
-  text-align: center;
-  margin-bottom: 20px;
-} */
 
 .search input {
   width: 100%;
@@ -53,7 +22,7 @@
 }
 
 table {
-  width: 100%;
+  width: 400px;
   border-collapse: collapse;
   border-radius: 20px;
   margin: 0 auto;
@@ -68,17 +37,14 @@ th, td {
 }
 
 th {
-  /* background-color: #DCDCDC; */
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
 
 .data {
-  flex: 1;
-  margin-left: 100px;
-  max-width: calc(100% - 1000px);
-  padding-left: 0px;
+  margin-left: -100px;
   align-items: left;
+  width: 1100px;
 }
 
 .narrow-slider {
@@ -150,23 +116,24 @@ li:hover {
   width: 400px;
 }
 
-.tableDataBase {
-
-  border-collapse: collapse;
-}
-
 .tableDataBase tbody tr:first-child td {
   padding-top: 20px;
 }
 
 .tableDataBase th {
   background-color: #e4e4e4;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-radius: 40px;
   border-bottom: none;
   position: relative;
   top: 10px;
 }
+
+.tableDataBase th:first-child, 
+.tableDataBase td:first-child {
+  width: 200px; 
+  
+}
+
 
 .th_content {
   background-color: #e0e0e0;
@@ -217,14 +184,13 @@ tbody td:hover {
 }
 
 .widerTable {
-  width: 80%; /* Установите желаемую ширину таблицы */
-  margin: 0 auto; /* Центрируйте таблицу */
+  margin: 0 auto; 
 }
 
 .leftPanel {
   display: flex;
   flex-direction: column;
-  width: 900px;
+  width: 700px;
 }
 
 .application_cards {
@@ -243,10 +209,10 @@ tbody td:hover {
   border: 1px solid #787878;
   border-radius: 20px;
   padding: 15px;
-  width: 600px;
+  width: 900px;
   margin: 10px;
   flex: 1 0 30%;
-  margin-left: 30px;
+
   box-sizing: border-box;
   height: 350px;
 }
@@ -271,8 +237,8 @@ tbody td:hover {
   margin-top: -5px;
   margin-left: 0px;
   height: 30px;
+  
 }
-
 
 .id_label {
   font-weight: bold;
@@ -296,26 +262,22 @@ tbody td:hover {
   cursor: pointer;
 }
 
-
-
 .name_box {
   padding: 5px 10px;
   background-color: white;
   border-radius: 15px;
   display: inline-block;
   display: flex;
-  align-items: center; /* Center items vertically */
+  align-items: center; 
   width: 100%;
   margin-top: -5px;
-  flex-grow: 1; /* Make the box take the available space */
+  flex-grow: 1; 
 }
 
 .name {
   margin-right: 8px;
   padding-left: 10px;
 }
-
-
 
 .name_box .name{
   transition: transform 0.1s ease;
@@ -340,10 +302,9 @@ tbody td:hover {
   margin: 5px 0;
 }
 
-
 .application_main {
   display: flex;
-  justify-content: space-between; /* Align items horizontally */
+  justify-content: space-between; 
 }
 
 .application_details {
@@ -353,7 +314,7 @@ tbody td:hover {
   margin: 10px 0;
   width: 350px;
   height: 150px;
-  position: relative; /* Add this line */
+  position: relative; 
 }
 
 .application_details p {
@@ -364,17 +325,13 @@ tbody td:hover {
   margin-top: 7px;
 }
 
-
-
 .application_actions {
   display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  align-items: flex-start; /* Align buttons to the start */
-  gap: 5px; /* Space between buttons */
-  margin-left: 20px; /* Add some space between details and actions */
+  flex-direction: column; 
+  align-items: flex-start; 
+  gap: 5px; 
+  margin-left: 20px; 
 }
-
-
 
 button {
   padding: 5px 10px;
@@ -460,7 +417,7 @@ button.accept:hover {
   border-radius: 15px;
   padding: 10px;
   margin: 10px 0;
-  width: fit-content; /* Adjust the length of the box */
+  width: fit-content; 
 }
 .nextButton {
   border-radius: 80%; 
@@ -477,7 +434,6 @@ button.accept:hover {
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
-
 
 .nextButton:hover {
   background-color: #e0e0e0;

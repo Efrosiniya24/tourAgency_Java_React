@@ -19,7 +19,7 @@ const DataBase = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [sortDirection, setSortDirection] = useState('desc');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [name, setSearchTerm] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -50,9 +50,9 @@ const DataBase = () => {
   const fetchUserOrders = async (userId) => {
     try {
       const response = await axios.post('http://localhost:8000/orders/userOrders', { user_id: userId });
-      console.log(response.data); // Проверка данных
+      console.log(response.data); 
       setOrders(response.data);
-      setShowOrders(true); // Показываем заявки
+      setShowOrders(true); 
     } catch (error) {
       setError(error);
     }
@@ -66,12 +66,17 @@ const DataBase = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axios.post('http://localhost:8000/user/search', { 
-        name: searchTerm,
-        surname: searchTerm,
-        patronymic: searchTerm,
-        phone: searchTerm,
-        email: searchTerm,
+      const token = localStorage.getItem('accessToken');  
+      const response = await axios.get(`http://localhost:8083/tourAgency/admin/searchUser?nameUser=${name}`, { 
+        name: name,
+        surname: name,
+        patronymic: name,
+        phone: name,
+        email: name,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       });
       setUsers(response.data);
     } catch (error) {
@@ -95,12 +100,12 @@ const DataBase = () => {
     if (user.id === selectedUserId) { 
       setIsVisible(false);
       setSelectedUserId(null); 
-      setShowOrders(false); // Закрываем заявки при закрытии пользователя
+      setShowOrders(false); 
     } else {
       setSelectedUser(user);
       setIsVisible(true);
-      setSelectedUserId(user.id); // Сохраняем ID выбранного пользователя
-      setShowOrders(false); // Закрываем заявки при выборе другого пользователя
+      setSelectedUserId(user.id); 
+      setShowOrders(false); 
     }
   };
 
@@ -128,7 +133,6 @@ const DataBase = () => {
         status: newStatus
       });
       if (response.status === 200) {
-        // Обновить состояние заказов, если необходимо
         const updatedOrders = orders.map(order =>
           order.id === orderId ? { ...order, status: newStatus } : order
         );
@@ -159,7 +163,7 @@ const DataBase = () => {
               <input 
                 type="text" 
                 placeholder="Введите ФИО клиента"
-                value={searchTerm}
+                value={name}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleSearchEnter}
               />
