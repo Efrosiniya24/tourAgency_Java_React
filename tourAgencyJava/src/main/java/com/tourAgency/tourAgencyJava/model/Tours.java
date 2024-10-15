@@ -2,6 +2,7 @@ package com.tourAgency.tourAgencyJava.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,9 +51,12 @@ public class Tours {
     @Column(name = "program")
     private String program;
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
     @JsonIgnore
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "tourReference") // Match with back-reference
     private List<Order> orders;
+
+
 
 
 }

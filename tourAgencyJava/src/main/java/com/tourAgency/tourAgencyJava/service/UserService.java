@@ -1,7 +1,9 @@
 package com.tourAgency.tourAgencyJava.service;
 
 import com.tourAgency.tourAgencyJava.model.Enum.Role;
+import com.tourAgency.tourAgencyJava.model.Order;
 import com.tourAgency.tourAgencyJava.model.User;
+import com.tourAgency.tourAgencyJava.repositories.OrderRepository;
 import com.tourAgency.tourAgencyJava.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public List<User> allUsers() {
         List<User> users = userRepository.findAll()
@@ -27,12 +29,12 @@ public class UserService {
         return users;
     }
 
-    public Optional<User> currentUser(String nameUser) {
-        List<User> users = userRepository.findAll();
-        return users.stream()
-                .filter(user -> user.getName().equals(nameUser))
-                .findFirst();
-    }
+//    public Optional<User> currentUser(String nameUser) {
+//        List<User> users = userRepository.findAll();
+//        return users.stream()
+//                .filter(user -> user.getName().equals(nameUser))
+//                .findFirst();
+//    }
 
     public User getCurrentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -52,5 +54,4 @@ public class UserService {
                 .collect(Collectors.toList());
         return users;
     }
-
 }

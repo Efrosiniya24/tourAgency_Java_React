@@ -1,5 +1,6 @@
 package com.tourAgency.tourAgencyJava.controller;
 
+import com.tourAgency.tourAgencyJava.model.Order;
 import com.tourAgency.tourAgencyJava.model.Tours;
 import com.tourAgency.tourAgencyJava.model.User;
 import com.tourAgency.tourAgencyJava.service.UserService;
@@ -27,12 +28,6 @@ public class UserController {
         List<User> users = userService.allUsers();
 
         return ResponseEntity.ok(users);
-    }
-
-    @GetMapping("/currentUser")
-    public ResponseEntity<?> currentUser(@RequestParam String nameUser) {
-        Optional<User> user = userService.currentUser(nameUser);
-        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/searchUser")

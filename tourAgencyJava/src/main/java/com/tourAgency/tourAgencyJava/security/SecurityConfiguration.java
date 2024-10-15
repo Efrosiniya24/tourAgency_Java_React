@@ -36,11 +36,12 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/tourAgency/auth/authenticate", "/tourAgency/auth/signUp", "/tourAgency/tours/allTours", "/tourAgency/tours/some-endpoint",
-                                "/tourAgency/tours/search").permitAll()
+                                "/tourAgency/tours/search", "/tourAgency/admin/currentUser", "/tourAgency/orders/getOrders/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/tourAgency/tours/deleteTour/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/tourAgency/tours/addTour").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/tourAgency/orders/addOrder").hasAuthority("USER")
                         .requestMatchers(HttpMethod.PUT, "/tourAgency/tours/updateTour/**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/tourAgency/admin/allUsers", "/tourAgency/admin/searchUser").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/tourAgency/admin/allUsers", "/tourAgency/admin/searchUser", "/tourAgency/orders/getOrders").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

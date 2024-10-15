@@ -1,5 +1,6 @@
 package com.tourAgency.tourAgencyJava.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,13 +40,16 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "tour_id", nullable = false)
+    @JsonBackReference(value = "tourReference") // Unique name
     private Tours tour;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference(value = "userReference") // Unique name
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id")
-    private User manager;
+
+//    @ManyToOne
+//    @JoinColumn(name = "manager_id")
+//    private User manager;
 }

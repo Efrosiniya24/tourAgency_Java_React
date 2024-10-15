@@ -25,7 +25,7 @@ public class ToursController {
     @PostMapping("/addTour")
     public ResponseEntity<Tours> addTour(@RequestBody Tours tours) {
         Tours savedTour = tourService.addTour(tours);
-        return ResponseEntity.ok(savedTour); // Return the saved tour
+        return ResponseEntity.ok(savedTour);
     }
 
 

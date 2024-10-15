@@ -1,3 +1,4 @@
+
 package com.tourAgency.tourAgencyJava.auth;
 
 import lombok.RequiredArgsConstructor;
@@ -39,3 +40,4 @@ public class AuthenticationController {
         return authentication.getAuthorities().toString();
     }
 }
+ 

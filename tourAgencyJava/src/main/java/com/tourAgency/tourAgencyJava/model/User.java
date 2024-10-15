@@ -1,6 +1,7 @@
 package com.tourAgency.tourAgencyJava.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tourAgency.tourAgencyJava.model.Enum.Role;
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.*;
@@ -56,15 +57,16 @@ public class User implements UserDetails {
     private int age;
 
     @Enumerated(EnumType.STRING)
+//    @NotNull
     private Role role;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Order> orders;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> ordersManager;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+//    private List<Order> ordersManager;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
