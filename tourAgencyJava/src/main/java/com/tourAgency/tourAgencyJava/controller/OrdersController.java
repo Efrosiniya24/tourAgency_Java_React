@@ -23,21 +23,24 @@ public class OrdersController {
     private final OrdersService  ordersService;
     private final UserService userService;
 
-//    @GetMapping("/quantityOfAllOrders")
-//    public ResponseEntity<?> quantityOfOrders() {
-//        int numberOfOrders = ordersService.quantityOfOrders();
-//        return ResponseEntity.ok(numberOfOrders);
-//    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/quantityOfAllOrders")
+    public ResponseEntity<?> quantityOfAllOrders() {
+        int numberOfOrders = ordersService.quantityOfAllOrders();
+        return ResponseEntity.ok(numberOfOrders);
+    }
 
-    @GetMapping("/numbersOfFemaleOrders")
-    public  ResponseEntity<?> numberOfOrdersFemale(){
-        int numberOfFemaleOrders = ordersService.numberOfFemaleOrders();
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/quantityOfFemaleOrders")
+    public  ResponseEntity<?> quantityOfFemaleOrders(){
+        int numberOfFemaleOrders = ordersService.quantityOfFemaleOrders();
         return ResponseEntity.ok(numberOfFemaleOrders);
     }
 
-    @GetMapping("/numbersOfMaleOrdes")
-    public ResponseEntity<?> numberOfOrdersMaleOrdes() {
-        int numberOfMaleOrdes = ordersService.numberOfMaleOrders();
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/quantityOfMaleOrdes")
+    public ResponseEntity<?> quantityOfOrdersMaleOrdes() {
+        int numberOfMaleOrdes = ordersService.quantityOfMaleOrders();
         return ResponseEntity.ok(numberOfMaleOrdes);
     }
 

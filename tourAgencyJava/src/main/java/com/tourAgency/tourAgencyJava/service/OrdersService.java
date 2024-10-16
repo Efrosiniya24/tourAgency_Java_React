@@ -20,25 +20,26 @@ public class OrdersService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
 
-//    public int quantityOfOrders(){
-//        List<User> users = userRepository.findAll();
-//        int orders = (int) users.stream().map(user -> user.getOrders().size().c);
-//
-//        return orders;
-//    }
-
-    public int numberOfFemaleOrders() {
-        List<Order> orders = orderRepository.findAll();
-        return (int) orders.stream()
-                .filter(order -> order.getUser().getGenderClient().equals("female"))
-                .count();
+    public int quantityOfAllOrders(){
+       int quantityOfOrders = orderRepository.findAll()
+               .size();
+        return quantityOfOrders;
     }
 
-    public int numberOfMaleOrders() {
-        List<Order> orders = orderRepository.findAll();
-        return (int) orders.stream()
+    public int quantityOfFemaleOrders() {
+        int quantityOfFemaleOrders = (int) orderRepository.findAll()
+                .stream()
+                .filter(order -> order.getUser().getGenderClient().equals("female"))
+                .count();
+        return quantityOfFemaleOrders;
+    }
+
+    public int quantityOfMaleOrders() {
+        int quantityOfMaleOrders = (int) orderRepository.findAll()
+                .stream()
                 .filter(order -> order.getUser().getGenderClient().equals("male"))
                 .count();
+        return quantityOfMaleOrders;
     }
 
     public Order addOrder(Order order, User user) {
