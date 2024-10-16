@@ -57,6 +57,13 @@ public class OrdersService {
     public List<Order> getOrders() {
         return orderRepository.findAll();
     }
+
+    public String updateStatus(Long id, String status) {
+        Order newOrder = orderRepository.findById(id);
+        newOrder.setStatus(status);
+        orderRepository.save(newOrder);
+        return newOrder.getStatus();
+    }
 }
 
 

@@ -40,7 +40,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/tourAgency/tours/deleteTour/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/tourAgency/tours/addTour").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/tourAgency/orders/addOrder").hasAuthority("USER")
-                        .requestMatchers(HttpMethod.PUT, "/tourAgency/tours/updateTour/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/tourAgency/tours/updateTour/**", "/tourAgency/orders/changeStatus/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/tourAgency/admin/allUsers", "/tourAgency/admin/searchUser",
                                 "/tourAgency/orders/getOrders", "/tourAgency/orders/quantityOfAllOrders",
                                 "/tourAgency/orders/quantityOfFemaleOrders", "/tourAgency/orders/quantityOfMaleOrdes").hasAuthority("ADMIN")

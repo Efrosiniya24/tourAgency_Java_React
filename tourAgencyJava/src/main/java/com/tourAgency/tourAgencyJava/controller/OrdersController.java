@@ -63,4 +63,11 @@ public class OrdersController {
         List<Order> orders = ordersService.allOrdersFromUser(id).orElse(List.of());
         return ResponseEntity.ok(orders);
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/changeStatus/{id}")
+    public ResponseEntity<String> changeStatus(@PathVariable Long id, @RequestBody String newStatus) {
+        String status = ordersService.updateStatus(id, newStatus);
+        return ResponseEntity.ok("Update status: " + status);
+    }
 }
