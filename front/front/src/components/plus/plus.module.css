@@ -1,0 +1,24 @@
+.style{
+    background-color: #5C885A;
+    width: 24px;
+    height: 24px;
+    padding-top: 5px;
+    border-radius: 10px;
+    padding-left: 7px;
+    text-align: center;
+    align-items: center;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+.style p{
+    color: #FFFFFF;
+    font-weight: 100;
+    font-size: 14px;
+    width: 10px;
+    height: 15px;
+}
+
+.style:hover{
+    transform: scale(1.07);
+    transition: transform 0.1s ease;
+}
