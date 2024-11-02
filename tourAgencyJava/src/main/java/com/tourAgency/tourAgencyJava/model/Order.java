@@ -40,12 +40,10 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "tour_id", nullable = false)
-    @JsonBackReference(value = "tourReference") // Unique name
     private Tours tour;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference(value = "userReference") // Unique name
     private User user;
 
 

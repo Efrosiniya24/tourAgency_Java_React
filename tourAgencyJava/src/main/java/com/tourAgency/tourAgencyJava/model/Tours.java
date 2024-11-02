@@ -53,7 +53,6 @@ public class Tours {
 
     @JsonIgnore
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference(value = "tourReference") // Match with back-reference
     private List<Order> orders;
 
 
