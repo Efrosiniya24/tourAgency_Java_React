@@ -3,14 +3,17 @@ import styles from './tour.module.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import HeaderClient from "../../components/headerClient/headerClient";
-import Plus from "../../components/plus/plus"
-import Minus from "../../components/minus/minus"
-import Checkbox from "../../components/checkbox/checkbox"
+import Plus from "../../components/plus/plus";
+import Minus from "../../components/minus/minus";
+import Checkbox from "../../components/checkbox/checkbox";
+import Circle from '../../components/circle/circle';
+import Like from "../../components/like/like";
 
 import searchIcon from "./../../photo/search2.png";
 import up from "./photo/up.png";
 import down from "./photo/down.png";
 import reloadIcon from "./../../photo/reload.png";
+import Iceland from "./photo/Iceland.jpg";
 
 const Tours = () => {
 
@@ -44,7 +47,8 @@ const Tours = () => {
         "Поход": false,
         "Дайвинг": false,
         "Сафари": false,
-    })
+    });
+    const [sortOption, setSortOption] = useState("По популярности");
 
     const handleDaysIncrement = () => setDays(prevDays => prevDays + 1);
     const handleDaysDecrement = () => setDays(prevDays =>  Math.max(1, prevDays - 1));
@@ -88,6 +92,10 @@ const Tours = () => {
             ...prevType,
             [type]: !prevType[type]
         }));
+    };
+
+    const handleSortChange = (event) => {
+        setSortOption(event.target.value);
     };
 
     const handleResetFilters = () => {
@@ -333,7 +341,183 @@ const Tours = () => {
                             </div>
                         </div>
                     </div>
+
+                    <div className={styles.catalog}>
+                        <div className={styles.overCatalog}>
+                            <h6>Найдено 1234 туров</h6>
+                            <div className={styles.sortContainer}>
+                            <label className={styles.sortLabel}>Сортировать :</label>
+                            <select 
+                                value={sortOption} 
+                                onChange={handleSortChange} 
+                                className={styles.sortSelect}
+                            >
+                                <option value="По популярности">По популярности</option>
+                                <option value="По цене">По цене</option>
+                                <option value="По рейтингу">По рейтингу</option>
+                            </select>
+                            </div>
+                        </div>
+
+                        <div className={styles.catalogTours}>
+                            <div className={styles.cardTour}>
+                                <img src = {Iceland}/>
+                                <div className={styles.shortDescriptionTour}>
+                                    <h1>Исландия - самые красивые места</h1>
+                                    <div className={styles.firstLine}>
+                                        <div className={styles.ratingCircle}>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                        </div>
+                                        <p>746 отзыва</p>
+                                        <div className={styles.additionalText}>
+                                            <p>Исландия, Северная Европа</p>
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.cost}>
+                                        <p>9 901,03 $</p>
+                                        <div className={styles.additionalText}>
+                                            <p>/10 дней</p>
+                                        </div>
+                                    </div> 
+                                    
+                                    <div className={styles.lastLine}>
+                                        <div className={styles.buttonUse}>
+                                            <p>Отправить заявку</p>
+                                        </div>
+                                        <div className={styles.like}>
+                                            <Like/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className={styles.cardTour}>
+                                <img src = {Iceland}/>
+                                <div className={styles.shortDescriptionTour}>
+                                    <h1>Исландия - самые красивые места</h1>
+                                    <div className={styles.firstLine}>
+                                        <div className={styles.ratingCircle}>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                        </div>
+                                        <p>746 отзыва</p>
+                                        <div className={styles.additionalText}>
+                                            <p>Исландия, Северная Европа</p>
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.cost}>
+                                        <p>9 901,03 $</p>
+                                        <div className={styles.additionalText}>
+                                            <p>/10 дней</p>
+                                        </div>
+                                    </div> 
+                                    
+                                    <div className={styles.lastLine}>
+                                        <div className={styles.buttonUse}>
+                                            <p>Отправить заявку</p>
+                                        </div>
+                                        <div className={styles.like}>
+                                            <Like/>
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+
+
+                            <div className={styles.cardTour}>
+                                <img src = {Iceland}/>
+                                <div className={styles.shortDescriptionTour}>
+                                    <h1>Исландия - самые красивые места</h1>
+                                    <div className={styles.firstLine}>
+                                        <div className={styles.ratingCircle}>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                        </div>
+                                        <p>746 отзыва</p>
+                                        <div className={styles.additionalText}>
+                                            <p>Исландия, Северная Европа</p>
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.cost}>
+                                        <p>9 901,03 $</p>
+                                        <div className={styles.additionalText}>
+                                            <p>/10 дней</p>
+                                        </div>
+                                    </div> 
+                                    
+                                    <div className={styles.lastLine}>
+                                        <div className={styles.buttonUse}>
+                                            <p>Отправить заявку</p>
+                                        </div>
+                                        <div className={styles.like}>
+                                            <Like/>
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+
+
+                            <div className={styles.cardTour}>
+                                <img src = {Iceland}/>
+                                <div className={styles.shortDescriptionTour}>
+                                    <h1>Исландия - самые красивые места</h1>
+                                    <div className={styles.firstLine}>
+                                        <div className={styles.ratingCircle}>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                            <Circle/>
+                                        </div>
+                                        <p>746 отзыва</p>
+                                        <div className={styles.additionalText}>
+                                            <p>Исландия, Северная Европа</p>
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.cost}>
+                                        <p>9 901,03 $</p>
+                                        <div className={styles.additionalText}>
+                                            <p>/10 дней</p>
+                                        </div>
+                                    </div> 
+                                    
+                                    <div className={styles.lastLine}>
+                                        <div className={styles.buttonUse}>
+                                            <p>Отправить заявку</p>
+                                        </div>
+                                        <div className={styles.like}>
+                                            <Like/>
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
+                
+
                 {/* <div>
                     {services.map(service => (
                         <ServiceCard 

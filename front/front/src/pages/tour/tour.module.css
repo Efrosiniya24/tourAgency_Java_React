@@ -116,12 +116,15 @@
   margin: 0;
 }
 .allTours{
+  display: flex;
+  gap: 175px;
   margin-top: 10px;  
   background-color: #FAFAFA;
   width: 100%;
   padding-top: 10px;
   /* padding-top: 16px; */
   padding-bottom: 24px;
+  overflow-x: auto;
 }
 
 .filter{
@@ -138,6 +141,7 @@
   padding-top: 24px;
   padding-bottom: 24px;
   margin-bottom: 24px;
+  min-width: 287px;
 }
 
 .spesificFilter{
@@ -259,14 +263,18 @@
 .buttonUse{
   display: flex;
   justify-content: center;
-  width: 96px;
   height: 40px;
+  /* width: auto; */
   align-items: center;
   background-color: #214320;
   border-radius: 20px;
   color: #FFFFFF;
   font-size: 12px;
   cursor: pointer;
+  padding-left: 17px;
+  padding-right: 17px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 .buttonUse:hover{
@@ -286,9 +294,168 @@
   color: #214320;
   font-size: 12px;
   cursor: pointer;
+  padding-left: 17px;
+  padding-right: 17px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 .buttonLose:hover{
   transform: scale(1.07);
   transition: transform 0.1s ease;
 }
+
+.overCatalog{
+  display: flex;
+  gap: 430px;
+  height: 20px;
+}
+
+.overCatalog h6{
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sortContainer {
+  display: flex;
+  align-items: center;
+  max-height: 20px;
+
+}
+
+.sortLabel {
+  margin-right: 3px; 
+  font-size: 14px;
+  color:#76B174;
+  font-weight: 600;
+  align-items: center;
+  padding-top: 0px;
+  cursor: pointer;
+}
+
+.sortSelect {
+  width: auto; 
+  font-size: 14px;
+  background-color: transparent;
+  border-color: transparent;
+  padding: 0;
+  margin-top: -5px;
+  cursor: pointer;
+}
+
+.sortSelect:hover{
+  color:#747474;
+}
+
+.catalog{
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.catalogTours{
+  display: flex;
+  gap: 23px;
+  flex-wrap: wrap;
+}
+
+.cardTour{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 390px;
+  height: 450px;
+  border: 1px solid #757575;
+  border-radius: 30px;
+  display: block;
+  overflow: hidden;
+}
+
+.cardTour img{
+  width:390px;
+  height: 259px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.cardTour img:hover{
+  transform: scale(1.008);
+}
+
+.shortDescriptionTour{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 11px;
+  margin-left: 25px;
+  margin-right: 20px;
+}
+
+.shortDescriptionTour h1{
+  font-size: 20px;
+  padding: 0px;
+  margin: 0px;
+  cursor: pointer;
+}
+
+.shortDescriptionTour h1:hover{
+  transform: scale(1.008);
+  transition: transform 0.1s ease;
+  color:#4a4a4a;
+}
+
+.ratingCircle{
+  display: flex;
+  gap: 2px;
+}
+
+.shortDescriptionTour p{
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.firstLine{
+  display: flex;
+  gap: 6px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.cost{
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-items:flex-end;
+  height: 44px;
+  width: 180px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  background-color: #f4f4f4;
+  border-radius: 20px;
+  margin-top: 3px;
+
+}
+
+.cost p{
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.additionalText p{
+  font-size: 12px;
+  color: #757575;
+  margin-top: -2px;
+  font-weight: bold;
+
+}
+
+.lastLine{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
