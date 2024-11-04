@@ -1,5 +1,6 @@
-.servicesPage {
-    padding: 20px;
+.toursPage {
+    padding-top: 30px;
+    /* padding-left: 135px; */
 }
 
 .pageTitle {
@@ -12,4 +13,282 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+.highLink{
+    padding: 0;
+    color:black;
+    font-size: 12px;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-left: 135px;
+}
+
+.highLink ul {
+    gap: 2px;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+.highLink li {
+    transition: all .55s ease;
+    z-index: 5;
+    white-space: nowrap;
+}
+
+.highLink a:hover {
+    border-bottom: 2px solid white;
+    z-index: 5;
+}
+.search input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding-left: 40px;
+    margin-top: 0px;
+    margin-left: 135px;
+  }
+  
+  .search-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 135px;
+  }
+  
+  .search-icon {
+    color: #ccc;
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  
+  .search img {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 145px;
+    top: 9px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-top: 0px;
+  }
+  
+  .search img:hover {
+    transform: scale(1.1);
+  }
+  
+  .search-input {
+    padding: 5px;
+    font-size: 16px;
+    width: 400px;
+  }
+  
+  .search-input:focus {
+    outline: none;
+  }
+
+  .search {
+    display: flex;
+    position: relative;
+    width: 530px;
+    margin-top: -50px;
+  }
+
+  .reloadIcon {
+    width: 20px;
+    height: 20px;
+    margin-left: 400px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .reloadIcon:hover {
+    transform: scale(1.1);
+  }
+
+.title{
+  display: flex;
+  font-size: 55px;
+  padding-left: 595px;
+  color: #214320;
+  margin: 0;
+}
+.allTours{
+  margin-top: 10px;  
+  background-color: #FAFAFA;
+  width: 100%;
+  padding-top: 10px;
+  /* padding-top: 16px; */
+  padding-bottom: 24px;
+}
+
+.filter{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background-color: #FFFFFF;
+  border: 1px solid #D7D7D7 ;
+  box-shadow: 0px 4px 20px 3px rgba(102, 102, 102, 0.25);
+  width: 287px;
+  height: auto;
+  border-radius: 30px;
+  margin-left: 135px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+}
+
+.spesificFilter{
+  margin-left: 30px;
+  font-size: 14px;
+  color:#76B174;
+  font-weight: 600;
+}
+
+.minMax{
+  display: flex;
+  padding-top: 7px;
+  gap: 7px;
+}
+
+.costMinMax{
+  background-color: #F1F1F1;
+  height: 57px;
+  width: 108px;
+  border-radius: 17px;
+  padding-left: 13px;
+}
+
+.spesificFilter h5{
+  font-size: 14px;
+  color:black;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.spesificFilter input{
+  display: flex;
+  background-color: transparent;
+  border-color: transparent;
+  width: 80px;
+  color: #747474;
+}
+
+.FilerPrintOrChoose{
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-top: 7px;
+}
+
+.FilerPrintOrChooseInput{
+  background-color: #F1F1F1;
+  height: 57px;
+  width: 223px;
+  border-radius: 17px;
+  padding-left: 13px;
+  margin-top: 7px;
+  padding-top: 1px;
+}
+
+.plus{
+  margin-top: -30px;
+  margin-left: 135px;
+}
+
+.minus{
+  margin-top: -24px;
+  margin-left: 170px;
+}
+
+.ratingCheckbox{
+  display: flex;
+  gap:6px;
+  align-items: center;
+  padding: 0px;
+}
+
+.ratingCenter{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0px;
+  align-items: center;
+  color: #2C2C2C;
+  font-weight: 100;
+}
+
+
+.ratingLeft{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0px;
+  align-items: center;
+  color: #2C2C2C;
+  font-weight: 100;
+  align-items: flex-start;
+}
+
+.inputFilter input{
+  width:189px;
+  height: 26px;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding-left: 10px;
+  color: #747474;
+  font-size: 12px;
+}
+
+.FilerPrintOrChoose h6{
+  color: black;
+  font-weight: bold;
+  font-size: 12px;
+  padding-top: 5px;
+  cursor: pointer;
+}
+
+.FilerPrintOrChoose h6:hover{
+  /* transform: scale(1.03);
+  transition: transform 0.7s ease; */
+  color:#747474
+}
+
+.buttonUse{
+  display: flex;
+  justify-content: center;
+  width: 96px;
+  height: 40px;
+  align-items: center;
+  background-color: #214320;
+  border-radius: 20px;
+  color: #FFFFFF;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.buttonUse:hover{
+  transform: scale(1.07);
+  transition: transform 0.1s ease;
+}
+
+.buttonLose{
+  display: flex;
+  justify-content: center;
+  width: 96px;
+  height: 40px;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 20px;
+  border: 2px solid #214320;
+  color: #214320;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.buttonLose:hover{
+  transform: scale(1.07);
+  transition: transform 0.1s ease;
 }
