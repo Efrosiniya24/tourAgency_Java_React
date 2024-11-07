@@ -1,14 +1,19 @@
 package com.tourAgency.tourAgencyJava.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tourAgency.tourAgencyJava.model.Tours;
 import com.tourAgency.tourAgencyJava.service.TourService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,11 +25,20 @@ import java.util.Optional;
 @RequestMapping("/tourAgency/tours")
 public class ToursController {
     private final TourService tourService;
+    private final ObjectMapper objectMapper;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/addTour")
-    public ResponseEntity<Tours> addTour(@RequestBody Tours tours) {
-        Tours savedTour = tourService.addTour(tours);
+    @PostMapping(value = "/addTour", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Tours> addTour(
+            @RequestPart("tours") String toursJson,
+            @RequestPart("images") List<MultipartFile> images) {
+        Tours tours;
+        try {
+            tours = objectMapper.readValue(toursJson, Tours.class);
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка при десериализации JSON" + e.getMessage());
+        }
+
+        Tours savedTour = tourService.addTour(tours, images);
         return ResponseEntity.ok(savedTour);
     }
 

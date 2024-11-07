@@ -18,7 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("tourAgency/orders")
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
-
 public class OrdersController {
     private final OrdersService  ordersService;
     private final UserService userService;

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
     private final AuthenticationService service;
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     @PostMapping("/signUp")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
@@ -29,7 +30,6 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     @GetMapping("/some-endpoint")
     public String someMethod() {

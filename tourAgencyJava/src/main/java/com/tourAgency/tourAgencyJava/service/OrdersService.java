@@ -55,7 +55,7 @@ public class OrdersService {
     }
 
     public List<Order> getOrders() {
-        return orderRepository.findAll();
+        return orderRepository.findAllWithUser();
     }
 
     public String updateStatus(Long id, String status) {
@@ -63,6 +63,14 @@ public class OrdersService {
         newOrder.setStatus(status);
         orderRepository.save(newOrder);
         return newOrder.getStatus();
+    }
+
+    public int quantityOrdersPeriod(String date, String country){
+        int orders = (int) orderRepository.findAllWithUser()
+                .stream()
+                .filter(order -> order.getDate().equals(date) && order.getTour().getCountry().equals(country))
+                .count();
+        return orders;
     }
 }
 
