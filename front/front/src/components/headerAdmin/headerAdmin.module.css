@@ -9,13 +9,19 @@
     align-items: center;
     padding: 40px 9%;
     background-color: #214320;
-    height: 50px;
+    height: 86px;
 }
 
-.logo {
-    font-size: 20px;
+.headerNotMain a {
+    font-size: 25px;
     font-weight: 700;
     color: white;
     top: 38px;
     z-index: 5;
 }
+
+.headerNotMain a:hover{
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
+
