@@ -1,9 +1,10 @@
+import React, { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize'; 
 import axios from 'axios';
 import tourInputForm from './tourInputForm.module.css';
 
 const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setTours, tours, isEditing }) => {
-
+  const [images, setImages] = useState([null, null, null, null]);
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!tourData.name || !tourData.country) {
@@ -49,6 +50,23 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
     }
   };
 
+  const handleImageUpload = (index, event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const newImages = [...images];
+        newImages[index] = reader.result;
+        setImages(newImages);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageClick = (index) => {
+    document.getElementById(`fileInput-${index}`).click();
+  };
+
   const today = new Date().toISOString().split('T')[0];
 
   const handleNumberChange = (event) => {
@@ -64,7 +82,7 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
         <form onSubmit={handleSubmit}>
           <div className={tourInputForm.border}>
             <div className={tourInputForm.closeButton} onClick={handleClose}>×</div>
-            <table>
+            <table className={tourInputForm.tableStyle}>
               <tbody>
                 <tr>
                   <th>Название тура:</th>
@@ -173,14 +191,41 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
                     />
                   </td>
                 </tr>
+                <tr>
+                  <th>Фото:</th>
+                  <td className={tourInputForm.photoContainer}>
+                    {images.map((image, index) => (
+                      <div
+                        key={index}
+                        className={tourInputForm.photoBox}
+                        onClick={() => handleImageClick(index)}
+                      >
+                        {image ? (
+                          <img src={image} alt={`Фото ${index + 1}`} className={tourInputForm.photo} />
+                        ) : (
+                          <span className={tourInputForm.addIcon}>+</span>
+                        )}
+                        <input
+                          type="file"
+                          id={`fileInput-${index}`}
+                          style={{ display: 'none' }}
+                          accept="image/*"
+                          onChange={(e) => handleImageUpload(index, e)}
+                        />
+                      </div>
+                    ))}
+                  </td>
+                </tr>
               </tbody>
             </table>
-            <button type="submit" className={tourInputForm.submit}>
-              {isEditing ? 'Сохранить' : 'Добавить'}
-            </button>
-            {isEditing && (
-              <button type="button" onClick={handleDelete} className={tourInputForm.delete}>Удалить</button>
-            )}
+            <div className={tourInputForm.buttonsPanel}>
+              <button type="submit" className={tourInputForm.submit}>
+                {isEditing ? 'Сохранить' : 'Добавить'}
+              </button>
+              {isEditing && (
+                <button type="button" onClick={handleDelete} className={tourInputForm.delete}>Удалить</button>
+              )}
+            </div>
           </div>
         </form>
       </div>
