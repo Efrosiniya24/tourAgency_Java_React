@@ -193,74 +193,76 @@ const handleDelete = async () => {
         <SliderBar/>
         <main className={toursAdmin.content}>
           <div className={toursAdmin.searchAndUserInfo}>
-            <button className={toursAdmin.addButton} onClick={handleAddClick}>
-              Добавить<br/>Услугу
-            </button>
-            <div className={toursAdmin.search}>
-              <img 
-                src={searchIcon} 
-                alt="Search" 
-                onClick={handleSearch}
-              />
-              <input 
-                type="text" 
-                placeholder="Введите название тура, страну,город или турагентство"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={handleSearchEnter}
-              />
-              <img 
-                className={toursAdmin.reloadIcon} 
-                src={reloadIcon} 
-                alt="Reload" 
-                onClick={handleReload} 
-              />
+            <div className={toursAdmin.searchAndAddInfo}>
+              <button className={toursAdmin.addButton} onClick={handleAddClick}>
+                Добавить тур
+              </button>
+              <div className={toursAdmin.search}>
+                <img 
+                  src={searchIcon} 
+                  alt="Search" 
+                  onClick={handleSearch}
+                />
+                <input 
+                  type="text" 
+                  placeholder="Введите название тура или страну"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={handleSearchEnter}
+                />
+                <img 
+                  className={toursAdmin.reloadIcon} 
+                  src={reloadIcon} 
+                  alt="Reload" 
+                  onClick={handleReload} 
+                />
+              </div>
             </div>
-            {isVisible && (
-              <TourInputForm
-                tourData={tourData}
-                handleChange={handleChange}
-                handleDelete={handleDelete}
-                handleClose={handleClose}
-                setTours={setTours}
-                tours={tours}
-                isEditing={isEditing} 
-              />
-            )}
-          </div>
-          <section className={toursAdmin.data}>
+            <div className={toursAdmin.addInfo}>
+              {isVisible && (
+                <TourInputForm
+                  tourData={tourData}
+                  handleChange={handleChange}
+                  handleDelete={handleDelete}
+                  handleClose={handleClose}
+                  setTours={setTours}
+                  tours={tours}
+                  isEditing={isEditing} 
+                />
+              )}
+              </div>
+            </div>
             <div className={toursAdmin.tableContainer}> 
               {isLoading ? (
                 <div>Загрузка...</div>
               ) : (
                 <table className={toursAdmin.tableDataBase}>
                   <thead>
-                    <tr>
-                      <th className={toursAdmin.th_content}>
+                    <tr className={toursAdmin.first}>
+                    <th className={toursAdmin.idColumn}>
                         <div>ID</div>
                         <button onClick={handleSortClick} className={toursAdmin.sort_button}>
                           <img src={sortDirection === 'asc' ? up : down} alt="Sort direction" className={toursAdmin.sort_icon} /> 
                         </button>
                       </th>
-                      <th className={toursAdmin.th_content}><div>Туры</div></th>
-                      <th className={toursAdmin.th_content}><div>Страна</div></th>
-                      <th className={toursAdmin.th_content}><div>Город</div></th>
+                      <th className={toursAdmin.tourColumn}>Туры</th>
+                      <th className={toursAdmin.countryColumn}><div>Страна</div></th>
+                      <th className={toursAdmin.cityColumn}><div>Город</div></th>
                     </tr>
                   </thead>
                   <tbody>
                     {sortedTours.map((tour) => (
                       <tr key={tour.id} onClick={() => handleTourClick(tour)}>
-                        <td>{tour.id}</td>
-                        <td>{tour.name}</td>
-                        <td>{tour.country}</td>
-                        <td>{tour.location}</td>
+                        <td className={toursAdmin.idColumn}>{tour.id}</td>
+                        <td className={toursAdmin.tourColumn}>{tour.name}</td>
+                        <td className={toursAdmin.countryColumn}>{tour.country}</td>
+                        <td className={toursAdmin.cityColumn}>{tour.location}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               )}
             </div>
-          </section>
         </main>
       </div>
     </div>

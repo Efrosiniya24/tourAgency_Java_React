@@ -1,8 +1,7 @@
-/* Общие стили */
+
 .containerToursAdmin {
   display: flex;
   min-height: 100vh;
-  padding-top: 30px;
 }
 
 .content {
@@ -10,7 +9,8 @@
   padding: 20px;
   display: flex;
   flex-direction: row;
-  padding-top: 80px;
+  padding-top: 141px;
+  
   height: auto;
 }
 
@@ -21,29 +21,29 @@ table {
   margin: 0 auto;
 }
 
-th, td {
+/* th, td {
   text-align: left;
   padding: 8px;
   border-bottom: 0.5px solid #000;
   font-weight: 700;
   font-size: 20px;
-}
+} */
 
-th {
+/* th {
   background-color: #DCDCDC;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-}
+} */
 
 .data {
   flex: 1;
-  margin-left: 100px; /* Уменьшение отступа слева */
+  margin-left: 100px; 
 }
 
 .search input {
   width: 100%;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   box-sizing: border-box;
   padding-left: 40px;
 }
@@ -56,30 +56,23 @@ nav {
   padding-top: 30px;
 }
 
-li {
-  transition: transform 0.3s ease;
-}
-
-li:hover {
-  transform: scale(1.1);
-}
 
 .search-container {
   display: flex;
   align-items: center;
 }
 
-.search-icon {
+/* .search-icon {
   color: #ccc;
   font-size: 20px;
   margin-right: 10px;
-}
+} */
 
 .search img {
   width: 20px;
   height: 20px;
   position: absolute;
-  left: 60px;
+  left: 10px;
   top: 9px;
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -89,41 +82,54 @@ li:hover {
   transform: scale(1.1);
 }
 
-.search-input {
+/* .search-input {
   border: none;
   border-bottom: 1px solid #000;
   padding: 5px;
   font-size: 16px;
   width: 250px;
-}
+} */
 
-.search-input:focus {
+/* .search-input:focus {
   outline: none;
-}
+} */
 
-.search{
+/* .search{
   top: -20px;
-}
+} */
 .data {
   flex: 1;
   border-radius: 20px;
-  border: 1px solid #000;
+  border: 1px solid #757575;
   background-color: #f2f2f2;
   padding: 5px;
 }
 
 .search {
-  flex: 0 0 50px;
-  margin-right: 20px;
-  padding-left: 50px;
+  /* flex: 0 0 50px; */
+  /* margin-right: 20px; */
+  padding-left: 0px;
   position: relative;
-  width: 400px;
-  margin-top: -45px;
+  width: 318px;
+  height: 44px;
+  margin-top: -49px;
+}
+
+.tableContainer{
+  width:592px;
+  height: auto;
+  border: 1px solid black;
+  border-radius: 30px;
+  background-color: #F1F1F1;
 }
 
 .tableDataBase {
-  width: 100%;
-  border-collapse: collapse;
+  width: 592px;
+  height: auto;
+  padding: 5px;
+  border-collapse: collapse; /* Убираем отступы между границами */
+  border-spacing: 0; /* Сбрасываем возможные отступы */
+  /* border-collapse: collapse; */
 }
 
 .tableDataBase tbody tr:first-child td {
@@ -131,40 +137,50 @@ li:hover {
 }
 
 .tableDataBase th {
-    border-top-left-radius: 20px;
+
+    /* border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px; /* Adding this line for oval shape */
-    border-bottom-right-radius: 20px; /* Adding this line for oval shape */
-    border-bottom: none;
-    position: relative;
-    top: 10px;
-    background-color: #e4e4e4; /* Assuming you want a background color */
-    padding: 12px; /* Adding some padding for better appearance */
-    text-align: center; /* Center-aligning text */
+    border-bottom-left-radius: 20px; 
+    border-bottom-right-radius: 20px;  */
+    /* border-bottom: none; */
+    /* position: relative;
+    top: 10px; */
+    background-color: #E6E6E6; 
+    border: 1px solid #D7D7D7;
+    border-radius: 20px;
+    height: 50px;
+    font-weight: bold;
+    color: #152E15;
+    font-size: 20px;
+    text-align: center;
+    padding-top: 13px;
+    padding-bottom: 10px;
+    align-items: center;
 }
 
-
-.th_content {
-  background-color: #e0e0e0;
-  font-weight: bold;
-  color: #214320;
-  font-size: 23px;
-  text-align: center;
+.tableDataBase tr{
+  display: flex;
+  gap: 5px;
+  /* padding-top: 5px; */
+  padding-left: 7px;
+  border-bottom: 1px solid #757575;
 }
 
 tbody td {
-  transition: transform 0.1s ease;
-  padding: 12px;
+  padding: 5px 0px 5px 0px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 tbody td:hover {
-  transform: scale(1.005);
   cursor: pointer;
 }
 
-tbody tr {
-  margin: 10px 0;
-}
+/* tbody tr {
+  display: flex;
+  gap:5px;
+  height: 58px;
+} */
 
 .sort_icon {
   width: 20px;
@@ -178,9 +194,9 @@ tbody tr {
 }
 
 .reloadIcon {
-  width: 20px;
-  height: 20px;
-  margin-left: 350px;
+  width: 23px;
+  height: 23px;
+  margin-left: 270px;
   cursor: pointer;
   transition: transform 0.2s ease;
 }
@@ -193,22 +209,83 @@ tbody tr {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 700px;
+  width: 532px;
+  height: auto;
+  margin-left: 40px;
+  padding-left: 10px;
 }
 
 .addButton {
-  padding: 10px 20px;
   background-color: #214320;
   color: white;
   border: none;
   border-radius: 70px;
   cursor: pointer;
-  margin-top: 7px;
-  margin-left: 680px;
-  width: 100px;
+  margin-left: 350px;
+  width: 134px;
+  height: 42px;
   transition: transform 0.3s ease;
 }
 
 .addButton:hover {
   transform: scale(1.1);
+}
+
+.searchAndUserInfo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  padding-left: 0px;
+}
+
+/* .addInfo{
+  margin-top: -36px;
+} */
+
+.tourColumn{
+  width: 260px;
+}
+
+.countryColumn{
+  width: 124px;
+}
+
+.cityColumn{
+  width: 105px;
+}
+
+.idColumn{
+  width: 68px;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  padding-right: 4px;
+  width: 68px;
+}
+
+.tableDataBase th, .tableDataBase td {
+  padding: 8px;
+  border-right: 1px solid #757575; 
+}
+
+.tableDataBase th:last-child, .tableDataBase td:last-child {
+  border-right: none; 
+}
+
+.tableDataBase tr:first-child th {
+  border-left: none; 
+  border-right: none; 
+}
+.first{
+  padding: 5px;
+}
+
+.first th{
+  padding-top: 12px;
+}
+
+.tableDataBase tbody td:hover{
+  color:#5e5e5e;
+  transition: transform 0.2s ease;
 }
