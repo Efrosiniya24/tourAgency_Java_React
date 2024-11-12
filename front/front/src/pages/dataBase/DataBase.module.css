@@ -1,4 +1,4 @@
-.containerDataBase {
+/* .containerDataBase {
   display: flex;
   min-height: 100vh;
   padding-top: 30px;
@@ -42,9 +42,10 @@ th {
 }
 
 .data {
-  margin-left: -100px;
+  margin-left: -100px; 
   align-items: left;
   width: 1100px;
+  margin-left: 10px;
 }
 
 .narrow-slider {
@@ -190,12 +191,12 @@ tbody td:hover {
 .leftPanel {
   display: flex;
   flex-direction: column;
-  width: 700px;
+  width: 600px;
 }
 
 .application_cards {
   margin-top: 20px;
-  display: flex;
+   display: flex; 
   flex-direction: column;
   position: relative;
 }
@@ -209,7 +210,7 @@ tbody td:hover {
   border: 1px solid #787878;
   border-radius: 20px;
   padding: 15px;
-  width: 900px;
+  width: 500px;
   margin: 10px;
   flex: 1 0 30%;
 
@@ -469,4 +470,194 @@ button.accept:hover {
 
 .closeButton:hover {
   transform: scale(1.2);
+} */
+
+.containerDataBase{
+  display: flex;
+  min-height: 100vh;
+}
+
+.content{
+  display: flex;
+  flex-direction: row;
+  /* flex-grow: 1; */
+  padding: 20px;
+  padding-top: 141px;
+  height: auto;
+}
+
+.searchAndUserInfo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  padding-left: 0px;
+}
+
+.searchAndInfo{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 532px;
+  height: auto;
+  margin-left: 40px;
+  padding-left: 10px;
+}
+
+.search input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding-left: 40px;
+}
+
+.search img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 10px;
+  top: 9px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.search img:hover {
+  transform: scale(1.1);
+}
+
+.search {
+  padding-left: 0px;
+  position: relative;
+  width: 318px;
+  height: 44px;
+}
+
+.reloadIcon {
+  width: 23px;
+  height: 23px;
+  margin-left: 270px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.reloadIcon:hover {
+  transform: scale(1.1);
+}
+
+.data{
+  width:509px;
+  height: auto;
+  border: 1px solid black;
+  border-radius: 30px;
+  background-color: #F1F1F1;
+}
+
+.tableDataBase {
+  width: 509px;
+  height: auto;
+  padding: 5px;
+  border-collapse: collapse; 
+  border-spacing: 0; 
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 20px;
+  margin: 0 auto;
+}
+
+.tableDataBase tbody tr:first-child td {
+  padding-top: 20px;
+}
+
+.tableDataBase th {
+  background-color: #E6E6E6; 
+  border: 1px solid #D7D7D7;
+  border-radius: 20px;
+  height: 50px;
+  font-weight: bold;
+  color: #152E15;
+  font-size: 20px;
+  text-align: center;
+  /* padding-top: 20px;
+  padding-bottom: 1px; */
+  align-items: center;
+}
+
+.tableDataBase tr{
+  display: flex;
+  gap: 5px;
+  padding-left: 7px;
+  border-bottom: 1px solid #757575;
+}
+
+tbody td {
+  padding: 5px 0px 5px 0px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+tbody td:hover {
+  cursor: pointer;
+}
+
+.sort_icon {
+  width: 20px;
+  height: auto;
+}
+
+.sort_button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.tableDataBase tr:first-child th {
+  border-left: none; 
+  border-right: none; 
+}
+.first{
+  padding: 5px;
+}
+
+.first th{
+  padding-top: 12px;
+}
+
+.tableDataBase tbody tr:first-child td {
+  padding-top: 20px;
+}
+
+.idColumn{
+  width: 68px;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  padding-right: 4px;
+  width: 68px;
+}
+
+.clientColumn{
+  width:415px;
+}
+
+
+.tableDataBase th, .tableDataBase td {
+  padding: 8px;
+  border-right: 1px solid #757575; 
+}
+
+.tableDataBase th:last-child, .tableDataBase td:last-child {
+  border-right: none; 
+}
+
+.tableDataBase tr:first-child th {
+  border-left: none; 
+  border-right: none; 
+}
+.tableDataBase tbody td:hover{
+  color:#5e5e5e;
+  transition: transform 0.2s ease;
 }
