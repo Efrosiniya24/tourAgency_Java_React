@@ -14,49 +14,40 @@ const MainAdmin = () => {
     return ( 
         <div className={mainAdmin.mainAdmin}>
             <HeaderAdmin/>
-            <main>
-                <div className={mainAdmin.text}>
-                    <h2>Добро пожаловать!</h2>
-                    <p className={mainAdmin.text_p}>Приятной работы</p>
-                </div>
+            {/* <main> */}
                 <div className={mainAdmin.container}>
-        
-                    <div className={mainAdmin.top_row}>
-                        <NavLink to ="/analytics ">
-                            <div className={mainAdmin.card}>
-                                <img src={analytic}/>
-                                <p className={mainAdmin.card_p}>Аналитика</p>
-                            </div>
-                        </NavLink>
-                        <NavLink to ="/orders">
+                    <NavLink to ="/analytics ">
+                        <div className={mainAdmin.card}>
+                            <img src={analytic}/>
+                            <p className={mainAdmin.card_p}>Аналитика</p>
+                        </div>
+                    </NavLink>
+                    <NavLink to ="/orders">
                             <div className={mainAdmin.card}>
                                 <img src={application}/>
                                 <p className={mainAdmin.card_p}>Заявки</p>
                             </div>
-                        </NavLink>
-                        <NavLink to ="/toursAdmin">
+                    </NavLink>
+                    <NavLink to ="/toursAdmin">
                             <div className={mainAdmin.card}>
                                 <img src={travel}/>
                                 <p className={mainAdmin.card_p}>Туры</p>
                             </div>
                         </NavLink>
-                    </div>
-                    <div className={mainAdmin.bottom_row}>
                     <NavLink to ="/report">
                         <div className={mainAdmin.card}>
                             <img src={report}/>
                             <p className={mainAdmin.card_p}>Отчет</p>
                         </div>
                         </NavLink>
-                        <NavLink to ="/dataBase">
+                    <NavLink to ="/dataBase">
                             <div className={mainAdmin.card}>
                                 <img src={database}/>
-                                <p className={mainAdmin.card_p}>База данных</p>
+                                <p className={mainAdmin.card_p}>Клиенты</p>
                             </div>
-                        </NavLink>
+                    </NavLink>
                     </div>
-                </div>
-            </main>
+            {/* </main> */}
         </div>
      );
 }
