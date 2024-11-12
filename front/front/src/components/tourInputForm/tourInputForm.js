@@ -1,71 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextareaAutosize from 'react-textarea-autosize'; 
 import axios from 'axios';
 import tourInputForm from './tourInputForm.module.css';
 
 const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setTours, tours, isEditing }) => {
   const [images, setImages] = useState([null, null, null, null]);
+
+  useEffect(() => {
+    if (tourData && tourData.photos) {
+      const loadedImages = tourData.photos.map((photo) => photo ? `http://localhost:8083/images/${photo}` : null);
+      setImages(loadedImages);
+    }
+  }, [tourData]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (!tourData.name || !tourData.country) {
       alert("Пожалуйста, заполните все обязательные поля.");
       return;
     }
+
     try {
-      if (isEditing) {
-        const token = localStorage.getItem('accessToken');
-        const response = await axios.put(
-          `http://localhost:8083/tourAgency/tours/updateTour/${tourData.id}`, 
-          tourData, 
-          { withCredentials: true,
-            headers: {
-              'Authorization': `Bearer ${token}`,
-            },
-           }
-        );
-        const updatedTour = response.data;
-        setTours(tours.map(tour => (tour.id === updatedTour.id ? updatedTour : tour)));
+      const token = localStorage.getItem('accessToken');
+      const formData = new FormData();
+      formData.append('tours', JSON.stringify(tourData)); 
+
+      images.forEach((image) => {
+        if (image && typeof image !== 'string')  {
+          formData.append('images', image);
+        }
+      });
+
+      const url = tourData.id 
+        ? `http://localhost:8083/tourAgency/tours/updateTour/${tourData.id}`
+        : 'http://localhost:8083/tourAgency/tours/addTour';
+      const method = tourData.id ? 'put' : 'post';
+
+      const response = await axios({
+        method: method,
+        url: url,
+        data: formData,
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (tourData.id) {
+        setTours(tours.map((tour) => (tour.id === tourData.id ? response.data : tour)));
       } else {
-        const token = localStorage.getItem('accessToken');
-        const response = await axios.post(
-          'http://localhost:8083/tourAgency/tours/addTour',
-          tourData,
-          {
-            withCredentials: true,
-            headers: {
-              'Authorization': `Bearer ${token}`,
-            },
-          }
-        );
         setTours([...tours, response.data]);
       }
+
       handleClose();
     } catch (error) {
       console.error('Ошибка при сохранении тура:', error);
-      if (error.response && error.response.data) {
-        alert('Ошибка: ' + JSON.stringify(error.response.data));
-      } else {
-        alert('Произошла ошибка при сохранении.');
-      }
+      alert('Произошла ошибка при сохранении.');
     }
   };
 
-  const handleImageUpload = (index, event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const newImages = [...images];
-        newImages[index] = reader.result;
-        setImages(newImages);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
-  const handleImageClick = (index) => {
-    document.getElementById(`fileInput-${index}`).click();
-  };
+const handleImageUpload = (index, event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const newImages = [...images];
+    newImages[index] = file; 
+    setImages(newImages);
+  }
+};
+
+
+const handleImageClick = (index) => {
+  document.getElementById(`fileInput-${index}`).click();
+};
+
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -194,26 +204,30 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
                 <tr>
                   <th>Фото:</th>
                   <td className={tourInputForm.photoContainer}>
-                    {images.map((image, index) => (
-                      <div
-                        key={index}
-                        className={tourInputForm.photoBox}
-                        onClick={() => handleImageClick(index)}
-                      >
-                        {image ? (
-                          <img src={image} alt={`Фото ${index + 1}`} className={tourInputForm.photo} />
-                        ) : (
-                          <span className={tourInputForm.addIcon}>+</span>
-                        )}
-                        <input
-                          type="file"
-                          id={`fileInput-${index}`}
-                          style={{ display: 'none' }}
-                          accept="image/*"
-                          onChange={(e) => handleImageUpload(index, e)}
+                  {images.map((image, index) => (
+                    <div
+                      key={index}
+                      className={tourInputForm.photoBox}
+                      onClick={() => document.getElementById(`fileInput-${index}`).click()}
+                    >
+                      {image ? (
+                        <img
+                          src={typeof image === 'string' ? image : URL.createObjectURL(image)}
+                          alt={`Фото ${index + 1}`}
+                          className={tourInputForm.photo}
                         />
-                      </div>
-                    ))}
+                      ) : (
+                        <span className={tourInputForm.addIcon}>+</span>
+                      )}
+                      <input
+                        type="file"
+                        id={`fileInput-${index}`}
+                        style={{ display: 'none' }}
+                        accept="image/*"
+                        onChange={(e) => handleImageUpload(index, e)}
+                      />
+                    </div>
+                  ))}
                   </td>
                 </tr>
               </tbody>
