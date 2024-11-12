@@ -35,8 +35,15 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/tourAgency/auth/authenticate", "/tourAgency/auth/signUp", "/tourAgency/tours/allTours", "/tourAgency/tours/some-endpoint",
-                                "/tourAgency/tours/search", "/tourAgency/admin/currentUser", "/tourAgency/orders/getOrders/**").permitAll()
+                        .requestMatchers("/tourAgency/auth/authenticate",
+                                "/tourAgency/auth/signUp",
+                                "/tourAgency/tours/allTours",
+                                "/tourAgency/tours/some-endpoint",
+                                "/tourAgency/tours/search",
+                                "/tourAgency/admin/currentUser",
+                                "/tourAgency/orders/getOrders/**",
+                                "/tourAgency/photo/getPhoto/**")
+                        .permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/tourAgency/tours/deleteTour/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/tourAgency/tours/addTour").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/tourAgency/orders/addOrder").hasAuthority("USER")
