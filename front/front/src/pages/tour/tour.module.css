@@ -1,3 +1,4 @@
+
 .toursPage {
     padding-top: 30px;
     /* padding-left: 135px; */
@@ -255,8 +256,8 @@
 }
 
 .FilerPrintOrChoose h6:hover{
-  /* transform: scale(1.03);
-  transition: transform 0.7s ease; */
+  transform: scale(1.03);
+  transition: transform 0.7s ease;
   color:#747474
 }
 
@@ -380,7 +381,7 @@
 }
 
 .cardTour img:hover{
-  transform: scale(1.008);
+  transform: scale(1.009);
 }
 
 .shortDescriptionTour{
