@@ -14,6 +14,11 @@
   text-decoration: none;
 }
 
+.sidebar a:hover{
+  transform: scale(1.1); 
+  transition: transform 0.2s ease;
+}
+
 .sidebar ul{
   display: flex;
   flex-wrap: wrap;
@@ -28,7 +33,6 @@
 }
 
 .menuIcon{
-
   width: 40px;
   height: auto;
 } 
