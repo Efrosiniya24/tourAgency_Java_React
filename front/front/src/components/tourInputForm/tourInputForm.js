@@ -7,11 +7,20 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
   const [images, setImages] = useState([null, null, null, null]);
 
   useEffect(() => {
-    if (tourData && tourData.photos) {
-      const loadedImages = tourData.photos.map((photo) => photo ? `http://localhost:8083/images/${photo}` : null);
-      setImages(loadedImages);
+    if (tourData && tourData.id) {
+      axios
+        .get(`http://localhost:8083/tourAgency/photo/getPhoto/${tourData.id}`, { withCredentials: true })
+        .then(response => {
+          const loadedImages = response.data.map(photoData => `data:image/jpeg;base64,${photoData}`);
+          setImages([...loadedImages, ...Array(4 - loadedImages.length).fill(null)]);
+        })
+        .catch(error => {
+          console.error("Ошибка загрузки фотографий:", error);
+        });
     }
   }, [tourData]);
+  
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -62,19 +71,19 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
   };
 
 
-const handleImageUpload = (index, event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const newImages = [...images];
-    newImages[index] = file; 
-    setImages(newImages);
-  }
-};
+  const handleImageUpload = (index, event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const newImages = [...images];
+      newImages[index] = file; 
+      setImages(newImages);
+    }
+  };
 
 
-const handleImageClick = (index) => {
-  document.getElementById(`fileInput-${index}`).click();
-};
+  const handleImageClick = (index) => {
+    document.getElementById(`fileInput-${index}`).click();
+  };
 
 
   const today = new Date().toISOString().split('T')[0];
@@ -208,7 +217,7 @@ const handleImageClick = (index) => {
                     <div
                       key={index}
                       className={tourInputForm.photoBox}
-                      onClick={() => document.getElementById(`fileInput-${index}`).click()}
+                      onClick={() => handleImageClick(index)}
                     >
                       {image ? (
                         <img
