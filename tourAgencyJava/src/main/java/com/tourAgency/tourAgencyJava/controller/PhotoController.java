@@ -33,4 +33,9 @@ public class PhotoController {
         return ResponseEntity.ok(photos);
     }
 
+    @GetMapping(value = "/getFirstPhoto/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Optional<String>> getFirstPhoto(@PathVariable long id){
+        Optional<String> photo = photoService.takeFirstPhoto(id);
+        return ResponseEntity.ok(photo);
+    }
 }

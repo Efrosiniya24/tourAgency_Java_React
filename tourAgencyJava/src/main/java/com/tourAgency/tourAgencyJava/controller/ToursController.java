@@ -57,15 +57,32 @@ public class ToursController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/updateTour/{id}")
-    public ResponseEntity<List<Tours>> updateTour(@RequestBody Tours tour, @PathVariable Long id) {
-        List<Tours> tours = tourService.updateTour(tour, id);
-        return ResponseEntity.ok(tours);
+    @PutMapping(value = "/updateTour/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Tours> updateTour(
+            @RequestPart("tours") String toursJson,
+            @RequestPart(value = "images", required = false) List<MultipartFile> images,
+            @PathVariable Long id) {
+        Tours tours;
+        try {
+            tours = objectMapper.readValue(toursJson, Tours.class);
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка при десериализации JSON" + e.getMessage());
+        }
+
+        Tours updatedTour = tourService.updateTour(tours, id, images);
+        return ResponseEntity.ok(updatedTour);
     }
+
 
     @GetMapping("/search")
     public ResponseEntity<Optional<List<Tours>>> searchTours(@RequestParam String line){
         Optional<List<Tours>> tours = Optional.ofNullable(tourService.searchTour(line));
+        return ResponseEntity.ok(tours);
+    }
+
+    @GetMapping("/sortCost")
+    public ResponseEntity<List<Tours>> sortedToursCost(){
+        List<Tours> tours = tourService.sortToursCost();
         return ResponseEntity.ok(tours);
     }
 }

@@ -27,19 +27,17 @@ public class OrdersService {
     }
 
     public int quantityOfFemaleOrders() {
-        int quantityOfFemaleOrders = (int) orderRepository.findAll()
+        return (int) orderRepository.findAll()
                 .stream()
                 .filter(order -> order.getUser().getGenderClient().equals("female"))
                 .count();
-        return quantityOfFemaleOrders;
     }
 
     public int quantityOfMaleOrders() {
-        int quantityOfMaleOrders = (int) orderRepository.findAll()
+        return (int) orderRepository.findAll()
                 .stream()
                 .filter(order -> order.getUser().getGenderClient().equals("male"))
                 .count();
-        return quantityOfMaleOrders;
     }
 
     public Order addOrder(Order order, User user) {
@@ -50,19 +48,15 @@ public class OrdersService {
         return order;
     }
 
-    public Optional<List<Order>>  allOrdersFromUser (Long id){
-        return Optional.ofNullable(userRepository.findById(id).get().getOrders());
-    }
-
-    public List<Order> getOrders() {
-        return orderRepository.findAllWithUser();
-    }
-
     public String updateStatus(Long id, String status) {
         Order newOrder = orderRepository.findById(id);
         newOrder.setStatus(status);
         orderRepository.save(newOrder);
         return newOrder.getStatus();
+    }
+
+    public Optional<List<Order>>  allOrdersFromUser (Long id){
+        return Optional.ofNullable(userRepository.findById(id).get().getOrders());
     }
 
     public int quantityOrdersPeriod(String date, String country){
@@ -72,6 +66,11 @@ public class OrdersService {
                 .count();
         return orders;
     }
+
+    public List<Order> getOrders() {
+        return orderRepository.findAllWithUser();
+    }
+
 }
 
 
