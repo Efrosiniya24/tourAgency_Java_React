@@ -37,8 +37,7 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
         if (image && typeof image !== 'string') {
             formData.append('images', image);
         }
-    });
-    
+    }); 
   
       const url = tourData.id 
         ? `http://localhost:8083/tourAgency/tours/updateTour/${tourData.id}`
@@ -69,12 +68,9 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
     }
   };
   
-  
-  
-
   const handleImageUpload = (index, event) => {
     const file = event.target.files[0];
-    const maxSizeInBytes = 10 * 1024 * 1024; // 10 MB
+    const maxSizeInBytes = 10 * 1024 * 1024; 
     
     if (file && file.size > maxSizeInBytes) {
         alert("Размер файла превышает допустимый лимит в 10 MB.");
@@ -87,8 +83,6 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
         setImages(newImages);
     }
 };
-
-
 
   const handleImageClick = (index) => {
     document.getElementById(`fileInput-${index}`).click();
