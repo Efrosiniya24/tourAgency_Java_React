@@ -12,40 +12,39 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
         .get(`http://localhost:8083/tourAgency/photo/getPhoto/${tourData.id}`, { withCredentials: true })
         .then(response => {
           const loadedImages = response.data.map(photoData => `data:image/jpeg;base64,${photoData}`);
-          setImages([...loadedImages, ...Array(4 - loadedImages.length).fill(null)]);
+          setImages(loadedImages.concat(Array(4 - loadedImages.length).fill(null)));
         })
         .catch(error => {
           console.error("Ошибка загрузки фотографий:", error);
         });
     }
   }, [tourData]);
-  
-  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     if (!tourData.name || !tourData.country) {
       alert("Пожалуйста, заполните все обязательные поля.");
       return;
     }
-
+  
     try {
       const token = localStorage.getItem('accessToken');
       const formData = new FormData();
-      formData.append('tours', JSON.stringify(tourData)); 
-
+      formData.append('tours', JSON.stringify(tourData));
+  
       images.forEach((image) => {
-        if (image && typeof image !== 'string')  {
-          formData.append('images', image);
+        if (image && typeof image !== 'string') {
+            formData.append('images', image);
         }
-      });
-
+    });
+    
+  
       const url = tourData.id 
         ? `http://localhost:8083/tourAgency/tours/updateTour/${tourData.id}`
         : 'http://localhost:8083/tourAgency/tours/addTour';
       const method = tourData.id ? 'put' : 'post';
-
+  
       const response = await axios({
         method: method,
         url: url,
@@ -56,29 +55,39 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
           'Content-Type': 'multipart/form-data',
         },
       });
-
+  
       if (tourData.id) {
         setTours(tours.map((tour) => (tour.id === tourData.id ? response.data : tour)));
       } else {
         setTours([...tours, response.data]);
       }
-
+  
       handleClose();
     } catch (error) {
       console.error('Ошибка при сохранении тура:', error);
       alert('Произошла ошибка при сохранении.');
     }
   };
-
+  
+  
+  
 
   const handleImageUpload = (index, event) => {
     const file = event.target.files[0];
-    if (file) {
-      const newImages = [...images];
-      newImages[index] = file; 
-      setImages(newImages);
+    const maxSizeInBytes = 10 * 1024 * 1024; // 10 MB
+    
+    if (file && file.size > maxSizeInBytes) {
+        alert("Размер файла превышает допустимый лимит в 10 MB.");
+        return;
     }
-  };
+
+    if (file) {
+        const newImages = [...images];
+        newImages[index] = file;
+        setImages(newImages);
+    }
+};
+
 
 
   const handleImageClick = (index) => {
