@@ -130,8 +130,38 @@ const Tours = () => {
             "Дайвинг": false,
             "Сафари": false,
         });
+    }
+
+    const [tours, setTours] = useState([]);
+    const[photos, setPhotos] = useState({});
+
+    useEffect(() => {
+        axios.get('http://localhost:8083/tourAgency/tours/allTours')
+            .then(response => {
+                setTours(response.data);
+                fetchPhotos(response.data); 
+            })
+            .catch(error => console.error('Error fetching tours:', error));
+    }, []);
+
+    const fetchPhotos = async (tours) => {
+        const photosMap = {}; 
+        try {
+            for (const tour of tours) {
+                const response = await axios.get(
+                    `http://localhost:8083/tourAgency/photo/getFirstPhoto/${tour.id}`,
+                    { withCredentials: true }
+                );
+                photosMap[tour.id] = `data:image/jpeg;base64,${response.data}`;
+            }
+            setPhotos(photosMap);
+        } catch (error) {
+            console.error("Ошибка загрузки фотографий:", error);
         }
+    };
     
+
+
     // const [services, setServices] = useState([]);
     // const navigate = useNavigate();
 
@@ -360,159 +390,47 @@ const Tours = () => {
                         </div>
 
                         <div className={styles.catalogTours}>
-                            <div className={styles.cardTour}>
-                                <img src = {Iceland}/>
-                                <div className={styles.shortDescriptionTour}>
-                                    <h1>Исландия - самые красивые места</h1>
-                                    <div className={styles.firstLine}>
-                                        <div className={styles.ratingCircle}>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                        </div>
-                                        <p>746 отзыва</p>
-                                        <div className={styles.additionalText}>
-                                            <p>Исландия, Северная Европа</p>
+                            {/* <div className={styles.toursContainer}> */}
+                                {tours.map((tour) => (
+                                    <div key={tour.id} className={styles.cardTour}>
+                                        <img
+                                            src={photos[tour.id]}
+                                            alt={`Фото тура ${tour.name}`}
+                                            className={styles.tourPhoto}
+                                        />                               
+                                            <div className={styles.shortDescriptionTour}>
+                                            <h1>{tour.name}</h1>
+                                            <div className={styles.firstLine}>
+                                                <div className={styles.ratingCircle}>
+                                                    {[...Array(5)].map((_, index) => (
+                                                        <Circle key={index} />
+                                                        ))}
+                                                </div>
+                                                <p>735 отзыва</p>
+                                                <div className={styles.additionalText}>
+                                                    <p>{tour.country}, {tour.location}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className={styles.cost}>
+                                                <p>{tour.price.toLocaleString('ru-RU')} $</p>
+                                                <div className={styles.additionalText}>
+                                                    <p>/{tour.numberOfDays} дней</p>
+                                                </div>
+                                            </div> 
+
+                                            <div className={styles.lastLine}>
+                                                <div className={styles.buttonUse}>
+                                                    <p>Отправить заявку</p>
+                                                </div>
+                                                <div className={styles.like}>
+                                                    <Like />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <div className={styles.cost}>
-                                        <p>9 901,03 $</p>
-                                        <div className={styles.additionalText}>
-                                            <p>/10 дней</p>
-                                        </div>
-                                    </div> 
-                                    
-                                    <div className={styles.lastLine}>
-                                        <div className={styles.buttonUse}>
-                                            <p>Отправить заявку</p>
-                                        </div>
-                                        <div className={styles.like}>
-                                            <Like/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div className={styles.cardTour}>
-                                <img src = {Iceland}/>
-                                <div className={styles.shortDescriptionTour}>
-                                    <h1>Исландия - самые красивые места</h1>
-                                    <div className={styles.firstLine}>
-                                        <div className={styles.ratingCircle}>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                        </div>
-                                        <p>746 отзыва</p>
-                                        <div className={styles.additionalText}>
-                                            <p>Исландия, Северная Европа</p>
-                                        </div>
-                                    </div>
-
-                                    <div className={styles.cost}>
-                                        <p>9 901,03 $</p>
-                                        <div className={styles.additionalText}>
-                                            <p>/10 дней</p>
-                                        </div>
-                                    </div> 
-                                    
-                                    <div className={styles.lastLine}>
-                                        <div className={styles.buttonUse}>
-                                            <p>Отправить заявку</p>
-                                        </div>
-                                        <div className={styles.like}>
-                                            <Like/>
-                                        </div>
-                                    </div>
-
-                                    
-                                </div>
-                            </div>
-
-
-                            <div className={styles.cardTour}>
-                                <img src = {Iceland}/>
-                                <div className={styles.shortDescriptionTour}>
-                                    <h1>Исландия - самые красивые места</h1>
-                                    <div className={styles.firstLine}>
-                                        <div className={styles.ratingCircle}>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                        </div>
-                                        <p>746 отзыва</p>
-                                        <div className={styles.additionalText}>
-                                            <p>Исландия, Северная Европа</p>
-                                        </div>
-                                    </div>
-
-                                    <div className={styles.cost}>
-                                        <p>9 901,03 $</p>
-                                        <div className={styles.additionalText}>
-                                            <p>/10 дней</p>
-                                        </div>
-                                    </div> 
-                                    
-                                    <div className={styles.lastLine}>
-                                        <div className={styles.buttonUse}>
-                                            <p>Отправить заявку</p>
-                                        </div>
-                                        <div className={styles.like}>
-                                            <Like/>
-                                        </div>
-                                    </div>
-
-                                    
-                                </div>
-                            </div>
-
-
-                            <div className={styles.cardTour}>
-                                <img src = {Iceland}/>
-                                <div className={styles.shortDescriptionTour}>
-                                    <h1>Исландия - самые красивые места</h1>
-                                    <div className={styles.firstLine}>
-                                        <div className={styles.ratingCircle}>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                            <Circle/>
-                                        </div>
-                                        <p>746 отзыва</p>
-                                        <div className={styles.additionalText}>
-                                            <p>Исландия, Северная Европа</p>
-                                        </div>
-                                    </div>
-
-                                    <div className={styles.cost}>
-                                        <p>9 901,03 $</p>
-                                        <div className={styles.additionalText}>
-                                            <p>/10 дней</p>
-                                        </div>
-                                    </div> 
-                                    
-                                    <div className={styles.lastLine}>
-                                        <div className={styles.buttonUse}>
-                                            <p>Отправить заявку</p>
-                                        </div>
-                                        <div className={styles.like}>
-                                            <Like/>
-                                        </div>
-                                    </div>
-
-                                    
-                                </div>
-                            </div>
-
-
+                                ))}
+                            {/* </div> */}
                         </div>
                     </div>
                 </div>
