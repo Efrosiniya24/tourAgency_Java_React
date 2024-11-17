@@ -43,7 +43,7 @@ public class SecurityConfiguration {
                                 "/tourAgency/admin/currentUser",
                                 "/tourAgency/orders/getOrders/**",
                                 "/tourAgency/photo/getPhoto/**",
-                                "/tourAgency/photo/getFirstPhoto/",
+                                "/tourAgency/photo/getFirstPhoto/**",
                                 "/tourAgency/tours/sortCost")
                         .permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/tourAgency/tours/deleteTour/**").hasAuthority("ADMIN")
