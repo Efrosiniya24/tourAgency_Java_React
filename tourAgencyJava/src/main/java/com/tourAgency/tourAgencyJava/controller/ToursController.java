@@ -80,9 +80,15 @@ public class ToursController {
         return ResponseEntity.ok(tours);
     }
 
-    @GetMapping("/sortCost")
-    public ResponseEntity<List<Tours>> sortedToursCost(){
-        List<Tours> tours = tourService.sortToursCost();
+    @GetMapping("/sortCostCheap")
+    public ResponseEntity<List<Tours>> sortedToursCostCheap(){
+        List<Tours> tours = tourService.sortToursCostCheap();
+        return ResponseEntity.ok(tours);
+    }
+
+    @GetMapping("/sortCostExpensive")
+    public ResponseEntity<List<Tours>> sortedToursCostExpensive(){
+        List<Tours> tours = tourService.sortToursCostExpensive();
         return ResponseEntity.ok(tours);
     }
 

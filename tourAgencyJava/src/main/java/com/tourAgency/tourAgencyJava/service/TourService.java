@@ -106,10 +106,11 @@ public class TourService {
         return allTours;
     }
 
-    public List<Tours> sortToursCost() {
-        return (List<Tours>) toursRepository.findAll()
+    public List<Tours> sortToursCostCheap() {
+        return toursRepository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(Tours::getPrice));
+                .sorted(Comparator.comparing(Tours::getPrice))
+                .collect(Collectors.toList());
     }
 
     public List<Photo> setPhoto(List<MultipartFile> newImages, Tours tour) {
@@ -129,6 +130,13 @@ public class TourService {
 
     public long countTours(){
         return toursRepository.count();
+    }
+
+    public List<Tours> sortToursCostExpensive() {
+        return toursRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Tours::getPrice).reversed())
+                .collect(Collectors.toList());
     }
 }
 
