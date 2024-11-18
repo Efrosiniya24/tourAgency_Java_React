@@ -1,76 +1,102 @@
-.tourDetailPage {
-    font-family: Arial, sans-serif;
+.tourDetailPage{
+    padding-top: 120px;
 }
 
-.tourDetailContainer {
+.tour{
+    display: flex;
+    flex-direction: row;
+    gap: 33px;
+    margin-top: 23px;
+}
+
+.highLink{
+    padding: 0;
+    color:black;
+    font-size: 12px;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-left: 135px;
+    cursor: pointer;
+}
+
+.highLink ul {
+    gap: 2px;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+.highLink li {
+    transition: all .55s ease;
+    z-index: 5;
+    white-space: nowrap;
+}
+
+.highLink li:hover{
+    color: rgb(89, 89, 89);
+}
+
+.highLink a:hover {
+    border-bottom: 2px solid white;
+    z-index: 5;
+}
+
+.noLink{
+    color: inherit;
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+}
+
+.leftPart{
+    display: flex;
+    gap: 24px;
+    width: 627px;
+    height: auto;
+    min-height: 1000px;
+    margin-left: 135px;
+}
+
+.photosTour{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 13px;
+    width: 627px;
+    height: 430px;
+}
+
+.photosTour img{
+    width: 307px;
+    height: 211px;
+    border-radius: 30px;
+}
+
+.photosTour img:hover{
+    transition: transform 0.1s ease;
+    transform: scale(1.009);
+}
+
+.rightPart{
+    display: flex;
+    gap: 26px;
+    position: sticky; 
+    top: 162px; 
+    height: 100%; 
+}
+
+.aboutTourUp{
     display: flex;
     flex-direction: column;
-    margin: 40px auto;
-    width: 80%;
-    max-width: 1200px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #fff;
+    gap: 14px;
 }
-
-.detailsContainer {
-    padding: 20px;
-}
-
-.title {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-}
-
-.description {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-.info {
-    margin-bottom: 20px;
-}
-
-.infoItem {
-    margin-bottom: 10px;
-}
-
-.label {
+.aboutTourUp h1{
+    color: #214320;
+    font-size: 45px;
     font-weight: bold;
+    width: 480px;
 }
 
-.value {
-    margin-left: 10px;
-    font-size: 1.1em;
-}
-
-.programContainer {
-    margin-top: 20px;
-}
-
-.programTitle {
-    font-size: 2em;
-    margin-bottom: 10px;
-}
-
-.program {
-    font-size: 1.1em;
-    line-height: 1.6;
-}
-
-.bookButton {
-    padding: 15px 30px;
-    font-size: 1.2em;
-    color: white;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.bookButton:hover {
-    background-color: #45a049;
+.aboutTourUp p{
+    width: 514px;
+    font-size: 14px;
 }
