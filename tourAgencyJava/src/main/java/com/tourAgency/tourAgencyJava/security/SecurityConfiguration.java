@@ -46,7 +46,8 @@ public class SecurityConfiguration {
                                 "/tourAgency/photo/getFirstPhoto/**",
                                 "/tourAgency/tours/sortCostCheap",
                                 "/tourAgency/tours/sortCostExpensive",
-                                "/tourAgency/tours/countTours")
+                                "/tourAgency/tours/countTours",
+                                "/tourAgency/tours/tour/**")
                         .permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/tourAgency/tours/deleteTour/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/tourAgency/tours/addTour").hasAuthority("ADMIN")

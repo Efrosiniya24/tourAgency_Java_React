@@ -39,8 +39,8 @@ public class TourService {
         return toursRepository.findAll();
     }
 
-    public Tours getTourById(int id) {
-        return toursRepository.findById(id).orElse(null);
+    public Tours getTourById(long id) {
+        return toursRepository.findById((int) id).orElse(null);
     }
 
     public void deleteTour(Long id) {

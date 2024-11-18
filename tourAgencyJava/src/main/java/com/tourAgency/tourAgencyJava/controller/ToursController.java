@@ -49,6 +49,13 @@ public class ToursController {
         return ResponseEntity.ok(tours);
     }
 
+    @GetMapping("/tour/{id}")
+    public ResponseEntity<Tours> getTourById(@PathVariable long id) {
+        Tours tour = tourService.getTourById(id);
+        return ResponseEntity.ok(tour);
+    }
+
+
     @DeleteMapping("/deleteTour/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> deleteTour(@PathVariable Long id) {
