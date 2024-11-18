@@ -85,4 +85,10 @@ public class ToursController {
         List<Tours> tours = tourService.sortToursCost();
         return ResponseEntity.ok(tours);
     }
+
+    @GetMapping("/countTours")
+    public ResponseEntity<Long> countTours() {
+        long quantityOfTours = tourService.countTours();
+        return ResponseEntity.ok(quantityOfTours);
+    }
 }

@@ -126,6 +126,10 @@ public class TourService {
                 })
                 .collect(Collectors.toList());
     }
+
+    public long countTours(){
+        return toursRepository.count();
+    }
 }
 
 
