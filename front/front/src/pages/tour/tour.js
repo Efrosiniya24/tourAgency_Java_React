@@ -134,6 +134,7 @@ const Tours = () => {
 
     const [tours, setTours] = useState([]);
     const[photos, setPhotos] = useState({});
+    const[count, setCount] = useState(0);
 
     useEffect(() => {
         axios.get('http://localhost:8083/tourAgency/tours/allTours')
@@ -142,6 +143,14 @@ const Tours = () => {
                 fetchPhotos(response.data); 
             })
             .catch(error => console.error('Error fetching tours:', error));
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:8083/tourAgency/tours/countTours')
+            .then(response => {
+                setCount(response.data); 
+            })
+            .catch(error => console.error('Error fetching tour count:', error));
     }, []);
 
     const fetchPhotos = async (tours) => {
@@ -159,8 +168,6 @@ const Tours = () => {
             console.error("Ошибка загрузки фотографий:", error);
         }
     };
-    
-
 
     // const [services, setServices] = useState([]);
     // const navigate = useNavigate();
@@ -374,7 +381,7 @@ const Tours = () => {
 
                     <div className={styles.catalog}>
                         <div className={styles.overCatalog}>
-                            <h6>Найдено 1234 туров</h6>
+                            <h6>Найдено {count} туров</h6>
                             <div className={styles.sortContainer}>
                             <label className={styles.sortLabel}>Сортировать :</label>
                             <select 
