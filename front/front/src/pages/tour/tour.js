@@ -95,7 +95,21 @@ const Tours = () => {
     };
 
     const handleSortChange = (event) => {
-        setSortOption(event.target.value);
+        const selectedOption = event.target.value;
+        setSortOption(selectedOption);
+
+        if (selectedOption === "Сначала дешевые") {
+            axios.get("http://localhost:8083/tourAgency/tours/sortCostCheap")
+                .then((response) => setTours(response.data))
+                .catch((error) => console.error("Error fetching sorted tours:", error));
+        }
+
+        if (selectedOption === "Сначала дорогие") {
+            axios.get("http://localhost:8083/tourAgency/tours/sortCostExpensive")
+                .then((response) => setTours(response.data))
+                .catch((error) => console.error("Error fetching sorted tours:", error));
+        }
+
     };
 
     const handleResetFilters = () => {
@@ -390,7 +404,8 @@ const Tours = () => {
                                 className={styles.sortSelect}
                             >
                                 <option value="По популярности">По популярности</option>
-                                <option value="По цене">По цене</option>
+                                <option value="Сначала дешевые">Сначала дешевые</option>
+                                <option value="Сначала дорогие">Сначала дорогие</option>
                                 <option value="По рейтингу">По рейтингу</option>
                             </select>
                             </div>
