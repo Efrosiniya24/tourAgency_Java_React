@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styles from './tour.module.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import HeaderClient from "../../components/headerClient/headerClient";
 import Plus from "../../components/plus/plus";
 import Minus from "../../components/minus/minus";
 import Checkbox from "../../components/checkbox/checkbox";
 import Circle from '../../components/circle/circle';
 import Like from "../../components/like/like";
+import { Link } from 'react-router-dom';
 
 import searchIcon from "./../../photo/search2.png";
 import up from "./photo/up.png";
@@ -146,7 +147,7 @@ const Tours = () => {
         });
     }
 
-    const [tours, setTours] = useState([]);
+    const[tours, setTours] = useState([]);
     const[photos, setPhotos] = useState({});
     const[count, setCount] = useState(0);
 
@@ -206,7 +207,7 @@ const Tours = () => {
             <div className={styles.toursPage}>
                 <div className={styles.highLink}>
                     <ul>
-                        <li>Главная </li>
+                        <li><NavLink to = "/" className={styles.noLink}>Главная </NavLink></li> 
                         <li> /Каталог  </li>
                     </ul>
                 </div>
@@ -415,13 +416,15 @@ const Tours = () => {
                             {/* <div className={styles.toursContainer}> */}
                                 {tours.map((tour) => (
                                     <div key={tour.id} className={styles.cardTour}>
-                                        <img
-                                            src={photos[tour.id]}
-                                            alt={`Фото тура ${tour.name}`}
-                                            className={styles.tourPhoto}
-                                        />                               
+                                        <Link to={`/tour`} state={{ tour }}>
+                                            <img
+                                                src={photos[tour.id]}
+                                                alt={`Фото тура ${tour.name}`}
+                                                className={styles.tourPhoto}
+                                            /> 
+                                        </Link>                              
                                             <div className={styles.shortDescriptionTour}>
-                                            <h1>{tour.name}</h1>
+                                            <Link to={`/tour`} state={{ tour }} className={styles.noLink}><h1>{tour.name}</h1></Link>
                                             <div className={styles.firstLine}>
                                                 <div className={styles.ratingCircle}>
                                                     {[...Array(5)].map((_, index) => (

@@ -1,0 +1,49 @@
+.headerNotMain {
+    display: flex;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    align-items: center;
+    padding: 40px 9%;
+    background-color: #214320;
+    height: 50px;
+    margin-bottom: 50px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 700;
+    color: white;
+    top: 38px;
+    z-index: 5;
+}
+
+
+.nav ul{
+    display: flex;
+    margin-left: 650px;
+    padding: 0;
+    gap: 10px;
+    margin-right: 80px;
+    align-items: center;
+}
+
+.nav li {
+    color: white;
+    margin-left: 60px;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    transition: all .55s ease;
+    text-align: center;
+    z-index: 5;
+    white-space: nowrap;
+}
+
+.nav a:hover {
+    border-bottom: 2px solid white;
+    z-index: 5;
+}
+
