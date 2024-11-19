@@ -9,6 +9,7 @@ import Checkbox from "../../components/checkbox/checkbox";
 import Circle from '../../components/circle/circle';
 import Like from "../../components/like/like";
 import { Link } from 'react-router-dom';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import searchIcon from "./../../photo/search2.png";
 import up from "./photo/up.png";
@@ -169,20 +170,23 @@ const Tours = () => {
     }, []);
 
     const fetchPhotos = async (tours) => {
-        const photosMap = {}; 
         try {
-            for (const tour of tours) {
-                const response = await axios.get(
-                    `http://localhost:8083/tourAgency/photo/getFirstPhoto/${tour.id}`,
-                    { withCredentials: true }
-                );
-                photosMap[tour.id] = `data:image/jpeg;base64,${response.data}`;
-            }
+            const photoPromises = tours.map((tour) =>
+                axios.get(`http://localhost:8083/tourAgency/photo/getFirstPhoto/${tour.id}`, { withCredentials: true })
+            );
+            const photoResponses = await Promise.all(photoPromises);
+    
+            const photosMap = photoResponses.reduce((acc, response, index) => {
+                acc[tours[index].id] = `data:image/jpeg;base64,${response.data}`;
+                return acc;
+            }, {});
+    
             setPhotos(photosMap);
         } catch (error) {
             console.error("Ошибка загрузки фотографий:", error);
         }
     };
+    
 
     // const [services, setServices] = useState([]);
     // const navigate = useNavigate();
@@ -417,11 +421,12 @@ const Tours = () => {
                                 {tours.map((tour) => (
                                     <div key={tour.id} className={styles.cardTour}>
                                         <Link to={`/tour`} state={{ tour }}>
-                                            <img
+                                            <LazyLoadImage
                                                 src={photos[tour.id]}
                                                 alt={`Фото тура ${tour.name}`}
                                                 className={styles.tourPhoto}
-                                            /> 
+                                                effect="blur"
+                                            />
                                         </Link>                              
                                             <div className={styles.shortDescriptionTour}>
                                             <Link to={`/tour`} state={{ tour }} className={styles.noLink}><h1>{tour.name}</h1></Link>
