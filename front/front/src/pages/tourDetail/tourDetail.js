@@ -3,6 +3,10 @@ import { NavLink, useLocation } from 'react-router-dom';
 import HeaderClient from '../../components/headerClient/headerClient';
 import styles from './tourDetail.module.css';
 import axios from 'axios';
+import calendar from './calendar.png';
+import destination from './destination.png';
+import Plus from '../../components/plus/plus';
+import Minus from '../../components/minus/minus';
 
 const TourDetail = () => {
     const location = useLocation();
@@ -44,7 +48,51 @@ const TourDetail = () => {
     const formatText = (text) => {
         return text.replace(/\n/g, '<br />');
     };
+
+    const getTomorrowDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); 
+        const day = String(today.getDate()+1).padStart(2, '0'); 
+        return `${year}-${month}-${day}`; 
+    };
     
+
+    const[people, setPeople] = useState(1);
+
+    const handlePeopleIncrement = () => setPeople(prevPeople => prevPeople + 1);
+    const handlePeopleDecrement = () => setPeople(prevPeople =>  Math.max(1, prevPeople - 1));
+
+    
+
+    // const getFormattedDate = (dateString) => {
+    //     if (!dateString) {
+    //         return ''; 
+    //     }
+    //     const date = new Date(dateString);
+    //     if (isNaN(date.getTime())) {
+    //         return 'Неверная дата'; 
+    //     }
+    //     const formatter = new Intl.DateTimeFormat('ru-RU', {
+    //         weekday: 'long',
+    //         year: 'numeric',
+    //         month: 'long',
+    //         day: 'numeric',
+    //     });
+    //     return formatter.format(date);
+    // };
+    
+    // const getCurrentDateWithDay = () => {
+    //     const today = new Date();
+    //     const formatter = new Intl.DateTimeFormat('ru-RU', {
+    //         weekday: 'long', 
+    //         year: 'numeric',
+    //         month: 'long',
+    //         day: 'numeric',
+    //     });
+    //     return formatter.format(today); 
+    // };
+
     return (
         <div>
             <HeaderClient/>
@@ -78,6 +126,64 @@ const TourDetail = () => {
                         <div className={styles.aboutTourUp}>
                             <h1>{tour.name}</h1>
                             <p dangerouslySetInnerHTML={{ __html: formatText(tour.description) }} />
+                        </div>
+
+                        <div className={styles.card}>
+                            <div className={styles.inside}>
+                                <div className={styles.leftInside}>
+                                    <div className={styles.blockInsideLeft}>
+                                        <p>Выберите день отъезда</p>
+                                        <div className={styles.calendar}>
+                                            <div className={styles.calendarIcon}>
+                                                <img src = {calendar}/>
+                                            </div>
+                                            <div className={styles.inputDate}>
+                                                <input
+                                                    type="date"
+                                                    name="currentDate"
+                                                    value={getTomorrowDate()} 
+                                                    onChange={(e) => console.log(e.target.value)} 
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.blockInsideLeft}>
+                                        <p>Количество человек</p>
+                                            <div className={styles.FilerPrintOrChooseInput}>
+                                                <h5>Человек</h5>
+                                                <input 
+                                                    type="text"
+                                                    placeholder="1"
+                                                    value = {people}
+                                                    onChange = {(e) => setPeople(Number(e.target.value) ||0)}
+                                                />
+                                                <div className={styles.plus} onClick = {handlePeopleIncrement}>
+                                                    <Plus/>
+                                                </div>
+                                                <div className={styles.minus} onClick={handlePeopleDecrement}>
+                                                    <Minus/>
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                        <div className={styles.cost}>
+                                            <p>{tour.price.toLocaleString('ru-RU')} $</p>
+                                                <div className={styles.additionalText}>
+                                                    <p>/{tour.numberOfDays} дней</p>
+                                                </div>
+                                        </div> 
+                                </div>
+
+                                <div className={styles.leftInside}>
+                                    <div className={styles.destination}>
+                                        <img src= {destination}/>
+                                    </div>
+                                    <div className={styles.buttonUse}>
+                                        <p>Отправить заявку</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

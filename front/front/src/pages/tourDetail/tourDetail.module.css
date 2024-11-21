@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: row;
     gap: 33px;
-    margin-top: 23px;
+    margin-top: 15px;
 }
 
 .highLink{
@@ -78,10 +78,12 @@
 
 .rightPart{
     display: flex;
+    flex-direction: column;
     gap: 26px;
     position: sticky; 
-    top: 162px; 
+    top: 150px; 
     height: 100%; 
+    padding-bottom: 10px;
 }
 
 .aboutTourUp{
@@ -99,4 +101,194 @@
 .aboutTourUp p{
     width: 514px;
     font-size: 14px;
+}
+
+.card{
+    width: 514px;
+    height: 304px;
+    background-color: #FFFFFF;
+    border: 1px solid  rgba(0, 0, 0, 0.05); 
+    border-radius: 30px;
+    box-shadow: inset 0px 4px 35px -8px rgba(122, 122, 122, 0.21),
+                1px -5px 39px -4px rgba(122, 122, 122, 0.16);
+}
+
+.inside{
+    display: flex;
+    gap:19px;
+    padding: 25px 40px 25px 40px;
+}
+
+.leftInside{
+    display: flex;
+    flex-direction: column;
+    gap:19px;
+    width: 232px;
+}
+
+.blockInsideLeft{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.blockInsideLeft p{
+    color:#76B174;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.calendar{
+    display: flex;
+    gap:4px;
+}
+
+.calendarIcon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F1F1F1;
+    padding: 10px;
+    border-radius: 17px;
+}
+
+.calendarIcon img{
+    height: 25px;
+    width: 25px;
+}
+
+.inputDate{
+    height: 48px;
+    width: 175px;
+    background-color: #F1F1F1;
+    border-radius: 17px;
+}
+
+.inputDate input{
+    align-items: center5;
+    border: none;
+    background: none;
+    font-size: 15px;
+    color: #747474;
+    padding: 13px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none; 
+}
+
+.inputQuantityOfPeople{
+    width: 232px;
+    height: 57px;
+}
+
+.FilerPrintOrChooseInput{
+    background-color: #F1F1F1;
+    height: 57px;
+    width: 223px;
+    border-radius: 17px;
+    padding-left: 13px;
+    margin-top: 7px;
+    padding-top: 1px;
+}
+
+.FilerPrintOrChooseInput h5{
+    font-size: 14px;
+    color:black;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.FilerPrintOrChooseInput input{
+    display: flex;
+    background-color: transparent;
+    border-color: transparent;
+    width: 80px;
+    color: #747474;
+}
+
+.plus{
+    z-index: 90000;
+    margin-top: -30px;
+    margin-left: 135px;
+}
+  
+.minus{
+    margin-top: -24px;
+    margin-left: 170px;
+}
+
+.cost{
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-items:flex-end;
+    height: 53px;
+    width: 228px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    background-color: #f4f4f4;
+    border-radius: 20px;
+    margin-top: 3px;
+}
+ 
+  .cost p{
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.additionalText p{
+    font-size: 15px;
+    color: #757575;
+    margin-top: -2px;
+    font-weight: bold;
+}
+
+.buttonUse{
+    display: flex;
+    justify-content: center;
+    width: 181px;
+    height: 43px;
+    align-items: center;
+    background-color: #214320;
+    border-radius: 20px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+    padding-left: 17px;
+    padding-right: 17px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 5px;
+}
+
+.buttonUse:hover{
+    transform: scale(1.07);
+    transition: transform 0.1s ease;
+}
+/* 
+.lastLine{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+} */
+
+.leftInside{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.destination{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.destination img{
+    width: 124px;
+    height:124px;
 }
