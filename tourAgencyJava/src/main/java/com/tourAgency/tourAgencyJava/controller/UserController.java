@@ -25,10 +25,11 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/allUsers")
     public ResponseEntity<?> allUsers() {
+        log.info("Called allUsers endpoint");
         List<User> users = userService.allUsers();
-
         return ResponseEntity.ok(users);
     }
+
 
     @GetMapping("/searchUser")
     @PreAuthorize("hasAuthority('ADMIN')")

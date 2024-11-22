@@ -6,6 +6,7 @@ import com.tourAgency.tourAgencyJava.model.User;
 import com.tourAgency.tourAgencyJava.repositories.OrderRepository;
 import com.tourAgency.tourAgencyJava.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -15,18 +16,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final EncryptionService encryptionService;
 
     public List<User> allUsers() {
-        List<User> users = userRepository.findAll()
+        return userRepository.findAll()
                 .stream()
                 .filter(user -> user.getRole() == Role.USER)
                 .toList();
-        return users;
+    }
+
+    public User prepareUser(User user) {
+        user.setEncryptionService(encryptionService);
+        return user;
     }
 
 //    public Optional<User> currentUser(String nameUser) {

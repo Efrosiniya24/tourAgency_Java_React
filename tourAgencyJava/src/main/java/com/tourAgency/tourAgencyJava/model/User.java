@@ -1,15 +1,14 @@
 package com.tourAgency.tourAgencyJava.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tourAgency.tourAgencyJava.model.Enum.Role;
-import io.micrometer.common.lang.NonNull;
+import com.tourAgency.tourAgencyJava.service.EncryptionService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +22,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
+
+    @Transient
+    @JsonIgnore
+    private EncryptionService encryptionService;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -55,6 +59,15 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
+    @Transient
+    private transient EncryptionService hashingService;
+
+    @Column(name = "passport_series")
+    private String passportSeries;
+
+    @Column(name = "passport_number")
+    private String passportNumber;
+
     @Enumerated(EnumType.STRING)
 //    @NotNull
     private Role role;
@@ -66,6 +79,28 @@ public class User implements UserDetails {
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 //    private List<Order> ordersManager;
+
+    @PrePersist
+    @PreUpdate
+    private void encryptSensitiveData() throws Exception {
+        if (passportSeries != null && encryptionService != null) {
+            this.passportSeries = encryptionService.encrypt(passportSeries);
+        }
+        if (passportNumber != null && encryptionService != null) {
+            this.passportNumber = encryptionService.encrypt(passportNumber);
+        }
+    }
+
+    @PostLoad
+    private void decryptSensitiveData() throws Exception {
+        if (passportSeries != null && encryptionService != null) {
+            this.passportSeries = encryptionService.decrypt(passportSeries);
+        }
+        if (passportNumber != null && encryptionService != null) {
+            this.passportNumber = encryptionService.decrypt(passportNumber);
+        }
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -96,5 +131,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    public void setEncryptionService(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
     }
 }
