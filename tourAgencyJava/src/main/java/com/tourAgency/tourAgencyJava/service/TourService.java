@@ -53,6 +53,7 @@ public class TourService {
         return toursRepository.findById(Math.toIntExact(id))
                 .map(existingTour -> {
                     Hibernate.initialize(existingTour.getPhotos());
+                    Hibernate.initialize(existingTour.getLanguages());
 
                     existingTour.setName(updatedTour.getName());
                     existingTour.setCountry(updatedTour.getCountry());
@@ -63,6 +64,7 @@ public class TourService {
                     existingTour.setLocation(updatedTour.getLocation());
                     existingTour.setPrice(updatedTour.getPrice());
                     existingTour.setDescription(updatedTour.getDescription());
+                    existingTour.setLanguages(updatedTour.getLanguages());
 
                     List<Photo> existingPhotos = existingTour.getPhotos();
 
