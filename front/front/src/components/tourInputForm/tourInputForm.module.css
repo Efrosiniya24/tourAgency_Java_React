@@ -246,3 +246,8 @@ transition: ease;
   padding: 5px 10px 5px 10px;
   border-radius: 10px;
 }
+
+.removeButton:hover{
+  transform: scale(1.04);
+  transition: ease;
+}
