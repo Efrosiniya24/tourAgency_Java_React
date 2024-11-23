@@ -162,3 +162,87 @@
   height: 100%;
   object-fit: cover;
 }
+
+.autoCompleteContainer {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.autoCompleteInput {
+  width: 100%;
+  border: 1px solid #E0E0E0;
+}
+
+.autoCompleteInput::placeholder{
+    color: #757575;
+    font-size: 14px;
+}
+
+.suggestionsList {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  background: #f2f2f2;
+  border: 1px solid #E0E0E0;
+  border-radius: 14px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.suggestionItem {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestionItem:hover {
+  color:#5e5e5e;
+}
+
+.suggestionItem:hover {
+  background: #f2f2f2;
+}
+
+::-webkit-scrollbar {
+  width: 12px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #f2f2f2;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+  border-radius: 10px; 
+}
+
+.addButton {
+  position: absolute;
+  right: 45px; 
+  top: 4px;
+  background: #214320;
+  font-size: 14px;
+  cursor: pointer;
+  color: #FFFFFF;
+  padding: 5px 8px 5px 8px;
+  border-radius: 10px;
+}
+
+.addButton:hover{
+transform: scale(1.04);
+transition: ease;
+}
+
+.removeButton{
+  position: absolute;
+  right: 15px; 
+  top: 4px;
+  background: #214320;
+  font-size: 14px;
+  cursor: pointer;
+  color: #FFFFFF;
+  padding: 5px 10px 5px 10px;
+  border-radius: 10px;
+}
