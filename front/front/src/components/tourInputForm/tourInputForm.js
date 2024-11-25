@@ -43,13 +43,21 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
     try {
       const token = localStorage.getItem('accessToken');
       const formData = new FormData();
-      formData.append('tours', JSON.stringify(tourData));
+      formData.append('tours', JSON.stringify({
+        ...tourData,
+    }));
+    
   
       images.forEach((image) => {
         if (image && typeof image !== 'string') {
             formData.append('images', image);
         }
     }); 
+
+    languageInputs
+    .map((input) => input.value.trim())
+    .filter((value) => value !== '')
+    .forEach((language) => formData.append('languages', language));
   
       const url = tourData.id 
         ? `http://localhost:8083/tourAgency/tours/updateTour/${tourData.id}`
