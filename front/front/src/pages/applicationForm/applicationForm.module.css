@@ -1,54 +1,211 @@
-.applicationFormPage {
-    padding: 20px;
-    background-color: #f9f9f9;
+.applicationForm{
+    padding-top: 120px;
 }
 
-.pageTitle {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 2.5em;
-}
-
-.form {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.formGroup {
-    margin-bottom: 15px;
-}
-
-.formGroup label {
-    display: block;
+.highLink{
+    padding: 0;
+    color:black;
+    font-size: 12px;
     font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.formGroup input,
-.formGroup select,
-.formGroup textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.submitButton {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    font-size: 1.2em;
-    color: white;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 5px;
+    padding-top: 5px;
+    padding-left: 135px;
     cursor: pointer;
 }
 
-.submitButton:hover {
-    background-color: #45a049;
+.highLink ul {
+    gap: 2px;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+.highLink li {
+    transition: all .55s ease;
+    z-index: 5;
+    white-space: nowrap;
+}
+
+.highLink li:hover{
+    color: rgb(89, 89, 89);
+}
+
+.highLink a:hover {
+    border-bottom: 2px solid white;
+    z-index: 5;
+}
+
+.noLink{
+    color: inherit;
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+}
+
+.application{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-direction: column;
+}
+
+.textApplication{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    align-items: center;
+    justify-content: center;
+}
+
+.textApplication h1{
+    color: #214320;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.textApplication p{
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.columnForApplication{
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+    height: 636px;
+    gap: 20px;
+}
+
+.firstPartOfApplication{
+    display: flex;
+    width: 243px;
+    flex-wrap: wrap;
+}
+
+.specificFilter{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 30px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.specificFilter p{
+    color:#76B174;
+}
+
+/* .specificFilter h5{
+    font-size: 14px;
+    color:black;
+    margin-top: 10px;
+    font-weight: 500;
+} */
+
+.specificFilter input{
+    display: flex;
+    width: 243px;
+    height: 47px;
+    background-color:  #F1F1F1;
+    border: transparent;
+    color: #747474;
+    font-weight: bold;
+    border-radius: 17px;
+    align-items: center;
+    padding-left: 19px;
+    padding-right: 19px;
+}
+
+.specificFilter input ::placeholder{
+    font-weight: bold;
+}
+
+
+.autoCompleteContainer {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.autoCompleteInput {
+  width: 100%;
+  border: 1px solid #E0E0E0;
+}
+
+.autoCompleteInput::placeholder{
+    color: #757575;
+    font-size: 14px;
+}
+
+.suggestionsList {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  background: #f2f2f2;
+  border: 1px solid #E0E0E0;
+  border-radius: 14px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.suggestionItem {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestionItem:hover {
+  color:#5e5e5e;
+}
+
+.suggestionItem:hover {
+  background: #f2f2f2;
+}
+
+::-webkit-scrollbar {
+  width: 12px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #f2f2f2;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+  border-radius: 10px; 
+}
+
+.addButton {
+  position: absolute;
+  right: 45px; 
+  top: 10px;
+  background: #214320;
+  font-size: 14px;
+  cursor: pointer;
+  color: #FFFFFF;
+  padding: 5px 8px 5px 8px;
+  border-radius: 10px;
+}
+
+.addButton:hover{
+transform: scale(1.04);
+transition: ease;
+}
+
+.removeButton{
+  position: absolute;
+  right: 15px; 
+  top: 10px;
+  background: #214320;
+  font-size: 14px;
+  cursor: pointer;
+  color: #FFFFFF;
+  padding: 5px 10px 5px 10px;
+  border-radius: 10px;
+}
+
+.removeButton:hover{
+  transform: scale(1.04);
+  transition: ease;
 }

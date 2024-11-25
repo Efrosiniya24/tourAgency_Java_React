@@ -1,254 +1,185 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './applicationForm.module.css';
-
+import HeaderClient from '../../components/headerClient/headerClient';
+import { NavLink, useLocation, Link } from 'react-router-dom';
+import axios from 'axios';
 const ApplicationForm = () => {
     const location = useLocation();
     const tour = location.state?.tour;
-
-    const [formData, setFormData] = useState({
-        email: '',
-        name: '',
-        phone: '',
-        surname: '',
-        patronymic: '',
-        gender_client: 'not specified',
-        age: 0,
-        country: tour?.country || '',
-        numberOfDays: tour?.numberOfDays || 0,
-        price: tour?.price || 0,
-        beginningDate: tour?.beginningDate || '',
-        endDate: tour?.endDate || '',
-        city: tour?.city || '',
-        travelAgency: tour?.travelAgency || '',
-        numberOfPeople: 1,
-        specialRequests: ''
-    });
+    const [languageOptions, setLanguageOptions] = useState([]); 
+    const [filteredLanguages, setFilteredLanguages] = useState([]);
+    const [languageInputs, setLanguageInputs] = useState([{ value: '', id: Date.now() }]); 
+    const [dropdownStates, setDropdownStates] = useState({}); 
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         if (tour) {
-            setFormData({
-                ...formData,
-                country: tour.country,
-                numberOfDays: tour.numberOfDays,
-                price: tour.price,
-                beginningDate: tour.beginningDate,
-                endDate: tour.endDate,
-                city: tour.city,
-                travelAgency: tour.travelAgency
-            });
+            axios.get(`http://localhost:8083/tourAgency/tours/tour/${tour.id}`)
+                .then(response => {
+                    const tourLanguages = response.data.languages || []; 
+                    setLanguageOptions(tourLanguages); 
+                    setFilteredLanguages(tourLanguages); 
+                })
+                .catch(error => console.error('Error fetching tour details:', error));
         }
     }, [tour]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
+    const handleLanguageSelect = (language, id) => {
+        setLanguageInputs((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, value: language } : item
+            )
+        );
+        setDropdownStates((prev) => ({ ...prev, [id]: false })); 
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setDropdownStates((prev) => {
+                const newState = {};
+                Object.keys(prev).forEach((key) => {
+                    newState[key] = false; 
+                });
+                return newState;
+            });
+        }
+    };
+
+    const handleRemoveLanguageInput = (id) => {
+        setLanguageInputs((prev) => {
+            const updatedInputs = prev.filter((item) => item.id !== id);
+
+            if (updatedInputs.length === 0) {
+                setLanguageInputs([{ value: '', id: Date.now() }]);
+            } else {
+                setLanguageInputs(updatedInputs);
+            }
+
+            setDropdownStates((prev) => {
+                const newState = { ...prev };
+                delete newState[id]; 
+                return newState;
+            });
         });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axios.post('http://localhost:8000/applications', formData)
-            .then(response => {
-                console.log('Application submitted:', response.data);
-                // Handle success
-            })
-            .catch(error => {
-                console.error('Error submitting application:', error);
-                // Handle error
-            });
+    const handleAddLanguageInput = () => {
+        if (languageInputs.every(input => input.value.trim() !== '')) {
+            setLanguageInputs([...languageInputs, { value: '', id: Date.now() }]);
+        } else {
+            alert("Пожалуйста, заполните все существующие поля, прежде чем добавлять новое.");
+        }
     };
+
+    const handleLanguageInputChange = (event, id) => {
+        const input = event.target.value;
+        setLanguageInputs((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, value: input } : item
+            )
+        );
+        const filtered = languageOptions.filter((language) =>
+            language.toLowerCase().includes(input.toLowerCase())
+        );
+        setFilteredLanguages(filtered);
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
         <div>
-            <div className={styles.applicationFormPage}>
-                <h1 className={styles.pageTitle}>Форма заявки</h1>
-                <form className={styles.form} onSubmit={handleSubmit}>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="email">Email:</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
+            <HeaderClient />
+            <div className={styles.applicationForm}>
+                <div className={styles.highLink}>
+                    <ul>
+                        <li>
+                            <NavLink to="/" className={styles.noLink}>Главная</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/tours" className={styles.noLink}>/Каталог</NavLink>
+                        </li>
+                        <li>
+                            <Link to={`/tour`} state={{ tour }} className={styles.noLink}> /{tour?.name}</Link>
+                        </li>
+                        <li className={styles.noLink}>/Заявка</li>
+                    </ul>
+                </div>
+                <div className={styles.application}>
+                    <div className={styles.textApplication}>
+                        <h1>Заявка</h1>
+                        <p>Проверьте правильность введенных данных. Введите недостающие данные</p>
                     </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="name">Имя:</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                        />
+                    <div className={styles.columnForApplication}>
+                        <div className={styles.firstPartOfApplication}>
+                            <div className={styles.specificFilter}>
+                                <p>Название тура</p>
+                                <input
+                                    type="text"
+                                    name="nameOfTour"
+                                    placeholder="Страна"
+                                    value={tour.name}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
+
+                        <div className={styles.firstPartOfApplication}>
+                            <div className={styles.specificFilter}>
+                                <p>Язык(и) тура</p>
+                                {Array.isArray(languageInputs) && languageInputs.map((input, index) => (
+                                    <div key={input.id} className={styles.autoCompleteContainer} ref={dropdownRef}>
+                                        <input
+                                            type="text"
+                                            value={input.value}
+                                            onChange={(e) => handleLanguageInputChange(e, input.id)}
+                                            onFocus={() => setDropdownStates((prev) => ({ ...prev, [input.id]: true }))} 
+                                            placeholder="Введите или выберите язык"
+                                            className={styles.autoCompleteInput}
+                                        />
+                                        {dropdownStates[input.id] && (
+                                            <ul className={styles.suggestionsList}>
+                                                {filteredLanguages.map(({ id, language }) => (
+                                                    <li
+                                                        key={id} 
+                                                        onClick={() => handleLanguageSelect(language, input.id)} 
+                                                        className={styles.suggestionItem}
+                                                    >
+                                                        {language} 
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                        {input.value && (
+                                            <>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRemoveLanguageInput(input.id)}
+                                                    className={styles.removeButton}
+                                                >
+                                                    -
+                                                </button>
+                                                {index === languageInputs.length - 1 && input.value !== '' && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleAddLanguageInput}
+                                                        className={styles.addButton}
+                                                    >
+                                                        +
+                                                    </button>
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="phone">Телефон:</label>
-                        <input
-                            type="text"
-                            id="phone"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="surname">Фамилия:</label>
-                        <input
-                            type="text"
-                            id="surname"
-                            name="surname"
-                            value={formData.surname}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="patronymic">Отчество:</label>
-                        <input
-                            type="text"
-                            id="patronymic"
-                            name="patronymic"
-                            value={formData.patronymic}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="gender_client">Пол:</label>
-                        <select
-                            id="gender_client"
-                            name="gender_client"
-                            value={formData.gender_client}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value="not specified" disabled>Не указано</option>
-                            <option value="male">Мужской</option>
-                            <option value="female">Женский</option>
-                        </select>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="age">Возраст:</label>
-                        <input
-                            type="number"
-                            id="age"
-                            name="age"
-                            value={formData.age}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="country">Страна:</label>
-                        <input
-                            type="text"
-                            id="country"
-                            name="country"
-                            value={formData.country}
-                            readOnly
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="numberOfDays">Количество дней:</label>
-                        <input
-                            type="number"
-                            id="numberOfDays"
-                            name="numberOfDays"
-                            value={formData.numberOfDays}
-                            readOnly
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="price">Цена:</label>
-                        <input
-                            type="number"
-                            id="price"
-                            name="price"
-                            value={formData.price}
-                            readOnly
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="beginningDate">Дата начала:</label>
-                        <input
-                            type="date"
-                            id="beginningDate"
-                            name="beginningDate"
-                            value={formData.beginningDate}
-                            readOnly
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="endDate">Дата окончания:</label>
-                        <input
-                            type="date"
-                            id="endDate"
-                            name="endDate"
-                            value={formData.endDate}
-                            readOnly
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="city">Город:</label>
-                        <input
-                            type="text"
-                            id="city"
-                            name="city"
-                            value={formData.city}
-                            readOnly
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="travelAgency">Туристическое агентство:</label>
-                        <input
-                            type="text"
-                            id="travelAgency"
-                            name="travelAgency"
-                            value={formData.travelAgency}
-                            readOnly
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="numberOfPeople">Количество человек:</label>
-                        <input
-                            type="number"
-                            id="numberOfPeople"
-                            name="numberOfPeople"
-                            value={formData.numberOfPeople}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="specialRequests">Особые пожелания:</label>
-                        <textarea
-                            id="specialRequests"
-                            name="specialRequests"
-                            value={formData.specialRequests}
-                            onChange={handleChange}
-                            rows="4"
-                            maxLength="2000"
-                            required
-                        />
-                    </div>
-                    <button type="submit" className={styles.submitButton}>Отправить заявку</button>
-                </form>
+                </div>
             </div>
         </div>
     );
