@@ -1,6 +1,8 @@
 package com.tourAgency.tourAgencyJava.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +17,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Language {
 
     @Id
@@ -26,6 +27,7 @@ public class Language {
     @Column(name = "language")
     private String language;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "languages")
     private List<Tours> tours;
 

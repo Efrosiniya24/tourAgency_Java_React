@@ -1,8 +1,7 @@
 package com.tourAgency.tourAgencyJava.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -62,7 +61,10 @@ public class Tours {
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Photo> photos;
 
-    @JsonIgnore
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id"
+    )
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "tour_languages",
@@ -70,4 +72,11 @@ public class Tours {
             inverseJoinColumns = @JoinColumn(name = "languages_id")
     )
     private List<Language> languages;
+
+    @JsonSetter("languages")
+    public void setLanguagesFromJson(List<String> languages) {
+        this.languages = languages.stream()
+                .map(lang -> Language.builder().language(lang).build())
+                .toList();
+    }
 }

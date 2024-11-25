@@ -1,9 +1,12 @@
 package com.tourAgency.tourAgencyJava.service;
 
+import com.tourAgency.tourAgencyJava.model.Language;
 import com.tourAgency.tourAgencyJava.model.Photo;
 import com.tourAgency.tourAgencyJava.model.Tours;
+import com.tourAgency.tourAgencyJava.repositories.LanguageRepository;
 import com.tourAgency.tourAgencyJava.repositories.PhotoRepository;
 import com.tourAgency.tourAgencyJava.repositories.ToursRepository;
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
@@ -12,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -23,9 +23,20 @@ import java.util.stream.Collectors;
 public class TourService {
     private final ToursRepository toursRepository;
     private final PhotoRepository photoRepository;
+    private final LanguageRepository languageRepository;
+    private final EntityManager entityManager;
 
-    public Tours addTour(Tours tours, List<MultipartFile> images) {
-        tours.setOrders(null);
+    @Transactional
+    public Tours addTour(Tours tours, List<MultipartFile> images, List<String> languageNames) {
+        if (languageNames != null) {
+            List<Language> languages = languageRepository.findByLanguageIn(languageNames);
+            List<Language> managedLanguages = languages.stream()
+                    .map(entityManager::merge)
+                    .collect(Collectors.toList());
+            tours.setLanguages(managedLanguages);
+        }
+
+        tours.setOrders(null);;
 
         Tours savedTours = toursRepository.save(tours);
         List<Photo> photos = setPhoto(images, savedTours);
@@ -35,12 +46,18 @@ public class TourService {
         return toursRepository.save(tours);
     }
 
+    @Transactional
     public List<Tours> allTours() {
         return toursRepository.findAll();
     }
 
+    @Transactional
     public Tours getTourById(long id) {
-        return toursRepository.findById((int) id).orElse(null);
+        Tours tour = toursRepository.findById((int) id).orElse(null);
+        if (tour != null) {
+            Hibernate.initialize(tour.getLanguages());
+        }
+        return tour;
     }
 
     public void deleteTour(Long id) {
@@ -49,7 +66,8 @@ public class TourService {
 
 
     @Transactional
-    public Tours updateTour(Tours updatedTour, Long id, List<MultipartFile> newImages) {
+    public Tours updateTour(Tours updatedTour, Long id, List<MultipartFile> newImages, List<String> languageNames) {
+        System.out.println(languageNames);
         return toursRepository.findById(Math.toIntExact(id))
                 .map(existingTour -> {
                     Hibernate.initialize(existingTour.getPhotos());
@@ -64,13 +82,18 @@ public class TourService {
                     existingTour.setLocation(updatedTour.getLocation());
                     existingTour.setPrice(updatedTour.getPrice());
                     existingTour.setDescription(updatedTour.getDescription());
-                    existingTour.setLanguages(updatedTour.getLanguages());
 
-                    List<Photo> existingPhotos = existingTour.getPhotos();
+                    if (languageNames != null) {
+                        List<Language> languages = languageRepository.findByLanguageIn(languageNames);
+                        existingTour.setLanguages(languages);
+                    }
+
+                    List<Photo> existingPhotos = existingTour.getPhotos() != null
+                            ? existingTour.getPhotos()
+                            : new ArrayList<>();
 
                     if (newImages != null && !newImages.isEmpty()) {
-                        int size = newImages.size();
-                        for (int i = 0; i < size; i++) {
+                        for (int i = 0; i < newImages.size(); i++) {
                             MultipartFile newImage = newImages.get(i);
                             if (newImage != null) {
                                 try {

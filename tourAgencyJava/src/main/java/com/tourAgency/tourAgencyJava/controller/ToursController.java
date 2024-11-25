@@ -4,8 +4,10 @@ package com.tourAgency.tourAgencyJava.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tourAgency.tourAgencyJava.model.Tours;
 import com.tourAgency.tourAgencyJava.service.TourService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,8 @@ public class ToursController {
     @PostMapping(value = "/addTour", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Tours> addTour(
             @RequestPart("tours") String toursJson,
-            @RequestPart("images") List<MultipartFile> images) {
+            @RequestPart("images") List<MultipartFile> images,
+            @RequestParam("languages") List<String> languageNames) {
         Tours tours;
         try {
             tours = objectMapper.readValue(toursJson, Tours.class);
@@ -38,20 +41,25 @@ public class ToursController {
             throw new RuntimeException("Ошибка при десериализации JSON" + e.getMessage());
         }
 
-        Tours savedTour = tourService.addTour(tours, images);
+        Tours savedTour = tourService.addTour(tours, images, languageNames);
         return ResponseEntity.ok(savedTour);
     }
 
 
     @GetMapping("/allTours")
+    @Transactional
     public ResponseEntity<List<Tours>> getAllTours() {
         List<Tours> tours = tourService.allTours();
+        tours.forEach(tour -> {
+            Hibernate.initialize(tour.getLanguages());
+        });
         return ResponseEntity.ok(tours);
     }
 
     @GetMapping("/tour/{id}")
     public ResponseEntity<Tours> getTourById(@PathVariable long id) {
         Tours tour = tourService.getTourById(id);
+        Hibernate.initialize(tour.getLanguages())   ;
         return ResponseEntity.ok(tour);
     }
 
@@ -63,11 +71,13 @@ public class ToursController {
         return ResponseEntity.ok("Tour deleted");
     }
 
+    @Transactional
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(value = "/updateTour/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Tours> updateTour(
             @RequestPart("tours") String toursJson,
             @RequestPart(value = "images", required = false) List<MultipartFile> images,
+            @RequestParam(value = "languages", required = false) List<String> languageNames,
             @PathVariable Long id) {
         Tours tours;
         try {
@@ -75,8 +85,7 @@ public class ToursController {
         } catch (IOException e) {
             throw new RuntimeException("Ошибка при десериализации JSON" + e.getMessage());
         }
-
-        Tours updatedTour = tourService.updateTour(tours, id, images);
+        Tours updatedTour = tourService.updateTour(tours, id, images, languageNames);
         return ResponseEntity.ok(updatedTour);
     }
 
