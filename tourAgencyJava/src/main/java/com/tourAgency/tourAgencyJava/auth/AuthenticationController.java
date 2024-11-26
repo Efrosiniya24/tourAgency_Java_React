@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,14 +31,14 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
-
-    @GetMapping("/some-endpoint")
-    public String someMethod() {
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        logger.info("Required authority: ADMIN");
-        logger.info("User authorities: {}", authentication.getAuthorities());
-
-        return authentication.getAuthorities().toString();
+        if (authentication != null) {
+            SecurityContextHolder.clearContext();
+            logger.info("User logged out: {}", authentication.getName());
+        }
+        return ResponseEntity.ok().build();
     }
 }
  
