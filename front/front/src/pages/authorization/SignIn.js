@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import axiosInstance from './axiosInstance'; 
 import login from './login.module.css';
 
@@ -9,8 +9,8 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const location = useLocation();
 
-  // Получение CSRF токена из meta-тега
   const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
   const handleSubmit = async (event) => {
@@ -31,9 +31,13 @@ const SignIn = () => {
         const { id, role } = response.data;
         localStorage.setItem('userRole', role);
 
+        const redirectPath = location.state?.from?.pathname || (role === 'USER' ? '/tours' : `/mainAdmin/${id}`);
+
+
         switch (role) {
-          case 'client':
-            navigate(`/tours`);
+          case 'USER':
+            // navigate(`/tours`);
+            navigate(redirectPath);
             break;
           case 'ADMIN':
             navigate(`/mainAdmin/${id}`);
