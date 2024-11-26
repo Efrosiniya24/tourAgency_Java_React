@@ -13,10 +13,11 @@ import Tours from './pages/tour/tour';
 import TourDetail from './pages/tourDetail/tourDetail';
 import ApplicationForm from './pages/applicationForm/applicationForm';
 import Report from './pages/report/report';
+import { AuthProvider } from './components/AuthProvider';
 
 function App() {
   return (
-    <div>
+    <AuthProvider>
         <Router>
             <Routes>
                 <Route path="/" element={<MainPageUser/>}></Route>
@@ -24,7 +25,7 @@ function App() {
                 <Route path="/signIn" element={<SignIn/>}></Route>
                 <Route path="/signUp" element={<SignUp/>}></Route>
                 <Route path="/tours" element={<Tours/>}></Route>
-                <Route path="/tours/:id" element={<TourDetail/>}></Route>
+                <Route path="/tour" element={<TourDetail/>}></Route>
                 <Route path="/application" element={<ApplicationForm />} />
                 <Route path="/mainAdmin/:user_id" element={<MainAdmin/>}></Route>
                 <Route path="/dataBase" element={<DataBase/>}></Route>
@@ -34,7 +35,7 @@ function App() {
                 <Route path="/report" element={<Report/>}></Route>
             </Routes>
         </Router>
-    </div>
+    </AuthProvider>
   );
 }
 
