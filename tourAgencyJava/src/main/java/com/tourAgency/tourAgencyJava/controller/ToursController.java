@@ -91,20 +91,35 @@ public class ToursController {
 
 
     @GetMapping("/search")
-    public ResponseEntity<Optional<List<Tours>>> searchTours(@RequestParam String line){
-        Optional<List<Tours>> tours = Optional.ofNullable(tourService.searchTour(line));
+    @Transactional
+    public ResponseEntity<List<Tours>> searchTours(@RequestParam String line){
+        List<Tours> tours = tourService.searchTour(line);
+        tours.forEach(tour -> {
+            Hibernate.initialize(tour.getLanguages());
+            Hibernate.initialize(tour.getPhotos());
+        });
         return ResponseEntity.ok(tours);
     }
 
     @GetMapping("/sortCostCheap")
+    @Transactional
     public ResponseEntity<List<Tours>> sortedToursCostCheap(){
         List<Tours> tours = tourService.sortToursCostCheap();
+        tours.forEach(tour -> {
+            Hibernate.initialize(tour.getLanguages());
+            Hibernate.initialize(tour.getPhotos());
+        });
         return ResponseEntity.ok(tours);
     }
 
     @GetMapping("/sortCostExpensive")
+    @Transactional
     public ResponseEntity<List<Tours>> sortedToursCostExpensive(){
         List<Tours> tours = tourService.sortToursCostExpensive();
+        tours.forEach(tour -> {
+            Hibernate.initialize(tour.getLanguages());
+            Hibernate.initialize(tour.getPhotos());
+        });
         return ResponseEntity.ok(tours);
     }
 

@@ -1,12 +1,10 @@
 package com.tourAgency.tourAgencyJava.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "photo")
@@ -25,7 +23,9 @@ public class Photo {
     @Column(name = "image_data", columnDefinition = "LONGBLOB")
     private byte[] imageData;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "tour_id", referencedColumnName = "id")
+    @JsonBackReference
     private Tours tour;
 }

@@ -4,21 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tourAgency.tourAgencyJava.model.Enum.Role;
 import com.tourAgency.tourAgencyJava.service.EncryptionService;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
 @Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
@@ -58,6 +57,9 @@ public class User implements UserDetails {
 
     @Column(name = "age")
     private int age;
+
+    @Column(name = "birthday")
+    private Date dateOfBirth;
 
     @Transient
     private transient EncryptionService hashingService;
@@ -106,7 +108,6 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
-
 
     @Override
     public String getUsername() {

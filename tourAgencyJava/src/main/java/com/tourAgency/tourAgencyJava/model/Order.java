@@ -1,13 +1,13 @@
 package com.tourAgency.tourAgencyJava.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Table(name = "orders")
 @Data
@@ -29,7 +29,7 @@ public class Order {
     @Column(name = "number_of_people")
     private int numberOfPeople;
 
-    @Column(name = "special_requests")
+    @Column(name = "special_requests", nullable = true)
     private String specialRequests;
 
     @Column(name = "created_date")
@@ -38,15 +38,34 @@ public class Order {
     @Column(name = "update_status_date")
     private Date updateStatusDate;
 
-    @ManyToOne
-    @JoinColumn(name = "tour_id", nullable = false)
-    private Tours tour;
+    @Column(name = "number_of_days")
+    private int numberOfDays;
+
+    @Column(name = "name_of_tour")
+    private String nameOfTour;
+
+//    @Column (name = "id_tour")
+//    private long idTour;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ToString.Exclude
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "order_languages",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "languages_id")
+    )
+    private List<Language> languages;
 
+    @JsonSetter("languages")
+    public void setLanguagesFromJson(List<String> languages) {
+        this.languages = languages.stream()
+                .map(lang -> Language.builder().language(lang).build())
+                .toList();
+    }
 //    @ManyToOne
 //    @JoinColumn(name = "manager_id")
 //    private User manager;

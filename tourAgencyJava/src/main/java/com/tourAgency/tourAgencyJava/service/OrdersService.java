@@ -1,15 +1,16 @@
 package com.tourAgency.tourAgencyJava.service;
 
-import com.tourAgency.tourAgencyJava.model.Order;
-import com.tourAgency.tourAgencyJava.model.User;
+import com.tourAgency.tourAgencyJava.model.*;
+import com.tourAgency.tourAgencyJava.repositories.LanguageRepository;
 import com.tourAgency.tourAgencyJava.repositories.OrderRepository;
+import com.tourAgency.tourAgencyJava.repositories.ToursRepository;
 import com.tourAgency.tourAgencyJava.repositories.UserRepository;
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,10 @@ public class OrdersService {
 
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private final LanguageRepository languageRepository;
+    private final EntityManager entityManager;
+    private final UserService userService;
+    private final ToursRepository toursRepository;
 
     public int quantityOfAllOrders(){
        int quantityOfOrders = orderRepository.findAll()
@@ -40,12 +45,51 @@ public class OrdersService {
                 .count();
     }
 
-    public Order addOrder(Order order, User user) {
-        List<Order> orders = user.getOrders();
-        orders.add(order);
-        user.setOrders(orders);
-        userRepository.save(user);
-        return order;
+    public Order addOrder(Order order,List<String> languageNames, User user) {
+        User existingUser = userService.getCurrentUser();
+        boolean isUpdated = false;
+
+        if (!Objects.equals(existingUser.getName(), user.getName())) {
+            existingUser.setName(user.getName());
+            isUpdated = true;
+        }
+        if (!Objects.equals(existingUser.getSurname(), user.getSurname())) {
+            existingUser.setSurname(user.getSurname());
+            isUpdated = true;
+        }
+        if (!Objects.equals(existingUser.getPatronymic(), user.getPatronymic())) {
+            existingUser.setPatronymic(user.getPatronymic());
+            isUpdated = true;
+        }
+        if (!Objects.equals(existingUser.getEmail(), user.getEmail())) {
+            existingUser.setEmail(user.getEmail());
+            isUpdated = true;
+        }
+        if (!Objects.equals(existingUser.getPhoneNumber(), user.getPhoneNumber())) {
+            existingUser.setPhoneNumber(user.getPhoneNumber());
+            isUpdated = true;
+        }
+        if (!Objects.equals(existingUser.getGenderClient(), user.getGenderClient())) {
+            existingUser.setGenderClient(user.getGenderClient());
+            isUpdated = true;
+        }
+        if (!Objects.equals(existingUser.getPassportNumber(), user.getPassportNumber())) {
+            existingUser.setPassportNumber(user.getPassportNumber());
+            isUpdated = true;
+        }
+        if (!Objects.equals(existingUser.getPassportSeries(), user.getPassportSeries())) {
+            existingUser.setPassportSeries(user.getPassportSeries());
+            isUpdated = true;
+        }
+
+        if (isUpdated)
+            userRepository.save(existingUser);
+
+        if (languageNames != null)
+            order.setLanguages(languageRepository.findByLanguageIn(languageNames));
+
+        order.setUser(existingUser);
+        return orderRepository.save(order);
     }
 
     public String updateStatus(Long id, String status) {
@@ -62,7 +106,7 @@ public class OrdersService {
     public int quantityOrdersPeriod(String date, String country){
         int orders = (int) orderRepository.findAllWithUser()
                 .stream()
-                .filter(order -> order.getDate().equals(date) && order.getTour().getCountry().equals(country))
+//                .filter(order -> order.getDate().equals(date) && order.getTour().getCountry().equals(country))
                 .count();
         return orders;
     }

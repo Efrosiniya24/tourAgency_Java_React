@@ -36,7 +36,7 @@ public class TourService {
             tours.setLanguages(managedLanguages);
         }
 
-        tours.setOrders(null);;
+//        tours.setOrders(null);;
 
         Tours savedTours = toursRepository.save(tours);
         List<Photo> photos = setPhoto(images, savedTours);
@@ -120,6 +120,7 @@ public class TourService {
                 .orElseThrow(() -> new RuntimeException("Тур с ID " + id + " не найден"));
     }
 
+    @Transactional
     public List<Tours> searchTour(String line) {
         String lineLowerCase = line.toLowerCase();
         List<Tours> allTours = toursRepository.findAll()
@@ -128,8 +129,16 @@ public class TourService {
                         || tour.getName().toLowerCase().contains(lineLowerCase)
                         || tour.getLocation().toLowerCase().contains(lineLowerCase))
                 .collect(Collectors.toList());
+
+        // Инициализация ленивых коллекций
+        allTours.forEach(tour -> {
+            Hibernate.initialize(tour.getLanguages());
+            Hibernate.initialize(tour.getPhotos());
+        });
+
         return allTours;
     }
+
 
     public List<Tours> sortToursCostCheap() {
         return toursRepository.findAll()

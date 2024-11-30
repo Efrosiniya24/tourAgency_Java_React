@@ -4,10 +4,7 @@ package com.tourAgency.tourAgencyJava.model;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
@@ -52,13 +49,15 @@ public class Tours {
     @Column(name = "program")
     private String program;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Order> orders;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<Order> orders;
 
 //    @Nullable
+    @ToString.Exclude
     @JsonIgnore
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Photo> photos;
 
     @JsonIdentityInfo(
