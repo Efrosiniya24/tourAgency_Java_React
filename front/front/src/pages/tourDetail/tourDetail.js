@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'; 
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, Link } from 'react-router-dom';
 import HeaderClient from '../../components/headerClient/headerClient';
 import styles from './tourDetail.module.css';
 import axios from 'axios';
@@ -13,6 +13,7 @@ const TourDetail = () => {
     const tour = location.state?.tour;
     const [photos, setPhotos] = useState([null, null, null, null]);
     const [tourDetails, setTourDetails] = useState(null);
+    const [departureDate, setDepartureDate] = useState();
 
     useEffect(() => {
         if (tour) {
@@ -49,21 +50,10 @@ const TourDetail = () => {
         return text.replace(/\n/g, '<br />');
     };
 
-    const getTomorrowDate = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); 
-        const day = String(today.getDate()+1).padStart(2, '0'); 
-        return `${year}-${month}-${day}`; 
-    };
-    
-
     const[people, setPeople] = useState(1);
 
     const handlePeopleIncrement = () => setPeople(prevPeople => prevPeople + 1);
     const handlePeopleDecrement = () => setPeople(prevPeople =>  Math.max(1, prevPeople - 1));
-
-    
 
     // const getFormattedDate = (dateString) => {
     //     if (!dateString) {
@@ -134,16 +124,17 @@ const TourDetail = () => {
                                     <div className={styles.blockInsideLeft}>
                                         <p>Выберите день отъезда</p>
                                         <div className={styles.calendar}>
-                                            <div className={styles.calendarIcon}>
-                                                <img src = {calendar}/>
-                                            </div>
                                             <div className={styles.inputDate}>
                                                 <input
                                                     type="date"
-                                                    name="currentDate"
-                                                    value={getTomorrowDate()} 
-                                                    onChange={(e) => console.log(e.target.value)} 
+                                                    name="dateOfBirth"
+                                                    placeholder="дд.мм.гггг"
+                                                    // value={departureDate}
+                                                    onChange={(e) => setDepartureDate(e.target.value)} 
                                                 />
+                                            </div>
+                                            <div className={styles.calendarIcon}>
+                                                <img src = {calendar}/>
                                             </div>
                                         </div>
                                     </div>
@@ -179,9 +170,11 @@ const TourDetail = () => {
                                     <div className={styles.destination}>
                                         <img src= {destination}/>
                                     </div>
-                                    <div className={styles.buttonUse}>
-                                        <p>Отправить заявку</p>
-                                    </div>
+                                    <Link to = {`/application`} state ={{tour, departureDate, people}} className={styles.noLink}>
+                                        <div className={styles.buttonUse}>
+                                            <p>Отправить заявку</p>
+                                        </div>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

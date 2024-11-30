@@ -49,6 +49,7 @@
     flex-direction: column;
 }
 
+
 .textApplication{
     display: flex;
     flex-direction: column;
@@ -70,16 +71,26 @@
 
 .columnForApplication{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 1200px;
-    height: 636px;
+    height: 370px;
     gap: 20px;
+    /* justify-content: space-between; */
 }
 
 .firstPartOfApplication{
     display: flex;
-    width: 243px;
+    gap: 20px;
+    width: 25%;
+    height: 375px;
     flex-wrap: wrap;
+}
+
+.secondPartOfApplication {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 25%; 
 }
 
 .specificFilter{
@@ -95,17 +106,33 @@
     color:#76B174;
 }
 
-/* .specificFilter h5{
+.specificFilter h5{
     font-size: 14px;
     color:black;
     margin-top: 10px;
     font-weight: 500;
-} */
+    margin-left: 19px;
+}
+
+.specificFilter h4{
+  display: flex;
+  font-size: 14px;
+  color: #747474;
+  margin-top: 17px;
+  font-weight: 500;
+  margin-left: 19px;
+  font-weight: bold;
+  align-items: center;
+}
+
+.justFilter input{
+  display: flex;
+  height: 47px; 
+}
 
 .specificFilter input{
     display: flex;
-    width: 243px;
-    height: 47px;
+    /* width: 243px; */
     background-color:  #F1F1F1;
     border: transparent;
     color: #747474;
@@ -114,6 +141,7 @@
     align-items: center;
     padding-left: 19px;
     padding-right: 19px;
+    outline: none;
 }
 
 .specificFilter input ::placeholder{
@@ -123,7 +151,7 @@
 
 .autoCompleteContainer {
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
 .autoCompleteInput {
@@ -189,8 +217,8 @@
 }
 
 .addButton:hover{
-transform: scale(1.04);
-transition: ease;
+    transform: scale(1.04);
+    transition: ease;
 }
 
 .removeButton{
@@ -208,4 +236,172 @@ transition: ease;
 .removeButton:hover{
   transform: scale(1.04);
   transition: ease;
+}
+
+.FilerPrintOrChoose{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding-top: 7px;
+  }
+  .FilerPrintOrChoose h6{
+    color: black;
+    font-weight: bold;
+    font-size: 12px;
+    padding-top: 5px;
+    cursor: pointer;
+  }
+  
+  .FilerPrintOrChoose h6:hover{
+    transform: scale(1.03);
+    transition: transform 0.7s ease;
+    color:#747474
+  }
+  .FilerPrintOrChoose{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding-top: 7px;
+  }
+
+  .FilerPrintOrChooseInput{
+    background-color: #F1F1F1;
+    border: transparentддд;
+    height: 57px;
+    width: 243px;
+    border-radius: 17px;
+    margin-top: 7px;
+    padding-top: 1px;
+  }
+
+  .plus{
+    margin-top: -27px;
+    margin-left: 175px;
+  }
+  
+  .minus{
+    margin-top: -24px;
+    margin-left: 205px;
+  }
+
+  .genderOptions {
+    display: flex;
+    gap: 8px;
+    flex-direction: column; 
+    align-items: flex-start; 
+    height: 21px;
+    width: 21px;
+    outline: none;
+    
+}
+
+
+.genderOptions p{
+    color: black;
+    font-weight: 100;
+}
+
+.ratingCheckbox{
+    display: flex;
+    gap:6px;
+    align-items: center;
+    padding: 0px;
+  }
+
+  .calendar{
+    display: flex;
+    gap:4px;
+}
+
+.calendarIcon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F1F1F1;
+    padding: 10px;
+    border-radius: 17px;
+}
+
+.calendarIcon img{
+    height: 25px;
+    width: 25px;
+}
+
+.allRows{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputDate input{
+  width: 243px;
+}
+
+.textarea {
+  border: 1px solid transparent;
+  border-radius: 17px;
+  background-color: #f2f2f2;
+  padding: 10px;
+  resize: none; 
+  overflow-y: auto;
+  min-height: 80px;
+}
+
+.textarea::placeholder{
+  color: #747474;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 19px 15px 19px ;
+}
+
+.but{
+  background-color: #214320;
+  height: 18px;
+  width: 18px;
+}
+
+.buttonUse{
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  align-items: center;
+  background-color: #214320;
+  border-radius: 20px;
+  color: #FFFFFF;
+  font-size: 12px;
+  cursor: pointer;
+  padding-left: 17px;
+  padding-right: 17px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  max-width: 144px;
+  margin-left: 25px;
+  margin-bottom: 10px;
+  margin-top: -10px;
+}
+
+.buttonUse:hover{
+  transform: scale(1.03);
+}
+
+.noLink{
+  color: inherit;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.errorInput {
+    border: 1px solid red;
+}
+
+
+.successMessage{
+  padding-bottom: 30px;
+  padding-top: 0px;
+  color:#ffa200;
+  font-weight: bold;
+  margin-left: 200px;
+  margin-top: -40px;
 }
