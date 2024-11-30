@@ -21,6 +21,7 @@ const ApplicationForm = () => {
     const[people, setPeople] = useState(1);
     const [gender, setGender] = useState({ male: false, female: false });
     const isAuthenticated = !!localStorage.getItem('accessToken');
+    const userRole = localStorage.getItem('userRole');
     const [havingChild, setHavingChild] = useState(false);    
     const initialDepartureDate = location.state?.departureDate ;
     const [departureDate, setDepartureDate] = useState(initialDepartureDate);
@@ -152,6 +153,10 @@ const ApplicationForm = () => {
         };
     
     if (!isAuthenticated) {
+        return <Navigate to="/signIn" replace />;
+    }
+
+    if (userRole !== 'USER') {
         return <Navigate to="/signIn" replace />;
     }
 
