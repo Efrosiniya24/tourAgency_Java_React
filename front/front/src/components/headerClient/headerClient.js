@@ -45,7 +45,7 @@ const HeaderClient = () => {
                 <li>О нас</li>
                 <li>Туры</li>
                 <li>Профиль</li>
-                {user && (
+                {user.role === 'USER' && (
                         <li>
                             <img 
                                 src={logoutPhoto} 
