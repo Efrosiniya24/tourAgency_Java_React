@@ -277,8 +277,18 @@ const Orders = () => {
                                                 </div>
                                             </div>
                                             <div className={styles.buttons}>
-                                                <AcceptButton onClick={() => updateOrderStatus(order.id, 'accepted')} />
-                                                <RejectButton onClick={() => updateOrderStatus(order.id, 'rejected')} />
+                                                {order.status === "processing" && (
+                                                    <>
+                                                        <AcceptButton onClick={() => updateOrderStatus(order.id, 'accepted')} />
+                                                        <RejectButton onClick={() => updateOrderStatus(order.id, 'rejected')} />
+                                                    </>
+                                                )}
+                                                {order.status === "accepted" && (
+                                                    <RejectButton onClick={() => updateOrderStatus(order.id, 'rejected')} />
+                                                )}
+                                                {order.status === "rejected" && (
+                                                    <AcceptButton onClick={() => updateOrderStatus(order.id, 'accepted')} />
+                                                )}
                                             </div>
                                         </div>
                                     </div>
