@@ -1,443 +1,286 @@
-.orderStyle .containerOrders {
+.containerOrders {
     display: flex;
     min-height: 100vh;
-    padding-top: 30px;
-}
-
-.orderStyle .menu {
-    font-weight: 700;
-    font-size: 20px;
-}
-
-.orderStyle .container {
-    display: flex;
-    margin-top: 50px;
-}
-
-.orderStyle .content {
-    flex-grow: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: row;
-    padding-top: 80px;
     height: auto;
 }
 
-.orderStyle .applications {
-    display: flex;
-    gap: 20px;
-}
-
-.orderStyle .category {
-    background-color: #f1f1f1;
+.content {
+    flex-grow: 1;
+    justify-content: center;
     padding: 20px;
-    border-radius: 10px;
-    width: 30%;
+    display: flex;
+    flex-direction: row;
+    padding-top: 141px;
+    min-height: 200px;
+    height: auto;
 }
 
-.orderStyle .application_card p {
-    margin: 5px 0;
-}
-
-.orderStyle button {
-    margin-top: 10px;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.orderStyle .data {
-    flex: 1;
+.data{
+    display: flex;
+    flex-direction: column;
+    width: 1084px;
     border-radius: 20px;
-    border: 1px solid #000;
-    padding: 5px;
-    padding-top: 15px;
-    overflow: hidden; 
-    margin-top: -60px;
-    width:1630px;
+    border: 1px solid #D7D7D7;
 }
 
-.orderStyle .tableDataBase tbody tr:first-child td {
+.tableDataBase{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 1084px;
+    gap:12px;
     padding-top: 10px;
+    /* height: 100%; */
 }
 
-.orderStyle .tableDataBase{
-    border-spacing: 10px;
-    margin-top: -10px;
-    margin-left: 50px;
-    margin-right: 50px;
+.tableDataBaseTH tr {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+    width:1062;
+    height: 53px;
+    align-items: flex-start;
+    align-items: center;
 }
 
-.orderStyle .tableDataBase th {
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    border-bottom-left-radius: 25px; /* Oval shape */
-    border-bottom-right-radius: 25px; /* Oval shape */
-    border-bottom: none;
-    background-color: #e4e4e4; /* Background color */
-    padding: 12px; /* Padding for appearance */
-    text-align: center; /* Center-aligning text */
-    transition: transform 0.2s ease; /* Smooth scaling transition */
-}
-
-.orderStyle .tableDataBase th:hover {
-    transform: scale(1.035); /* Scale up slightly on hover */
-}
-
-.orderStyle .th_content {
-    font-weight: bold;
-    color: #214320;
-    font-size: 23px;
-    text-align: center;
-    width: 550px;
-}
-
-.orderStyle tbody td {
-    transition: transform 0.1s ease;
-    padding: 0px;
-    top: 300px;
-}
-
-.orderStyle tbody td:hover {
-    transform: scale(1.005);
-    cursor: pointer;
-}
-
-.orderStyle tbody tr {
-    margin: 10px 0;
-}
-
-.orderStyle body {
-    font-family: Arial, sans-serif;
-}
-
-.orderStyle .application_card {
-    background-color: #f1f1f1;
-    border: 1px solid #787878;
+.tableDataBaseTH th{
+    display: flex;
+    width: 340px;
+    height: 53px;
+    align-items: center;
+    justify-content: center;
     border-radius: 20px;
-    padding: 15px;
-    width: 470px;
-    margin: 10px;
-    flex: 1 0 30%;
-    max-width: 30%;
-    box-sizing: border-box;
-    height: 350px;
-}
-
-.application_header, .application_body {
-    margin-bottom: 10px;
-}
-
-.application_header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.id_box {
-    display: flex;
-    align-items: center;
-    background-color: #e0f2f1;
-    border-radius: 15px;
-    border: 1px solid #FFFFFF;
-    padding: 5px 10px;
-    margin-top: -5px;
-    margin-left: 0px;
-    height: 30px;
-}
-
-.id_label {
+    background-color: #D7D7D7;
+    cursor: pointer;
     font-weight: bold;
-    margin-right: 5px;
+    font-size: 18px;
 }
 
-.id_value {
-    padding: 2px 15px;
-    border-radius: 5px;
-    font-weight: bold;
+.tableDataBaseTH th:hover{
+    transform: scale(1.03);
 }
 
-.divider {
-    width: 1px;
-    height: 20px;
-    background-color: #fff;
+.tableDataBaseTH th.processing.active{
+    background-color: #76B174;
+    border-radius: 20px;
+}
+.tableDataBaseTH th.processing:hover{
+    background-color: #76B174;
+    border-radius: 20px;
 }
 
-.user_info {
-    text-align: left;
+.tableDataBaseTH th.accepted.active{
+    background-color: #F4E06E;
+    border-radius: 20px;
+}
+
+.tableDataBaseTH th.accepted:hover{
+    background-color: #F4E06E;
+    border-radius: 20px;
+}
+
+.tableDataBaseTH th.rejected.active{
+    background-color: #DF9E61;
+    border-radius: 20px;
+}
+
+.tableDataBaseTH th.rejected:hover{
+    background-color: #DF9E61;
+    border-radius: 20px;
+}
+
+.lineSeparator{
+    height: 1px;
+    width: 1062px;
+    background-color: black;
+}
+
+.searchAndUserInfo{
+    display: flex;
+
+    height: 64px;
+    width: 418px;
+    padding: 10px;
+}
+
+.search{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 318px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    gap: 10px;
+}
+
+.search input{
+    width: 318px;
+    height: 40px;
+    border: transparent;
+    background-color: transparent;
+    font-size: 15px;
+    color: #757575;
+    outline: none;
+    
+}
+
+.search img{
+    width: 25px;
+    height: 25px;
     cursor: pointer;
 }
 
-.name_box {
-    padding: 5px 10px;
-    background-color: white;
-    border-radius: 15px;
-    display: inline-block;
+.search img:hover{
+    transform: scale(1.03);
+}
+
+.reloadIcon{
     display: flex;
-    align-items: center; /* Center items vertically */
-    width: 100%;
-    margin-top: -5px;
-    flex-grow: 1; /* Make the box take the available space */
+    justify-content: center;
+    align-items: center;
+    width: 27px;
+    height: 40px;
+    margin-left: 7px;
 }
 
-.name {
-    margin-right: 8px;
-    padding-left: 10px;
+.reloadIcon img{
+    width: 23px;
+    height: 23px;
 }
 
-.name_box .name{
-    transition: transform 0.1s ease;
-}
-
-.name_box .name:hover {
+.reloadIcon img:hover{
     transform: scale(1.05);
     cursor: pointer;
 }
 
-.user_info .name {
-    text-decoration: underline;
-}
-
-.divider_black {
-    width: 1px;
-    height: 25px;
-    background-color: #000;
-}
-
-.client_info .client_detail {
-    margin: 5px 0;
-}
-
-.application_main {
+.applicationCards{
     display: flex;
-    justify-content: space-between; /* Align items horizontally */
-}
-
-.application_details {
-    background-color: #D5D5D5;
-    border-radius: 15px;
-    padding: 10px;
-    margin: 10px 0;
-    width: 350px;
-    height: 150px;
-    position: relative; /* Add this line */
-}
-
-.application_details p {
-    margin: 0;
-}
-
-.application_details div{
-    margin-top: 7px;
-}
-
-.application_actions {
-    display: flex;
-    flex-direction: column; /* Stack buttons vertically */
-    align-items: flex-start; /* Align buttons to the start */
-    gap: 5px; /* Space between buttons */
-    margin-left: 20px; /* Add some space between details and actions */
-}
-
-.non_processing .application_actions {
-    margin-top: 115px;
-}
-
-button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button.reject {
-    background-color: #df9e61;
-    color: #000;
-    padding: 10px;
-    border-radius: 15px;
-    transition: transform 0.1s ease;
-}
-
-button.reject:hover {
-    transform: scale(1.1);
-}
-
-button.accept {
-    background-color: #f4e06e;
-    color: #000;
-    padding: 10px;
-    border-radius: 15px;
-    transition: transform 0.1s ease;
-}
-
-button.accept:hover {
-    transform: scale(1.1);
-}
-
-.th_content{
-    cursor: pointer;
-}
-
-.th_content.rejected:hover {
-    background-color: #df9e61;
-}
-
-.th_content.accepted:hover {
-    background-color: #f4e06e; 
-}
-
-.date_box {
-    background-color: white;
-    border-radius: 15px;
-    padding: 5px 10px;
-    display: inline-block;
-    margin-top: -5px;
-}
-
-.date {
-    font-weight: bold;
-    font-size: 12px;
-}
-
-.inline_container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%; 
-    gap:20px;
-}
-
-.phone_box {
-    background-color: white;
-    border-radius: 15px;
-    padding: 5px 10px;
-    display: inline-block;
-    margin-top: 10px; 
-    margin-right: 10px; 
-    width: fit-content; 
-}
-
-.phone {
-    margin-right: 8px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:14px;
     padding-left: 10px;
 }
 
-.rectangle {
-    background-color: white;
-    border-radius: 15px;
-    padding: 10px;
-    margin: 10px 0;
-    width: fit-content; /* Adjust the length of the box */
-}
-.nextButton {
-    border-radius: 80%; 
-    border: none;
-    background-color: #fff;
-    width: 40px;  
-    height: 40px;  
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-
-.nextButton:hover {
-    background-color: #e0e0e0;
-}
-
-
-.lineSeparator {
-    border: 0;
-    height: 1px;
-    background: #000000;
-}
-
-.application_cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: left; 
-    margin-left: 50px;
-}
-
-.search-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.search {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 400px;
-    border: 1px solid #000;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.search img {
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.search img:hover {
-    transform: scale(1.1);
-}
-
-.search input {
-    flex: 1;
-    border: none;
-    padding: 10px;
-    font-size: 16px;
-}
-
-.search input:focus {
-    outline: none;
-}
-
-.reloadIcon {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.reloadIcon:hover {
-    transform: scale(1.1);
-}
-
-.searchAndUserInfo {
-    margin-top: 10px;
-    margin-left: 60px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.orderStyle .application_actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.non_processing .application_actions {
-    margin-top: 115px;
-}
-
-.application_actions {
+.card{
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 7px;
+    width: 343px;
+    height: 310px;
+    padding: 8px 12px 8px 12px;
+    background-color: rgba(242, 242, 242, 0.69);
+    border: 1px solid #D7D7D7;
+    box-shadow: 0px 4px 20px 3px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+}
+
+.applicationHeader{
+    display: flex;
+    gap: 4px;
+    min-height: auto;
+    height: auto;
+}
+
+.idBox{
+    display: flex;
+    gap: 3px;
+    width: 72px;
+    background-color: #76B174;
+    border-radius: 9px;
+    padding: 3px 2px 3px 6px;
+    color: #FFFFFF;
+    font-size: 15px;
+}
+
+.dividerWhite{
+    width: 1px;
+    height: 16px;
+    background-color: #FFFFFF;
+}
+
+.dividerBlack{
+    width: 1px;
+    height: 16px;
+    background-color: #000000;
+}
+
+.idValue{
+    font-weight: bold;
+}
+
+.userInfo{
+    display: flex;
+    flex-direction: row;
+    background-color: #FFFFFF;
+    border-radius: 9px;
+    gap: 3px;
+    padding: 4px 5px 4px 5px;
+    min-height: auto;
+    height: auto;
+}
+
+.idLabel{
+    display: flex;
+    color: #214320;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.name{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.userInfo input{
+    width: 220px;
+    border: transparent;
+    background-color: transparent;
+    outline: none;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.textInSpan{
+    font-size:14px;
+    font-weight:bold;
+    color: black
+}
+
+.aboutTour{
+    display: flex;
+    width: 250px;
+    height: 77px;
+    background-color: #FFFFFF;
+    border-radius: 9px;
+    padding: 7px 5px 7px 5px;
+    flex-direction: column;
     gap: 5px;
-    margin-left: 20px;
+}
+
+.pointer{
+    display: flex;
+    align-items: flex-end;
+    gap: 7px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.textColumn{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 7px 10px 7px;
+    gap:3px; 
+ 
+}
+.spaceAfter{
+    margin-left: 4px;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    justify-content: flex-end;
 }

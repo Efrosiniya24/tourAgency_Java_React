@@ -2,9 +2,9 @@ import React from 'react';
 import style from "./rejectButton.module.css";
 import { NavLink } from "react-router-dom";
 
-const RejectButton = () => {
+const RejectButton = ({onClick}) => {
     return ( 
-        <div className={style.rejectButton}>
+        <div className={style.rejectButton} onClick = {onClick}>
             <p>Отклонить</p>
         </div>
      );

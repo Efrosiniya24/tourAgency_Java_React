@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import format from "date-fns/format";
+import parseISO from "date-fns/parseISO";
 import HeaderAdmin from "../../components/headerAdmin/headerAdmin";
 import SliderBar from "../../components/sliderBar/sliderBar";
+import { useNavigate } from 'react-router-dom';
 import styles from "./orders.module.css";
 import { FaChevronRight } from 'react-icons/fa';
 import searchIcon from "./../../photo/search2.png";
 import reloadIcon from "./../../photo/reload.png";
+import Pointer from "./../../components/pointer/pointer";
+import RejectButton from "../../components/rejectButton/rejectButton";
+import AcceptButton from "../../components/acceptButton/acceptButton"
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -13,7 +19,13 @@ const Orders = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [filteredOrders, setFilteredOrders] = useState([]);
-    const [currentStatus, setCurrentStatus] = useState('processing');
+    const [activeStatus, setActiveStatus] = useState("processing");
+
+    const navigate = useNavigate();
+
+    const handlePointerClick = (order) => {
+        navigate(`/tour/${order.id}`);
+    };
 
     useEffect(() => {
         fetchOrders();
@@ -22,7 +34,17 @@ const Orders = () => {
     const fetchOrders = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.get('http://localhost:8000/orders/allOrders/');
+            const token = localStorage.getItem('accessToken');  
+            if (!token) {
+                throw new Error('Token not found. Please log in again.');
+            }
+            const response = await axios.get('http://localhost:8083/tourAgency/orders/getOrders', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            console.log('Response from server:', response.data); 
             const allOrders = response.data;
             setOrders(allOrders);
             const processingOrders = allOrders.filter(order => order.status === 'processing');
@@ -35,105 +57,144 @@ const Orders = () => {
         }
     };
 
-    const handleSearch = async () => {
-        setIsLoading(true);
-        setError(null);
-        console.log('Search term:', searchTerm);
+    const formatCreatedDate = (dateString) => {
         try {
-            const response = await axios.post('http://localhost:8000/orders/search/', 
-                { 
-                    user_name: searchTerm, 
-                    user_surname: searchTerm, 
-                    user_patronymic: searchTerm, 
-                    tour_name: searchTerm, 
-                    travel_agency: searchTerm 
-                }, 
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-            console.log('Search response:', response.data);
-            setOrders(response.data);
-            setFilteredOrders(response.data);
+            return format(parseISO(dateString), "dd.MM.yyyy");
         } catch (error) {
-            console.error('Search error:', error);
-            setError(error);
-        } finally {
-            setIsLoading(false);
+            console.error("Error formatting date:", error);
+            return dateString; 
         }
+    };
+
+    const handleSearch = async () => {
+        // setIsLoading(true);
+        // setError(null);
+        // try {
+        //     const response = await axios.get('http://localhost:8083/tourAgency/orders/search', {
+        //         user_name: searchTerm,
+        //         user_surname: searchTerm,
+        //         user_patronymic: searchTerm,
+        //         tour_name: searchTerm,
+        //         travel_agency: searchTerm
+        //     }, {
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     });
+        //     setOrders(response.data);
+        //     setFilteredOrders(response.data);
+        // } catch (error) {
+        //     console.error('Search error:', error);
+        //     setError(error);
+        // } finally {
+        //     setIsLoading(false);
+        // }
     };
 
     const handleSearchEnter = async (event) => {
-        if (event.key === 'Enter') {
-            handleSearch();
-        }
+        // if (event.key === 'Enter') {
+        //     handleSearch();
+        // }
     };
 
     const handleReload = () => {
-        window.location.reload();
+        fetchOrders();
     };
 
     const filterByStatus = (status) => {
-        setCurrentStatus(status);
+        setActiveStatus(status);
         const filtered = orders.filter(order => order.status === status);
         setFilteredOrders(filtered);
     };
 
     const updateOrderStatus = async (orderId, newStatus) => {
         try {
-            const response = await axios.post('http://localhost:8000/orders/update-status/', {
-                order_id: orderId,
-                status: newStatus
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (response.data.status === 'success') {
-                const updatedOrders = orders.map(order => order.id === orderId ? { ...order, status: newStatus } : order);
-                setOrders(updatedOrders);
-                const filtered = updatedOrders.filter(order => order.status === currentStatus);
-                setFilteredOrders(filtered);
-            } else {
-                console.error('Failed to update order status:', response.data.message);
+            const token = localStorage.getItem('accessToken');
+            if (!token) {
+                throw new Error('Token not found. Please log in again.');
             }
+    
+            const response = await axios.put(
+                `http://localhost:8083/tourAgency/orders/updateStatus/${orderId}`,
+                newStatus,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+    
+            const updatedOrder = response.data;
+            const updatedOrders = orders.map(order =>
+                order.id === orderId ? updatedOrder : order
+            );
+            setOrders(updatedOrders);
+            const filtered = updatedOrders.filter(order => order.status === activeStatus);
+            setFilteredOrders(filtered);
+    
+            console.log('Order status updated:', updatedOrder);
         } catch (error) {
             console.error('Error updating order status:', error);
+            alert('Не удалось обновить статус. Попробуйте позже.');
         }
+    };
+    
+
+    const handleClick = (status) => {
+        setActiveStatus(status);
+        filterByStatus(status); 
     };
 
     return (
-        <div className={styles.orderStyle}>
-            <div className={styles.container}>
-                <HeaderAdmin />
-                <div className={styles.containerOrders}>
-                    <SliderBar />
-                    <main className={styles.content}>
-                        <section className={styles.data}>
-                            <div className={styles.tableDataBase}>
-                                <th className={`${styles.th_content} ${styles.processing}`} onClick={() => filterByStatus('processing')}><div>В обработке</div></th>
-                                <th className={`${styles.th_content} ${styles.accepted}`} onClick={() => filterByStatus('accepted')}><div>Принята</div></th>
-                                <th className={`${styles.th_content} ${styles.rejected}`} onClick={() => filterByStatus('rejected')}><div>Отклонена</div></th>
-                                <hr className={styles.lineSeparator} />
+        <div>
+            <HeaderAdmin />
+            <div className={styles.containerOrders}>
+                <SliderBar />
+                <main className={styles.content}>
+                    <div className={styles.data}>
+                        <div className={styles.tableDataBase}>
+                            <thead className={styles.tableDataBaseTH}>
+                                <tr>
+                                    <th 
+                                        className={`${styles.processing} ${activeStatus === "processing" ? styles.active : ""}`} 
+                                        onClick={() => handleClick("processing")}
+                                    >
+                                        В обработке
+                                    </th>
+                                    <th 
+                                        className={`${styles.accepted} ${activeStatus === "accepted" ? styles.active : ""}`} 
+                                        onClick={() => handleClick("accepted")}
+                                    >
+                                        Принята
+                                    </th>
+                                    <th 
+                                        className={`${styles.rejected} ${activeStatus === "rejected" ? styles.active : ""}`} 
+                                        onClick={() => handleClick("rejected")}
+                                    >
+                                        Отклонена
+                                    </th>
+                                </tr>
+                            </thead>
+                            <hr className={styles.lineSeparator} />
+                        </div>
+                        <div className={styles.searchAndUserInfo}>
+                            <div className={styles.search}>
+                                <img 
+                                    src={searchIcon} 
+                                    alt="Search" 
+                                    onClick={handleSearch} 
+                                />
+                                <input 
+                                    type="text" 
+                                    className={styles.searchInput}
+                                    placeholder="Введите фио или тур"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    onKeyDown={handleSearchEnter}
+                                />
                             </div>
-                            <div className={styles.searchAndUserInfo}>
-                                <div className={styles.search}>
-                                    <img 
-                                        src={searchIcon} 
-                                        alt="Search" 
-                                        onClick={handleSearch}
-                                    />
-                                    <input 
-                                        type="text" 
-                                        className={styles.searchInput}
-                                        placeholder="Введите имя, фамилию, или турагентство"
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        onKeyDown={handleSearchEnter}
-                                    />
-                                </div>
+                            <div className={styles.reloadIcon}>
                                 <img 
                                     className={styles.reloadIcon} 
                                     src={reloadIcon} 
@@ -141,84 +202,92 @@ const Orders = () => {
                                     onClick={handleReload} 
                                 />
                             </div>
-                            <div className={styles.application_cards}>
-                                {isLoading ? (
-                                    <div>Загрузка...</div>
-                                ) : (
-                                    filteredOrders.map(order => (
-                                        <div key={order.id} className={styles.application_card}>
-                                            <div className={styles.application_header}>
-                                                <div className={styles.id_box}>
-                                                    <span className={styles.id_label}>ID</span>
-                                                    <span className={styles.divider}></span>
-                                                    <span className={styles.id_value}>{order.id}</span>
-                                                </div>
-                                                <div className={styles.user_info}>
-                                                    <div className={styles.name_box}>
-                                                        <span className={styles.id_label}>K</span>
-                                                        <span className={styles.name}>{`${order.user.surname} ${order.user.name} ${order.user.patronymic}`}</span>
-                                                    </div>
-                                                </div>
+                        </div>
+                        <div className={styles.applicationCards}>
+                            {isLoading ? (
+                                <div>Загрузка...</div>
+                            ) : (
+                                filteredOrders.length === 0 ? (
+                                    <div>Нет данных для отображения</div>
+                                ) : (   
+                                filteredOrders.map(order => (
+                                    <div key={order.id} className={styles.card}>
+                                        <div className={styles.applicationHeader}>
+                                            <div className={styles.idBox}>
+                                                <span>ID</span>
+                                                <span className={styles.dividerWhite}></span>
+                                                <span className={styles.idValue}>{order.id}</span>
                                             </div>
-                                            <div className={styles.application_body}>
-                                                <div className={styles.client_info}>
-                                                    <div className={styles.inline_container}>
-                                                        <div className={styles.date_box}>
-                                                            <span className={styles.date}>{order.createdAt}</span>
-                                                        </div>
-                                                        <div className={styles.name_box}>
-                                                            <span className={styles.id_label}>M</span>
-                                                            <span className={styles.name}></span>
-                                                        </div>
-                                                    </div>
-                                                    <div className={styles.phone_box}>
-                                                        <span className={styles.phone}>{order.user.phone}</span>
-                                                    </div>
-                                                    <div className={styles.phone_box}>
-                                                        <span className={styles.phone}>{order.user.email}</span>
-                                                    </div>
-                                                    <div className={styles.inline_container}>
-                                                        <div className={styles.phone_box}>
-                                                            <span className={styles.id_label}>Кол. чел.:</span>
-                                                            <span className={styles.phone}>{order.numberOfPeople}</span>
-                                                        </div>
-                                                        <div className={styles.phone_box}>
-                                                            <span className={styles.id_label}>Турагентство:</span>
-                                                            <span className={styles.phone}>{order.tour.travelAgency}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className={styles.application_main}>
-                                                    <div className={styles.application_details}>
-                                                        <p className={`${styles.header} ${styles.rectangle}`}>{order.tour.name}</p>
-                                                        <div>
-                                                            <p>{order.tour.description}</p>
-                                                        </div>
-                                                        <button className={styles.nextButton}><FaChevronRight /></button>
-                                                    </div>
-                                                    <div className={`${styles.application_actions} ${order.status === 'processing' ? styles.processing_actions : ''}`}>
-                                                        {order.status === 'processing' && (
-                                                            <>
-                                                                <button className={styles.reject} onClick={() => updateOrderStatus(order.id, 'rejected')}>Отклонить</button>
-                                                                <button className={styles.accept} onClick={() => updateOrderStatus(order.id, 'accepted')}>Принять</button>
-                                                            </>
-                                                        )}
-                                                        {order.status === 'accepted' && (
-                                                            <button className={styles.reject} onClick={() => updateOrderStatus(order.id, 'rejected')}>Отклонить</button>
-                                                        )}
-                                                        {order.status === 'rejected' && (
-                                                            <button className={styles.accept} onClick={() => updateOrderStatus(order.id, 'accepted')}>Принять</button>
-                                                        )}
-                                                    </div>
-                                                </div>
+                                            <div className={styles.userInfo}>
+                                                <span className={styles.idLabel}>K</span>
+                                                <span className={styles.dividerBlack}></span>
+                                                <input
+                                                    value= {`${order.user.surname} ${order.user.name} ${order.user.patronymic}`}
+                                                />
                                             </div>
                                         </div>
-                                    ))
-                                )}
-                            </div>
-                        </section>
-                    </main>
-                </div>
+                                        <div className={styles.applicationHeader}>
+                                            <div className={styles.userInfo}>
+                                                <span  className={styles.idLabel}>O</span>
+                                                <span className={styles.dividerBlack}></span>
+                                                <span className= {styles.textInSpan}>{formatCreatedDate(order.createdDate)}</span>
+                                            </div>
+                                            {order.status !== 'processing' && (
+                                                <div className={styles.userInfo}>
+                                                    <span  className={styles.idLabel}>П</span>
+                                                    <span className={styles.dividerBlack}></span>
+                                                    <span className= {styles.textInSpan}>{formatCreatedDate(order.updateStatusDate)}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className={styles.applicationHeader}>
+                                            <div className={styles.userInfo}>
+                                                <span  className={styles.idLabel}>Кол. чел.:</span>
+                                                <span className={styles.dividerBlack}></span>
+                                                <span className= {styles.textInSpan}>{order.numberOfPeople}</span>
+                                            </div>
+                                            <div className={styles.userInfo}>
+                                                <span className= {styles.textInSpan}>{order.user.phoneNumber}</span>
+                                            </div>
+                                        </div>
+                                        <div className={styles.applicationHeader}>
+                                            <div className={styles.userInfo}>
+                                                <span className= {styles.textInSpan}>{order.user.email}</span>
+                                            </div>
+                                        </div>
+                                        <div className={styles.aboutTour}>
+                                            <p className={styles.idLabel}>Тур</p>
+                                            <div className = {styles.pointer} onClick={() => handlePointerClick(order)}>
+                                                <p>{order.nameOfTour}</p>
+                                                <Pointer/>
+                                            </div>
+                                        </div>
+                                        <div className={styles.applicationHeader}>
+                                            <div className={styles.userInfo}>
+                                                <div className={styles.textColumn}>
+                                                    <span  className={styles.idLabel}>Кол. дней.: 
+                                                        <div className={`${styles.textInSpan} ${styles.spaceAfter}`}>{order.numberOfDays}</div>
+                                                    </span>
+                                                    <span  className={styles.idLabel}>С{' '} 
+                                                        <div className={`${styles.textInSpan} ${styles.spaceAfter}`}> {formatCreatedDate(order.date)}</div>
+                                                    </span>
+                                                    <span  className={styles.idLabel}>По{' '} 
+                                                        <div className={`${styles.textInSpan} ${styles.spaceAfter}`}> {formatCreatedDate(order.endDate  )}</div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className={styles.buttons}>
+                                                <AcceptButton onClick={() => updateOrderStatus(order.id, 'accepted')} />
+                                                <RejectButton onClick={() => updateOrderStatus(order.id, 'rejected')} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )
+                            )}
+                        </div>
+                    </div>
+                </main>
             </div>
         </div>
     );

@@ -2,9 +2,9 @@ import React from 'react';
 import style from "./acceptButton.module.css";
 import { NavLink } from "react-router-dom";
 
-const AcceptButton = () => {
+const AcceptButton = ({onClick}) => {
     return ( 
-        <div className={style.acceptButton}>
+        <div className={style.acceptButton} onClick = {onClick}>
             <p>Принять</p>
         </div>
      );
