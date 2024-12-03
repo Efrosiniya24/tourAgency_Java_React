@@ -60,4 +60,10 @@ public class UserService {
                 .collect(Collectors.toList());
         return users;
     }
+
+    public long quantityOfAllUser() {
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRole() == Role.USER)
+                .count();
+    }
 }

@@ -58,6 +58,7 @@ public class SecurityConfiguration {
                                 "/tourAgency/orders/getOrders", "/tourAgency/orders/quantityOfAllOrders",
                                 "/tourAgency/orders/quantityOfFemaleOrders", "/tourAgency/orders/quantityOfMaleOrdes").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.GET, "tourAgency/admin/getUserData").authenticated()
+                        .requestMatchers(HttpMethod.GET,"tourAgency/admin/quantityOfAllUsers").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

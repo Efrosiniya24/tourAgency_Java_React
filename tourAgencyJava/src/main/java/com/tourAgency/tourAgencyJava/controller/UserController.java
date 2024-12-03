@@ -44,4 +44,10 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/quantityOfAllUsers")
+    public ResponseEntity<Long> quantityOfAllUsers() {
+        long quantity = userService.quantityOfAllUser();
+        return ResponseEntity.ok(quantity);
+    }
 }
