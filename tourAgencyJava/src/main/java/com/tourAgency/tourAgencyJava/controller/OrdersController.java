@@ -37,8 +37,8 @@ public class OrdersController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/quantityOfAllOrders")
-    public ResponseEntity<?> quantityOfAllOrders() {
-        int numberOfOrders = ordersService.quantityOfAllOrders();
+    public ResponseEntity<Long> quantityOfAllOrders() {
+        long numberOfOrders = ordersService.quantityOfAllOrders();
         return ResponseEntity.ok(numberOfOrders);
     }
 

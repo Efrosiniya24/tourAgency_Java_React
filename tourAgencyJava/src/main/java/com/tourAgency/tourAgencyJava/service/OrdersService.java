@@ -27,10 +27,9 @@ public class OrdersService {
     private final UserService userService;
     private final ToursRepository toursRepository;
 
-    public int quantityOfAllOrders(){
-       int quantityOfOrders = orderRepository.findAll()
-               .size();
-        return quantityOfOrders;
+    public long quantityOfAllOrders(){
+        return orderRepository.findAll()
+                .size();
     }
 
     public int quantityOfFemaleOrders() {

@@ -48,7 +48,10 @@ public class Order {
     private int numberOfDays;
 
     @Column(name = "name_of_tour")
-        private String nameOfTour;
+    private String nameOfTour;
+
+//    @Column(name = "tourID")
+//    private long tourID;
 
 //    @Column (name = "id_tour")
 //    private long idTour;
