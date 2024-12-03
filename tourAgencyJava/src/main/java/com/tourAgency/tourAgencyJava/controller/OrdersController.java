@@ -92,10 +92,11 @@ public class OrdersController {
         return ResponseEntity.ok(orders);
     }
 
+    @Transactional
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/changeStatus/{id}")
-    public ResponseEntity<String> changeStatus(@PathVariable Long id, @RequestBody String newStatus) {
-        String status = ordersService.updateStatus(id, newStatus);
-        return ResponseEntity.ok("Update status: " + status);
+    @PutMapping("/updateStatus/{id}")
+    public ResponseEntity<Order> changeStatus(@PathVariable Long id, @RequestBody String newStatus) {
+        Order order = ordersService.updateStatus(id, newStatus);
+        return ResponseEntity.ok(order);
     }
 }

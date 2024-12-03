@@ -8,7 +8,9 @@ import com.tourAgency.tourAgencyJava.repositories.UserRepository;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -89,14 +91,19 @@ public class OrdersService {
             order.setLanguages(languageRepository.findByLanguageIn(languageNames));
 
         order.setUser(existingUser);
+        order.setEndDate(order.getDate().plusDays(order.getNumberOfDays()));
         return orderRepository.save(order);
     }
 
-    public String updateStatus(Long id, String status) {
+    @Transactional
+    public Order updateStatus(Long id, String status) {
         Order newOrder = orderRepository.findById(id);
         newOrder.setStatus(status);
+        newOrder.setUpdateStatusDate(LocalDate.now());
+        newOrder.getLanguages().size();
         orderRepository.save(newOrder);
-        return newOrder.getStatus();
+
+        return newOrder;
     }
 
     public Optional<List<Order>>  allOrdersFromUser (Long id){
@@ -104,7 +111,7 @@ public class OrdersService {
     }
 
     public int quantityOrdersPeriod(String date, String country){
-        int orders = (int) orderRepository.findAllWithUser()
+        int orders = (int) orderRepository.findAllWithUserAndLanguages()
                 .stream()
 //                .filter(order -> order.getDate().equals(date) && order.getTour().getCountry().equals(country))
                 .count();
@@ -112,7 +119,7 @@ public class OrdersService {
     }
 
     public List<Order> getOrders() {
-        return orderRepository.findAllWithUser();
+        return orderRepository.findAllWithUserAndLanguages();
     }
 
 }
