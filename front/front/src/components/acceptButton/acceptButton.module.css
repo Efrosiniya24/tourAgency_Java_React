@@ -1,0 +1,16 @@
+.acceptButton{
+    display: flex;
+    width: 85px;
+    height: 35px;
+    background-color: #F4E06E;
+    border-radius: 20px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.acceptButton:hover{
+    transform: scale(1.03);
+}
