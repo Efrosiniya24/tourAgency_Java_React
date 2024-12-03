@@ -9,6 +9,7 @@ import lombok.*;
 import java.util.Date;
 import java.util.List;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Data
 @Table(name = "tours")

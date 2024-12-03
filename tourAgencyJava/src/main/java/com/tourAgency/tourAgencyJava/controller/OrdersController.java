@@ -96,7 +96,7 @@ public class OrdersController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/updateStatus/{id}")
     public ResponseEntity<Order> changeStatus(@PathVariable Long id, @RequestBody String newStatus) {
-        Order order = ordersService.updateStatus(id, newStatus);
+        Order order = ordersService.updateStatus(id, newStatus.replace("\"", "").trim());
         return ResponseEntity.ok(order);
     }
 }

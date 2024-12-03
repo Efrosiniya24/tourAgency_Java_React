@@ -1,14 +1,17 @@
 package com.tourAgency.tourAgencyJava.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-@Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")@Entity
 @Table(name = "orders")
 @Data
 @Builder
@@ -21,7 +24,10 @@ public class Order {
     private Long id;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
+
+    @Column(name = "endDate")
+    private LocalDate endDate;
 
     @Column(name = "status")
     private String status;
@@ -33,16 +39,16 @@ public class Order {
     private String specialRequests;
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private LocalDate createdDate;
 
     @Column(name = "update_status_date")
-    private Date updateStatusDate;
+    private LocalDate updateStatusDate;
 
     @Column(name = "number_of_days")
     private int numberOfDays;
 
     @Column(name = "name_of_tour")
-    private String nameOfTour;
+        private String nameOfTour;
 
 //    @Column (name = "id_tour")
 //    private long idTour;
