@@ -3,17 +3,15 @@ package com.tourAgency.tourAgencyJava.service;
 import com.tourAgency.tourAgencyJava.model.Enum.Role;
 import com.tourAgency.tourAgencyJava.model.Order;
 import com.tourAgency.tourAgencyJava.model.User;
-import com.tourAgency.tourAgencyJava.repositories.OrderRepository;
 import com.tourAgency.tourAgencyJava.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,5 +63,35 @@ public class UserService {
         return userRepository.findAll().stream()
                 .filter(user -> user.getRole() == Role.USER)
                 .count();
+    }
+
+    public OptionalDouble averageAgeClient() {
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRole() == Role.USER)
+                .mapToInt(User::getAge)
+                .average();
+    }
+
+    public OptionalDouble averageAgeFemale() {
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRole() == Role.USER)
+                .filter(user -> user.getGenderClient().equals("female"))
+                .mapToInt(User::getAge)
+                .average();
+    }
+    public OptionalDouble averageAgeMale() {
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRole() == Role.USER)
+                .filter(user -> user.getGenderClient().equals("male"))
+                .mapToInt(User::getAge)
+                .average();
+    }
+
+    @Transactional(readOnly = true)
+    public int quantityOfOrders(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id " + id));
+        Hibernate.initialize(user.getOrders());
+        return user.getOrders().size();
     }
 }
