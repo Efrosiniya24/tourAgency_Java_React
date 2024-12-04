@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 @RestController
 @RequestMapping("tourAgency/admin")
@@ -49,5 +50,32 @@ public class UserController {
     public ResponseEntity<Long> quantityOfAllUsers() {
         long quantity = userService.quantityOfAllUser();
         return ResponseEntity.ok(quantity);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/averageAgeClient")
+    public ResponseEntity<OptionalDouble> averageAgeClient() {
+        OptionalDouble averageAgeClient = userService.averageAgeClient();
+        return ResponseEntity.ok(averageAgeClient);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/averageAgeFemale")
+    public ResponseEntity<OptionalDouble> averageAgeFemale() {
+        OptionalDouble averageAgeFemale = userService.averageAgeFemale();
+        return ResponseEntity.ok(averageAgeFemale);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/averageAgeMale")
+    public ResponseEntity<OptionalDouble> averageAgeMale() {
+        OptionalDouble averageAgeMale = userService.averageAgeMale();
+        return ResponseEntity.ok(averageAgeMale);
+    }
+
+    @GetMapping("/quantityOfOrders/{id}")
+    public ResponseEntity<Integer> quantityOfOrders(@PathVariable Long id) {
+            int quantityOfOrders = userService.quantityOfOrders(id);
+            return ResponseEntity.ok(quantityOfOrders);
     }
 }
