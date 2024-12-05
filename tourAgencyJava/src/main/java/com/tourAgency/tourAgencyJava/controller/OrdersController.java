@@ -43,6 +43,27 @@ public class OrdersController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/quantityOfOrderAccepted")
+    public ResponseEntity<Long> quantityOfOrderAccepted() {
+        long numberOfOrders = ordersService.quantityOfOrderAccepted();
+        return ResponseEntity.ok(numberOfOrders);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/quantityOfOrderRejected")
+    public ResponseEntity<Long> quantityOfOrderRejected() {
+        long numberOfOrders = ordersService.quantityOfOrderRejected();
+        return ResponseEntity.ok(numberOfOrders);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/quantityOfOrderProcessing")
+    public ResponseEntity<Long> quantityOfOrderProcessing() {
+        long numberOfOrders = ordersService.quantityOfOrderProcessing();
+        return ResponseEntity.ok(numberOfOrders);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/quantityOfFemaleOrders")
     public  ResponseEntity<?> quantityOfFemaleOrders(){
         int numberOfFemaleOrders = ordersService.quantityOfFemaleOrders();

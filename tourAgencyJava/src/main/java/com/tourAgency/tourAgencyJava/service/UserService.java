@@ -65,6 +65,20 @@ public class UserService {
                 .count();
     }
 
+    public long quantityOfMale(){
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRole() == Role.USER)
+                .filter(user -> user.getGenderClient().equals("male"))
+                .count();
+    }
+
+    public long quantityOfFemale(){
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRole() == Role.USER)
+                .filter(user -> user.getGenderClient().equals("female"))
+                .count();
+    }
+
     public OptionalDouble averageAgeClient() {
         return userRepository.findAll().stream()
                 .filter(user -> user.getRole() == Role.USER)
@@ -93,5 +107,13 @@ public class UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id " + id));
         Hibernate.initialize(user.getOrders());
         return user.getOrders().size();
+    }
+
+    public double percentageOfMale(){
+        return (double) quantityOfMale()/quantityOfAllUser() * 100;
+    }
+
+    public double percentageOfFemale(){
+        return (double) quantityOfFemale()/quantityOfAllUser() * 100;
     }
 }

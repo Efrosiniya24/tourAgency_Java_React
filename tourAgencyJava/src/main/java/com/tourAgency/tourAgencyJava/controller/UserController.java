@@ -78,4 +78,16 @@ public class UserController {
             int quantityOfOrders = userService.quantityOfOrders(id);
             return ResponseEntity.ok(quantityOfOrders);
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/percentageOfMale")
+    public ResponseEntity<Double> percentageOfMale() {
+        return ResponseEntity.ok(userService.percentageOfMale());
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/percentageOfFemale")
+    public ResponseEntity<Double> percentageOfFemale() {
+        return ResponseEntity.ok(userService.percentageOfFemale());
+    }
 }

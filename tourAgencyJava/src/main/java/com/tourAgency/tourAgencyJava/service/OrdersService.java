@@ -28,8 +28,25 @@ public class OrdersService {
     private final ToursRepository toursRepository;
 
     public long quantityOfAllOrders(){
-        return orderRepository.findAll()
-                .size();
+        return orderRepository.findAll().size();
+    }
+
+    public long quantityOfOrderAccepted(){
+        return orderRepository.findAll().stream()
+                .filter(order -> order.getStatus().equals("accepted"))
+                .count();
+    }
+
+    public long quantityOfOrderRejected(){
+        return orderRepository.findAll().stream()
+                .filter(order -> order.getStatus().equals("rejected"))
+                .count();
+    }
+
+    public long quantityOfOrderProcessing(){
+        return orderRepository.findAll().stream()
+                .filter(order -> order.getStatus().equals("processing"))
+                .count();
     }
 
     public int quantityOfFemaleOrders() {
