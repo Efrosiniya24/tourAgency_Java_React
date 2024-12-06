@@ -2,13 +2,18 @@ package com.tourAgency.tourAgencyJava.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tourAgency.tourAgencyJava.model.TourFilterRequest;
 import com.tourAgency.tourAgencyJava.model.Tours;
+import com.tourAgency.tourAgencyJava.repositories.ToursRepository;
 import com.tourAgency.tourAgencyJava.service.TourService;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,8 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Predicate;
 
 
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
@@ -28,6 +34,7 @@ import java.util.Optional;
 public class ToursController {
     private final TourService tourService;
     private final ObjectMapper objectMapper;
+    private final ToursRepository toursRepository;
 
     @PostMapping(value = "/addTour", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Tours> addTour(
@@ -101,31 +108,20 @@ public class ToursController {
         return ResponseEntity.ok(tours);
     }
 
-    @GetMapping("/sortCostCheap")
-    @Transactional
-    public ResponseEntity<List<Tours>> sortedToursCostCheap(){
-        List<Tours> tours = tourService.sortToursCostCheap();
-        tours.forEach(tour -> {
-            Hibernate.initialize(tour.getLanguages());
-            Hibernate.initialize(tour.getPhotos());
-        });
-        return ResponseEntity.ok(tours);
-    }
-
-    @GetMapping("/sortCostExpensive")
-    @Transactional
-    public ResponseEntity<List<Tours>> sortedToursCostExpensive(){
-        List<Tours> tours = tourService.sortToursCostExpensive();
-        tours.forEach(tour -> {
-            Hibernate.initialize(tour.getLanguages());
-            Hibernate.initialize(tour.getPhotos());
-        });
-        return ResponseEntity.ok(tours);
-    }
-
     @GetMapping("/countTours")
     public ResponseEntity<Long> countTours() {
         long quantityOfTours = tourService.countTours();
         return ResponseEntity.ok(quantityOfTours);
     }
+
+    @Transactional
+    @PostMapping("/filter")
+    public ResponseEntity<List<Tours>> filterTours(@RequestBody TourFilterRequest filterRequest) {
+        List<Tours> filteredTours = tourService.filterTours(filterRequest);
+        filteredTours.forEach(tour -> Hibernate.initialize(tour.getLanguages()));
+        System.out.println(filteredTours);
+        return ResponseEntity.ok(filteredTours);
+    }
+
+
 }

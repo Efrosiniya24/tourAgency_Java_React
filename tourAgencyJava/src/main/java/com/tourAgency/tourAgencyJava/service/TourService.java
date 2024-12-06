@@ -2,6 +2,7 @@ package com.tourAgency.tourAgencyJava.service;
 
 import com.tourAgency.tourAgencyJava.model.Language;
 import com.tourAgency.tourAgencyJava.model.Photo;
+import com.tourAgency.tourAgencyJava.model.TourFilterRequest;
 import com.tourAgency.tourAgencyJava.model.Tours;
 import com.tourAgency.tourAgencyJava.repositories.LanguageRepository;
 import com.tourAgency.tourAgencyJava.repositories.PhotoRepository;
@@ -139,14 +140,6 @@ public class TourService {
         return allTours;
     }
 
-
-    public List<Tours> sortToursCostCheap() {
-        return toursRepository.findAll()
-                .stream()
-                .sorted(Comparator.comparing(Tours::getPrice))
-                .collect(Collectors.toList());
-    }
-
     public List<Photo> setPhoto(List<MultipartFile> newImages, Tours tour) {
         return newImages.stream()
                 .map(image -> {
@@ -166,12 +159,23 @@ public class TourService {
         return toursRepository.count();
     }
 
-    public List<Tours> sortToursCostExpensive() {
-        return toursRepository.findAll()
-                .stream()
-                .sorted(Comparator.comparing(Tours::getPrice).reversed())
+    @Transactional
+    public List<Tours> filterTours(TourFilterRequest filterRequest) {
+        return toursRepository.findAll().stream()
+                .filter(tour -> filterRequest.getMinPrice() == null || tour.getPrice() >= filterRequest.getMinPrice())
+                .filter(tour -> filterRequest.getMaxPrice() == null || tour.getPrice() <= filterRequest.getMaxPrice())
+                .filter(tours -> filterRequest.getDays() == null || tours.getNumberOfDays() == filterRequest.getDays())
+                .filter(tour -> filterRequest.getLanguages() == null || filterRequest.getLanguages().isEmpty() ||
+                        tour.getLanguages().stream()
+                                .map(Language::getLanguage)
+                                .anyMatch(filterRequest.getLanguages()::contains))
+                .filter(tour -> filterRequest.getCountries() == null || filterRequest.getCountries().isEmpty() ||
+                        filterRequest.getCountries().contains(tour.getCountry()))
+
                 .collect(Collectors.toList());
     }
+
+
 }
 
 
