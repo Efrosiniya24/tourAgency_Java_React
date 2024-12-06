@@ -56,6 +56,9 @@ const Tours = () => {
         "Дайвинг": false,
         "Сафари": false,
     });
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
     const [sortOption, setSortOption] = useState("По популярности");
 
     const handleDaysIncrement = () => setDays(prevDays => prevDays + 1);
@@ -206,24 +209,43 @@ const Tours = () => {
             console.error("Ошибка загрузки фотографий:", error);
         }
     };
+
+    const handleSearch = async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+          const token = localStorage.getItem('accessToken');  
+          if (!token) {
+            throw new Error('Token not found. Please log in again.');
+          }
+      
+          const response = await axios.get(`http://localhost:8083/tourAgency/tours/search?line=${searchTerm}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          setTours(response.data); 
+          setFilteredTours(response.data);
+        } catch (error) {
+          console.error('Search error:', error);
+          setError(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
     
-
-    // const [services, setServices] = useState([]);
-    // const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     axios.get('http://localhost:8000/tours/allTours')
-    //         .then(response => {
-    //             setServices(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching services:', error);
-    //         });
-    // }, []);
-
-    // const handleCardClick = (serviceId) => {
-    //     navigate(`/tours/${serviceId}`);
-    // };      
+      const handleSearchEnter = async (event) => {
+        if (event.key === 'Enter') {
+          handleSearch();
+        }
+      };
+    
+      const handleReload = () => {
+        window.location.reload();
+      };      
     const [filteredTours, setFilteredTours] = useState(tours); 
         const handleApplyFilters = async () => {
             const filterData = {
@@ -273,20 +295,20 @@ const Tours = () => {
                     <img 
                         src={searchIcon} 
                         alt="Search" 
-                        // onClick={handleSearch}
+                        onClick={handleSearch}
                     />
                     <input 
                         type="text" 
-                        placeholder="Введите название тура, страну,город или турагентство"
-                        // value={searchTerm}
-                        // onChange={(e) => setSearchTerm(e.target.value)}
-                        // onKeyDown={handleSearchEnter}
+                        placeholder="Введите название тура или страну"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={handleSearchEnter}
                     />
                     <img 
                         className={styles.reloadIcon} 
                         src={reloadIcon} 
                         alt="Reload" 
-                        // onClick={handleReload} 
+                        onClick={handleReload} 
                     />
                 </div>
                 <div className={styles.allTours}>
