@@ -18,7 +18,13 @@ import reloadIcon from "./../../photo/reload.png";
 import Iceland from "./photo/Iceland.jpg";
 
 const Tours = () => {
-
+    const [filters, setFilters] = useState({
+        minPrice: '',
+        maxPrice: '',
+        days: '',
+        languages: [],
+        countries: [],
+      });   
     const[days, setDays] = useState(1);
     const[people, setPeople] = useState(1);
     const [countryInputs, setCountryInputs] = useState([""]);
@@ -99,20 +105,25 @@ const Tours = () => {
     const handleSortChange = (event) => {
         const selectedOption = event.target.value;
         setSortOption(selectedOption);
-
+    
+        let sortedTours = [...filteredTours]; 
+    
         if (selectedOption === "Сначала дешевые") {
-            axios.get("http://localhost:8083/tourAgency/tours/sortCostCheap")
-                .then((response) => setTours(response.data))
-                .catch((error) => console.error("Error fetching sorted tours:", error));
+            sortedTours.sort((a, b) => a.price - b.price); 
         }
-
+    
         if (selectedOption === "Сначала дорогие") {
-            axios.get("http://localhost:8083/tourAgency/tours/sortCostExpensive")
-                .then((response) => setTours(response.data))
-                .catch((error) => console.error("Error fetching sorted tours:", error));
+            sortedTours.sort((a, b) => b.price - a.price); 
         }
-
+    
+        if (selectedOption === "По популярности") {
+            sortedTours.sort((a, b) => b.rating - a.rating); 
+        }
+    
+        setFilteredTours(sortedTours); 
     };
+    
+    
 
     const handleResetFilters = () => {
         setDays(1);
@@ -146,6 +157,14 @@ const Tours = () => {
             "Дайвинг": false,
             "Сафари": false,
         });
+        axios.get('http://localhost:8083/tourAgency/tours/allTours')
+            .then(response => {
+                setTours(response.data);
+                fetchPhotos(response.data); 
+                setFilteredTours(tours);
+            })
+            .catch(error => console.error('Error fetching tours:', error));
+        
     }
 
     const[tours, setTours] = useState([]);
@@ -157,6 +176,7 @@ const Tours = () => {
             .then(response => {
                 setTours(response.data);
                 fetchPhotos(response.data); 
+                setFilteredTours(response.data);
             })
             .catch(error => console.error('Error fetching tours:', error));
     }, []);
@@ -203,8 +223,41 @@ const Tours = () => {
 
     // const handleCardClick = (serviceId) => {
     //     navigate(`/tours/${serviceId}`);
-    // };
+    // };      
+    const [filteredTours, setFilteredTours] = useState(tours); 
+        const handleApplyFilters = async () => {
+            const filterData = {
+                minPrice,
+                maxPrice,
+                days,
+                languages: Object.keys(languages).filter((lang) => languages[lang]), 
+                countries: countryInputs.filter((country) => country), 
+            };
+            console.log("Отправляемые данные фильтра:", filterData);
 
+            try {
+                const token = localStorage.getItem('accessToken');
+                if (!token) {
+                    throw new Error('Token not found. Please log in again.');
+                }
+                const response = await axios.post('http://localhost:8083/tourAgency/tours/filter', filterData, {
+                    withCredentials: true,
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                      },
+                    
+                });
+                setFilteredTours(response.data)
+                console.log("Отправляемые данные фильтра:", filterData);
+                console.log("Фильтрованные туры:", response.data);
+                setTours(response.data);
+            } catch (error) {
+                console.error("Ошибка при фильтрации туров:", error);
+            }
+        };
+        
+    
     return (
         <div>
             <HeaderClient/>
@@ -387,7 +440,7 @@ const Tours = () => {
                         <div className={styles.spesificFilter}>
                             <div className={styles.FilerPrintOrChoose}>
                                 <div className={styles.ratingCheckbox}>
-                                    <div className={styles.buttonUse}>
+                                    <div className={styles.buttonUse} onClick={handleApplyFilters}>
                                         <p>Применить</p>
                                     </div>
                                     <div className={styles.buttonLose} onClick = {handleResetFilters}>
@@ -417,8 +470,9 @@ const Tours = () => {
                         </div>
 
                         <div className={styles.catalogTours}>
+                            
                             {/* <div className={styles.toursContainer}> */}
-                                {tours.map((tour) => (
+                                {filteredTours.map((tour) => (
                                     <div key={tour.id} className={styles.cardTour}>
                                         <Link to={`/tour`} state={{ tour }}>
                                             <LazyLoadImage
@@ -450,9 +504,11 @@ const Tours = () => {
                                             </div> 
 
                                             <div className={styles.lastLine}>
-                                                <div className={styles.buttonUse}>
-                                                    <p>Отправить заявку</p>
-                                                </div>
+                                            <Link to = {`/application`} state = {{tour}} className={styles.noLink}>
+                                                    <div className={styles.buttonUse}>
+                                                        <p>Отправить заявку</p>
+                                                    </div>
+                                                </Link>
                                                 <div className={styles.like}>
                                                     <Like />
                                                 </div>
