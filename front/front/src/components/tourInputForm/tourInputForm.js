@@ -26,6 +26,16 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
   }, [tourData]);
 
   useEffect(() => {
+    if (tourData.languages && Array.isArray(tourData.languages)) {
+      const languages = tourData.languages.map((lang) => lang.language);
+      setLanguageInputs(
+        languages.map((language) => ({ value: language, id: Date.now() + Math.random() }))
+      );
+    }
+  }, [tourData]);
+  
+
+  useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -34,59 +44,63 @@ const TourInputForm = ({ tourData, handleChange, handleDelete, handleClose, setT
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    if (!tourData.name || !tourData.country) {
-      alert("Пожалуйста, заполните все обязательные поля.");
-      return;
-    }
-  
-    try {
-      const token = localStorage.getItem('accessToken');
-      const formData = new FormData();
-      formData.append('tours', JSON.stringify({
-        ...tourData,
-    }));
-    
-  
-      images.forEach((image) => {
-        if (image && typeof image !== 'string') {
-            formData.append('images', image);
-        }
-    }); 
 
-    languageInputs
-    .map((input) => input.value.trim())
-    .filter((value) => value !== '')
-    .forEach((language) => formData.append('languages', language));
-  
-      const url = tourData.id 
-        ? `http://localhost:8083/tourAgency/tours/updateTour/${tourData.id}`
-        : 'http://localhost:8083/tourAgency/tours/addTour';
-      const method = tourData.id ? 'put' : 'post';
-  
-      const response = await axios({
-        method: method,
-        url: url,
-        data: formData,
-        withCredentials: true,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-  
-      if (tourData.id) {
-        setTours(tours.map((tour) => (tour.id === tourData.id ? response.data : tour)));
-      } else {
-        setTours([...tours, response.data]);
-      }
-  
-      handleClose();
-    } catch (error) {
-      console.error('Ошибка при сохранении тура:', error);
-      alert('Произошла ошибка при сохранении.');
+    if (!tourData.name || !tourData.country) {
+        alert("Пожалуйста, заполните все обязательные поля.");
+        return;
     }
-  };
+
+    try {
+        const token = localStorage.getItem('accessToken');
+        const formData = new FormData();
+
+        const languages = languageInputs
+            .map((input) => input.value.trim()) 
+            .filter((value) => value !== '');  
+
+        const tourPayload = {
+            ...tourData,
+            languages: languages, 
+        };
+
+        formData.append('tours', JSON.stringify(tourPayload));
+
+        images.forEach((image) => {
+            if (image && typeof image !== 'string') {
+                formData.append('images', image); 
+            }
+        });
+
+        const url = tourData.id
+            ? `http://localhost:8083/tourAgency/tours/updateTour/${tourData.id}`
+            : 'http://localhost:8083/tourAgency/tours/addTour';
+        const method = tourData.id ? 'put' : 'post';
+
+        const response = await axios({
+            method: method,
+            url: url,
+            data: formData,
+            withCredentials: true,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        // Обновляем список туров
+        if (tourData.id) {
+            setTours(tours.map((tour) => (tour.id === tourData.id ? response.data : tour)));
+        } else {
+            setTours([...tours, response.data]);
+        }
+
+        handleClose();
+    } catch (error) {
+        console.error('Ошибка при сохранении тура:', error);
+        alert('Произошла ошибка при сохранении.');
+    }
+};
+
   
   const handleImageUpload = (index, event) => {
     const file = event.target.files[0];
