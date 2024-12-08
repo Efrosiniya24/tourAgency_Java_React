@@ -10,6 +10,7 @@ import com.tourAgency.tourAgencyJava.repositories.ToursRepository;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
+@Slf4j
 public class TourService {
     private final ToursRepository toursRepository;
     private final PhotoRepository photoRepository;
@@ -31,20 +33,20 @@ public class TourService {
     public Tours addTour(Tours tours, List<MultipartFile> images, List<String> languageNames) {
         if (languageNames != null) {
             List<Language> languages = languageRepository.findByLanguageIn(languageNames);
-            List<Language> managedLanguages = languages.stream()
-                    .map(entityManager::merge)
-                    .collect(Collectors.toList());
-            tours.setLanguages(managedLanguages);
+            log.debug("Найдены языки: {}", languages);
+            tours.setLanguages(new ArrayList<>(languages));
         }
 
-//        tours.setOrders(null);;
-
         Tours savedTours = toursRepository.save(tours);
-        List<Photo> photos = setPhoto(images, savedTours);
 
-        photoRepository.saveAll(photos);
-        savedTours.setPhotos(photos);
-        return toursRepository.save(tours);
+        if (images != null && !images.isEmpty()) {
+            List<Photo> photos = setPhoto(images, savedTours);
+            log.debug("Сохраняем фотографии: {}", photos);
+            photoRepository.saveAll(photos);
+            savedTours.setPhotos(new ArrayList<>(photos));
+        }
+
+        return savedTours;
     }
 
     @Transactional
@@ -131,7 +133,6 @@ public class TourService {
                         || tour.getLocation().toLowerCase().contains(lineLowerCase))
                 .collect(Collectors.toList());
 
-        // Инициализация ленивых коллекций
         allTours.forEach(tour -> {
             Hibernate.initialize(tour.getLanguages());
             Hibernate.initialize(tour.getPhotos());
@@ -174,7 +175,6 @@ public class TourService {
 
                 .collect(Collectors.toList());
     }
-
 
 }
 

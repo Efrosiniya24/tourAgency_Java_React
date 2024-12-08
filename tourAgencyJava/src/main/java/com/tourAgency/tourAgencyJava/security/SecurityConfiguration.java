@@ -41,7 +41,6 @@ public class SecurityConfiguration {
                                 "/tourAgency/tours/some-endpoint",
                                 "/tourAgency/tours/search",
                                 "/tourAgency/admin/currentUser",
-                                "/tourAgency/orders/getOrders/**",
                                 "/tourAgency/photo/getPhoto/**",
                                 "/tourAgency/photo/getFirstPhoto/**",
                                 "/tourAgency/tours/countTours",
@@ -68,6 +67,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "tourAgency/orders/quantityOfOrderAccepted").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST, "tourAgency/tours/filter","/tourAgency/tours/sortCostCheap",
                                 "/tourAgency/tours/sortCostExpensive").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/tourAgency/orders/getOrders/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "tourAgency/tours/popularTours").authenticated()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

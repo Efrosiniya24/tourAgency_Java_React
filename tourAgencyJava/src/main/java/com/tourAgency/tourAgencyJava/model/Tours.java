@@ -74,9 +74,12 @@ public class Tours {
     private List<Language> languages;
 
     @JsonSetter("languages")
-    public void setLanguagesFromJson(List<String> languages) {
-        this.languages = languages.stream()
-                .map(lang -> Language.builder().language(lang).build())
-                .toList();
+    public void setLanguagesFromJson(List<String> languageNames) {
+        if (languageNames != null) {
+            this.languages = languageNames.stream()
+                    .map(lang -> Language.builder().language(lang).build())
+                    .toList();
+        }
     }
+
 }

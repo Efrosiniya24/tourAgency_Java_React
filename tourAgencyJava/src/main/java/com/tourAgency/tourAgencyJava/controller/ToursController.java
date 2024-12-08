@@ -6,14 +6,10 @@ import com.tourAgency.tourAgencyJava.model.TourFilterRequest;
 import com.tourAgency.tourAgencyJava.model.Tours;
 import com.tourAgency.tourAgencyJava.repositories.ToursRepository;
 import com.tourAgency.tourAgencyJava.service.TourService;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,9 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
@@ -36,15 +30,19 @@ public class ToursController {
     private final ObjectMapper objectMapper;
     private final ToursRepository toursRepository;
 
+
+    @Transactional
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/addTour", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Tours> addTour(
             @RequestPart("tours") String toursJson,
             @RequestPart("images") List<MultipartFile> images,
-            @RequestParam("languages") List<String> languageNames) {
+            @RequestParam(value = "languages", required = false) List<String> languageNames){
         Tours tours;
         try {
             tours = objectMapper.readValue(toursJson, Tours.class);
         } catch (IOException e) {
+            System.out.println("Ошибка JSON: " + toursJson);
             throw new RuntimeException("Ошибка при десериализации JSON" + e.getMessage());
         }
 
@@ -123,5 +121,5 @@ public class ToursController {
         return ResponseEntity.ok(filteredTours);
     }
 
-
 }
+
