@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import HeaderAdmin from '../../components/headerAdmin/headerAdmin';
 import SliderBar from "../../components/sliderBar/sliderBar";
 import SelectedUser from "../../components/selectedUser/selectedUser";
@@ -13,6 +13,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaChevronRight } from 'react-icons/fa';
 import ToursAdmin from "../toursAdmin/ToursAdmin";
+import format from "date-fns/format";
+import parseISO from "date-fns/parseISO";
 
 const DataBase = () => {
   const [users, setUsers] = useState([]);
@@ -26,6 +28,8 @@ const DataBase = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [showOrders, setShowOrders] = useState(false);
   const [user_id, setUser_id] = useState(null);
+  const navigate = useNavigate();
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,9 +76,32 @@ const DataBase = () => {
       setError(error);
     }
   };
-  
-  
 
+  const getStatusClass = (status) => {
+    switch (status) {
+        case 'processing':
+            return dataBase.processing; 
+        case 'accepted':
+            return dataBase.accepted; 
+        case 'rejected':
+            return dataBase.rejected;
+        default:
+            return dataBase.unknown;
+    }
+};
+
+    const getStatusText = (status) => {
+        switch (status) {
+            case 'processing':
+                return 'Заявка в рассмотрении';
+            case 'accepted':
+                return 'Заявка принята';
+            case 'rejected':
+                return 'Заявка отклонена';
+            default:
+                return 'Неизвестный статус';
+        }
+    };
   const handleSortClick = () => {
     setSortDirection(sortDirection === 'desc' ? 'asc' : 'desc');
   };
@@ -164,6 +191,20 @@ const DataBase = () => {
     return <div>Ошибка: {error.message}</div>;
   }
 
+
+  const formatCreatedDate = (dateString) => {
+    try {
+        return format(parseISO(dateString), "dd.MM.yyyy");
+    } catch (error) {
+        console.error("Error formatting date:", error);
+        return dateString; 
+    }
+};
+
+const handlePointerClick = (order) => {
+  navigate(`/tour/${order.id}`);
+};
+
   return (
     <div className={dataBase.DataBase}>
       <HeaderAdmin />
@@ -203,86 +244,168 @@ const DataBase = () => {
               handleCloseSelectedUser={handleCloseSelectedUser} 
             />}
             {showOrders && (
-              <div className={dataBase.application_cards}>
-                <button className={dataBase.closeButton} onClick={handleCloseOrders}>×</button>
-                {isLoading ? (
-                  <div>Загрузка...</div>
-                ) : (
-                  orders.map(order => {
-                    return (
-                      <div key={order.id} className={dataBase.application_card}>
-                        <div className={dataBase.application_header}>
-                          <div className={dataBase.id_box}>
-                            <span className={dataBase.id_label}>ID</span>
-                            <span className={dataBase.divider}></span>
-                            <span className={dataBase.id_value}>{order.id}</span>
-                          </div>
-                          <div className={dataBase.user_info}>
-                            <div className={dataBase.name_box}>
-                              <span className={dataBase.id_label}>K</span>
-                              {/* Conditional rendering to prevent errors */}
-                              {order.user ? (
-                                <span className={dataBase.name}>{`${order.user.surname} ${order.user.name} ${order.user.patronymic}`}</span>
-                              ) : (
-                                <span className={dataBase.name}>User information not available</span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <div className={dataBase.application_body}>
-                          <div className={dataBase.client_info}>
-                            <div className={dataBase.inline_container}>
-                              <div className={dataBase.date_box}>
-                                <span className={dataBase.date}>{new Date(order.createdAt).toLocaleDateString()}</span>
-                              </div>
-                              <div className={dataBase.name_box}>
-                                <span className={dataBase.id_label}>Email</span>
-                                {/* Check if user exists before trying to access email */}
-                                {order.user ? (
-                                  <span className={dataBase.name}>{order.user.email}</span>
-                                ) : (
-                                  <span className={dataBase.name}>Email not available</span>
-                                )}
-                              </div>
-                            </div>
-                            <div className={dataBase.phone_box}>
-                              {/* Check if user exists before trying to access phone */}
-                              {order.user ? (
-                                <span className={dataBase.phone}>{order.user.phone}</span>
-                              ) : (
-                                <span className={dataBase.phone}>Phone not available</span>
-                              )}
-                            </div>
-                            <div className={dataBase.inline_container}>
-                              <div className={dataBase.phone_box}>
-                                <span className={dataBase.id_label}>Кол. чел.:</span>
-                                <span className={dataBase.phone}>{order.numberOfPeople}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className={dataBase.application_main}>
-                            <div className={dataBase.application_details}>
-                              {/* Ensure order.tour is defined before rendering its properties */}
-                              {order.tour ? (
-                                <>
-                                  <p className={`${dataBase.header} ${dataBase.rectangle}`}>{order.tour.name}</p>
-                                  <div>
-                                    <p>{order.tour.description}</p>
+              <div className={dataBase.applicationCards}>
+                <div className={dataBase.closeButton} onClick={handleCloseOrders}>×</div>
+                  <div className={dataBase.ordersForm}>
+                    {isLoading ? (
+                      <div>Загрузка...</div>
+                    ) : (
+                      orders.map(order => {
+                        return (
+                          <div key={order.id} className={dataBase.applicationCard}>
+                            <div className={dataBase.line}>
+                              <div className={dataBase.applicationHeader}>
+                                <div className={dataBase.idBox}>
+                                  <span>ID</span>
+                                  <span className={dataBase.dividerWhite}></span>
+                                  <span className={dataBase.idValue}>{order.id}</span>
+                                </div>
+                                <div className={dataBase.userInfo}>
+                                  <span className={dataBase.idLabel}>O</span>
+                                  <span className={dataBase.dividerBlack}></span>
+                                  <span className={dataBase.textInSpan}>
+                                    {formatCreatedDate(order.createdDate)}
+                                  </span>
+                                </div>
+                                <div className={dataBase.userInfo}>
+                                  <span className={dataBase.idLabel}>П</span>
+                                  <span className={dataBase.dividerBlack}></span>
+                                  <span className={dataBase.textInSpan}>
+                                    {formatCreatedDate(order.updateStatusDate)}
+                                  </span>
                                   </div>
-                                </>
-                              ) : (
-                                <p>Tour information not available</p> 
-                              )}
-                              <button className={dataBase.nextButton}><FaChevronRight /></button>
+                                </div>
+                                <div className={dataBase.lineColumn}>
+                                    <div className={dataBase.column}>
+                                        <div className={dataBase.userInfoColumn}>
+                                            <span className={dataBase.idLabel}>Кол. чел.:</span>
+                                            <span className={dataBase.textInSpan}>
+                                                {order.numberOfPeople}
+                                            </span>
+                                        </div>
+                                        <div className={dataBase.aboutTour}>
+                                            <p className={dataBase.idLabel}>Тур</p>
+                                            <div
+                                                className={dataBase.pointer}
+                                                onClick={() => handlePointerClick(order)}
+                                            >
+                                                <p>{order.nameOfTour}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={dataBase.column}>
+                                        <div className={dataBase.userInfo}>
+                                            <div className={dataBase.textColumn}>
+                                                <span className={dataBase.idLabel}>
+                                                    Кол. дней.:
+                                                    <div
+                                                        className={`${dataBase.textInSpan} ${dataBase.spaceAfter}`}
+                                                    >
+                                                        {order.numberOfDays}
+                                                    </div>
+                                                </span>
+                                                <span className={dataBase.idLabel}>
+                                                    С{' '}
+                                                    <div
+                                                        className={`${dataBase.textInSpan} ${dataBase.spaceAfter}`}
+                                                    >
+                                                        {formatCreatedDate(order.date)}
+                                                    </div>
+                                                </span>
+                                                <span className={dataBase.idLabel}>
+                                                    По{' '}
+                                                    <div
+                                                        className={`${dataBase.textInSpan} ${dataBase.spaceAfter}`}
+                                                    >
+                                                        {formatCreatedDate(order.endDate)}
+                                                    </div>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className={dataBase.status}>
+                                            <div
+                                                className={`${dataBase.statusBlock} ${getStatusClass(
+                                                    order.status
+                                                )}`}
+                                            >
+                                                <span>{getStatusText(order.status)}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            {/* <div className={dataBase.application_header}>
+                              <div className={dataBase.id_box}>
+                                <span className={dataBase.id_label}>ID</span>
+                                <span className={dataBase.divider}></span>
+                                <span className={dataBase.id_value}>{order.id}</span>
+                              </div>
+                              <div className={dataBase.user_info}>
+                                <div className={dataBase.name_box}>
+                                  <span className={dataBase.id_label}>K</span>
+                              
+                                  {order.user ? (
+                                    <span className={dataBase.name}>{`${order.user.surname} ${order.user.name} ${order.user.patronymic}`}</span>
+                                  ) : (
+                                    <span className={dataBase.name}>User information not available</span>
+                                  )}
+                                </div>
+                              </div>
+                            </div> */}
+                            {/* <div className={dataBase.application_body}>
+                              <div className={dataBase.client_info}>
+                                <div className={dataBase.inline_container}>
+                                  <div className={dataBase.date_box}>
+                                    <span className={dataBase.date}>{new Date(order.createdAt).toLocaleDateString()}</span>
+                                  </div>
+                                  <div className={dataBase.name_box}>
+                                    <span className={dataBase.id_label}>Email</span>
+                                    {order.user ? (
+                                      <span className={dataBase.name}>{order.user.email}</span>
+                                    ) : (
+                                      <span className={dataBase.name}>Email not available</span>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className={dataBase.phone_box}> */}
+                                  {/* {order.user ? (
+                                    <span className={dataBase.phone}>{order.user.phone}</span>
+                                  ) : (
+                                    <span className={dataBase.phone}>Phone not available</span>
+                                  )}
+                                </div> */}
+                                {/* <div className={dataBase.inline_container}>
+                                  <div className={dataBase.phone_box}>
+                                    <span className={dataBase.id_label}>Кол. чел.:</span>
+                                    <span className={dataBase.phone}>{order.numberOfPeople}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className={dataBase.application_main}>
+                                <div className={dataBase.application_details}> */}
+                                  {/* Ensure order.tour is defined before rendering its properties */}
+                                  {/* {order.tour ? (
+                                    <>
+                                      <p className={`${dataBase.header} ${dataBase.rectangle}`}>{order.tour.name}</p>
+                                      <div>
+                                        <p>{order.tour.description}</p>
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <p>Tour information not available</p> 
+                                  )}
+                                  <button className={dataBase.nextButton}><FaChevronRight /></button>
+                                </div>
+                              </div> */}
+                              
+                            {/* </div> */}
                           </div>
-                          
-                        </div>
-                      </div>
-                    );
-                  })
-                )}
-            </div>
+                        );
+                      })
+                    
+                    )}
+                  </div>
+              </div>
             )}
           </div>
           </div>
