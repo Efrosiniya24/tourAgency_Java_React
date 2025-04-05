@@ -190,7 +190,7 @@ const ApplicationForm = () => {
                 "order",
                 JSON.stringify({
                     date: departureDate,
-                    status: "Processing",
+                    status: "processing",
                     numberOfPeople: people,
                     specialRequests: user.specialRequests || "",
                     nameOfTour: tour.name,
