@@ -251,7 +251,7 @@ const Tours = () => {
             const filterData = {
                 minPrice,
                 maxPrice,
-                days,
+                days: days === 1 ? null : days,
                 languages: Object.keys(languages).filter((lang) => languages[lang]), 
                 countries: countryInputs.filter((country) => country), 
             };

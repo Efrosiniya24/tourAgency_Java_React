@@ -7,10 +7,10 @@
     margin-left: 750px;
 }
 
-*{
+/* *{
   margin:0;
   padding:0;
-}
+} */
 
 section{
   display: flex;

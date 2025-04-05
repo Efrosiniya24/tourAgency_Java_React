@@ -169,6 +169,7 @@
   width: 108px;
   border-radius: 17px;
   padding-left: 13px;
+  outline: none;
 }
 
 .spesificFilter h5{
@@ -184,6 +185,7 @@
   border-color: transparent;
   width: 80px;
   color: #747474;
+  outline: none;
 }
 
 .FilerPrintOrChoose{
@@ -250,6 +252,7 @@
   padding-left: 10px;
   color: #747474;
   font-size: 12px;
+  outline: none;
 }
 
 .FilerPrintOrChoose h6{

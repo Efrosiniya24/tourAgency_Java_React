@@ -14,6 +14,8 @@ import TourDetail from './pages/tourDetail/tourDetail';
 import ApplicationForm from './pages/applicationForm/applicationForm';
 import Report from './pages/report/report';
 import { AuthProvider } from './components/AuthProvider';
+import SelectedUser from './components/selectedUser/selectedUser';
+import OrdersUser from './pages/OrdersUser/ordersUser';
 
 function App() {
   return (
@@ -29,10 +31,12 @@ function App() {
                 <Route path="/application" element={<ApplicationForm />} />
                 <Route path="/mainAdmin/:user_id" element={<MainAdmin/>}></Route>
                 <Route path="/dataBase" element={<DataBase/>}></Route>
+                <Route path="/dataBase/selectedUser/:id" element={<SelectedUser/>}></Route>
                 <Route path="/toursAdmin" element={<ToursAdmin/>}></Route>
                 <Route path="/orders" element={<Orders/>}></Route>
                 <Route path="/analytics" element={<Analytics/>}></Route>
                 <Route path="/report" element={<Report/>}></Route>
+                <Route path="/ordersUser" element={<OrdersUser/>}></Route>
             </Routes>
         </Router>
     </AuthProvider>
