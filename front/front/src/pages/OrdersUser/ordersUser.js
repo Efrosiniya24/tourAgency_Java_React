@@ -99,6 +99,7 @@ const OrdersUser = () => {
                     <p>Профиль</p>
                     <p>Избранное</p>
                     <p>Мои заявки</p>
+                    <p>Мои заказы</p>
                 </div>
                 <div className={styles.orderPart}>
                     <h1>Мои заявки</h1>
